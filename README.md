@@ -227,8 +227,11 @@ a session.
   plain path file. `run.sh` does this for you.
 - **The gate refuses to start on a network filesystem.** That is deliberate. Use
   local storage, or set `BAYAN_ALLOW_NETWORK_FS=1` for a throwaway demo.
-- **Port already in use.** Override with `--port` on the gate, and
-  `npm run dev -- --port <n>` for the console.
+- **Port already in use.** `run.sh` / `run.bat` check both ports before starting
+  and stop with a message rather than half-starting. Pick different ones with
+  `GATE_PORT=8788 UI_PORT=5174 ./run.sh` — the console's API proxy follows the
+  gate port automatically. To bypass the check entirely, set
+  `SKIP_PORT_CHECK=1`.
 
 ---
 

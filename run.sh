@@ -40,6 +40,25 @@ if [ "$GATE_ONLY" -eq 0 ]; then
   command -v npm  >/dev/null 2>&1 || die "npm not found."
 fi
 
+
+# ---------------------------------------------------------------- ports
+# A port already in use is the most common way this goes wrong: the health
+# check below would be satisfied by the OTHER process and we would report
+# success while nothing we started is actually running.
+port_busy() { (exec 3<>"/dev/tcp/127.0.0.1/$1") 2>/dev/null && { exec 3<&- 3>&-; return 0; }; return 1; }
+
+CHECK_PORTS="$GATE_PORT"
+[ "$GATE_ONLY" -eq 0 ] && CHECK_PORTS="$GATE_PORT $UI_PORT"
+if [ -z "${SKIP_PORT_CHECK:-}" ]; then
+for p in $CHECK_PORTS; do
+  if port_busy "$p"; then
+    die "Port $p is already in use. Stop whatever is using it, pick different ports
+       with  GATE_PORT=8788 UI_PORT=5174 ./run.sh
+       or skip this check with  SKIP_PORT_CHECK=1 ./run.sh"
+  fi
+done
+fi
+
 bold "Bayan"
 info "python: $($PY --version 2>&1)"
 [ "$GATE_ONLY" -eq 0 ] && info "node:   $(node --version)"
@@ -114,6 +133,8 @@ if [ "$GATE_ONLY" -eq 1 ]; then
 fi
 
 info "starting console on http://127.0.0.1:${UI_PORT}"
+# the console proxies /v1 to the gate; keep it pointed at the port we used
+export BAYAN_GATE="http://127.0.0.1:${GATE_PORT}"
 (cd packages/ui && npm run dev -- --port "$UI_PORT") &
 PIDS+=($!)
 

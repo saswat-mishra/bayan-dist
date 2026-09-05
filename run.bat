@@ -46,6 +46,21 @@ if "%GATE_ONLY%"=="0" (
   )
 )
 
+
+REM ---------------------------------------------------------------- ports
+netstat -ano | findstr /r /c:":%GATE_PORT% .*LISTENING" >nul 2>&1
+if not errorlevel 1 (
+  echo  ERROR: Port %GATE_PORT% is already in use. Stop whatever is using it, or set
+  echo         different ports:  set GATE_PORT=8788 ^& set UI_PORT=5174 ^& run.bat
+  exit /b 1
+)
+netstat -ano | findstr /r /c:":%UI_PORT% .*LISTENING" >nul 2>&1
+if not errorlevel 1 (
+  echo  ERROR: Port %UI_PORT% is already in use. Stop whatever is using it, or set
+  echo         different ports:  set GATE_PORT=8788 ^& set UI_PORT=5174 ^& run.bat
+  exit /b 1
+)
+
 REM ---------------------------------------------------------------- python deps
 if not exist ".venv" (
   echo  creating .venv
@@ -100,7 +115,7 @@ echo  waiting for the gate to come up
 timeout /t 8 /nobreak >nul
 
 echo  starting console on http://127.0.0.1:%UI_PORT%
-start "Bayan console" cmd /k "cd /d "%CD%\packages\ui" && npm run dev -- --port %UI_PORT%"
+start "Bayan console" cmd /k "cd /d "%CD%\packages\ui" && set "BAYAN_GATE=http://127.0.0.1:%GATE_PORT%" && npm run dev -- --port %UI_PORT%"
 
 timeout /t 5 /nobreak >nul
 start "" http://127.0.0.1:%UI_PORT%
