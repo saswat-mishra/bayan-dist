@@ -1,0 +1,265 @@
+{
+  "budget": {
+    "exemplarQuota": 3,
+    "perCohortLimit": 40,
+    "period": "quarter"
+  },
+  "certificate": {
+    "validityDays": 90
+  },
+  "classification": {
+    "defaultOnSilence": "Confidential",
+    "mixedSet": "highest-in-set",
+    "scheme": "ae.ia-reg.v1_1",
+    "tiers": {
+      "Confidential": 1,
+      "Open": 0,
+      "Secret": 3,
+      "Sensitive": 2
+    }
+  },
+  "dFloor": null,
+  "fieldDefaults": {
+    "confidence": {
+      "class": "SENSITIVE"
+    },
+    "conversation_id": {
+      "class": "QUASI"
+    },
+    "department": {
+      "class": "QUASI"
+    },
+    "deployment_id": {
+      "class": "VENDOR"
+    },
+    "doc_ref": {
+      "class": "QUASI"
+    },
+    "email": {
+      "class": "DIRECT"
+    },
+    "emirates_id": {
+      "class": "DIRECT"
+    },
+    "error_code": {
+      "class": "STRUCTURAL"
+    },
+    "error_string": {
+      "class": "FREETEXT"
+    },
+    "failure_count": {
+      "class": "STRUCTURAL"
+    },
+    "finish_reason": {
+      "class": "STRUCTURAL"
+    },
+    "guardrail_category": {
+      "class": "SENSITIVE",
+      "tags": [
+        "non_exportable"
+      ]
+    },
+    "guardrail_tripped": {
+      "class": "SENSITIVE"
+    },
+    "hit_count": {
+      "class": "STRUCTURAL"
+    },
+    "index_generation": {
+      "class": "VENDOR"
+    },
+    "input_bucket": {
+      "class": "STRUCTURAL"
+    },
+    "job_title": {
+      "class": "QUASI"
+    },
+    "latency_bucket": {
+      "class": "STRUCTURAL"
+    },
+    "makani": {
+      "class": "QUASI"
+    },
+    "model_version": {
+      "class": "VENDOR"
+    },
+    "operation": {
+      "class": "STRUCTURAL"
+    },
+    "output_bucket": {
+      "class": "STRUCTURAL"
+    },
+    "passport_number": {
+      "class": "DIRECT"
+    },
+    "product_version": {
+      "class": "VENDOR"
+    },
+    "prompt_text": {
+      "class": "FREETEXT"
+    },
+    "prompt_version": {
+      "class": "VENDOR"
+    },
+    "record_id": {
+      "class": "VENDOR"
+    },
+    "request_count": {
+      "class": "STRUCTURAL"
+    },
+    "response_text": {
+      "class": "FREETEXT"
+    },
+    "route": {
+      "class": "STRUCTURAL"
+    },
+    "staff_number": {
+      "class": "DIRECT"
+    },
+    "tool_name": {
+      "class": "SENSITIVE"
+    },
+    "topic": {
+      "class": "STRUCTURAL"
+    },
+    "ts_hour": {
+      "class": "QUASI"
+    },
+    "uae_iban": {
+      "class": "DIRECT"
+    },
+    "uae_mobile": {
+      "class": "DIRECT"
+    },
+    "user_id": {
+      "class": "DIRECT"
+    },
+    "week": {
+      "class": "QUASI"
+    }
+  },
+  "gates": {
+    "exportPermittedCitizenships": [
+      "US"
+    ]
+  },
+  "id": "uae-gov",
+  "jurisdiction": "AE",
+  "name": "UAE federal and emirate government",
+  "name_ar": "الحكومة الاتحادية والمحلية في الإمارات",
+  "retention": {
+    "clientLogRetention": "P18M",
+    "disposalMethod": "nist-800-88-purge",
+    "vendorDisposal": "P90D"
+  },
+  "review": {
+    "baselineTier": 1,
+    "byD": [
+      3,
+      3,
+      1,
+      1,
+      1
+    ],
+    "exemplar": 3,
+    "policyClearRiskClasses": [
+      "green",
+      "amber"
+    ],
+    "reasonMinLength": 20,
+    "red": 3,
+    "threshold": 2
+  },
+  "rules": [
+    {
+      "advisory": false,
+      "citation": "UAE Information Assurance Regulation v1.1 (TDRA, March 2020), T4.2.2",
+      "evidence": "P",
+      "id": "AE-T4.2.2",
+      "note": "the gating artefact for any export from a UAE government entity; cite v1.1 explicitly, never a 'T…' ID as if it were IA Standard v2",
+      "packVersion": "0.1.0",
+      "quote": "exchange-of-information agreement with each external party"
+    },
+    {
+      "advisory": false,
+      "citation": "UAE IA Regulation v1.1, T4.2.1",
+      "evidence": "P",
+      "id": "AE-T4.2.1",
+      "packVersion": "0.1.0",
+      "quote": "documented transfer procedures"
+    },
+    {
+      "advisory": false,
+      "citation": "UAE IA Regulation v1.1, T4.2 guidance",
+      "evidence": "P",
+      "id": "AE-T4.2-BLOCKED",
+      "note": "refused requests enter the ledger",
+      "packVersion": "0.1.0",
+      "quote": "even those that are successfully blocked"
+    },
+    {
+      "advisory": false,
+      "citation": "UAE IA Regulation v1.1, T3.6.2 (audit logging) and T3.6.4 (protection of log information)",
+      "evidence": "P",
+      "id": "AE-T3.6.2",
+      "packVersion": "0.1.0",
+      "quote": "audit logging; protection of log information"
+    },
+    {
+      "advisory": false,
+      "citation": "UAE IA Regulation v1.1, T1.4.1",
+      "evidence": "P",
+      "id": "AE-T1.4.1",
+      "packVersion": "0.1.0",
+      "quote": "removable media justified, registered, encrypted, or inhibited"
+    },
+    {
+      "advisory": true,
+      "citation": "Federal Decree-Law 45/2021 (PDPL) Art 2(2)(a)–(c)",
+      "evidence": "P",
+      "id": "AE-PDPL-EXCL",
+      "note": "whether logs generated inside a government system are themselves government data is an inference [I]; treat as yes but advisory",
+      "packVersion": "0.1.0",
+      "quote": "government data, government authorities, and data held with security and judicial authorities are excluded"
+    },
+    {
+      "advisory": false,
+      "citation": "Dubai Executive Council Resolution 2/2017 Art 26; Art 8",
+      "evidence": "P",
+      "id": "DXB-RES2-2017-ART26",
+      "packVersion": "0.1.0",
+      "quote": "Sensitive data moved outside the Electronic Platform needs prior DDE approval; Secret data barred from the platform entirely"
+    },
+    {
+      "advisory": true,
+      "citation": "bayan-prd.md R-F6; NIST SP 800-53 AC-4(19)",
+      "evidence": "I",
+      "id": "GUARDRAIL-NONEXPORT",
+      "packVersion": "0.1.0",
+      "quote": "guardrail categories are their own tier, non-exportable by default, releasable only as counts over a cohort with a k-floor"
+    }
+  ],
+  "templates": {
+    "ar": {
+      "accountability": "المراجع: {reviewer}. مدة الاحتفاظ: {retention}. المستلم: {recipient}.",
+      "brief": "يطلب {requester} {what} من {deployment}. {delta} يحتوي على {direct_count} معرّف(ات) مباشرة، حجب النظام منها {masked_count}، و{freetext_count} حقل(حقول) نص حر لم يحجبها. سيكشف هذا الإفراج عن {below_threshold} سجل(سجلات) دون الحد الأدنى. لن يخرج أي شيء آخر من {deployment}. إذا وافقت، يحتفظ به {recipient} لمدة {retention} ويجب أن يعيد إثبات الإتلاف. أنت توقّع بصفتك {reviewer}.",
+      "delta_new": "لا يوجد إفراج سابق مماثل؛ هذا شكل جديد.",
+      "delta_same": "له الشكل نفسه للإفراج الذي أجزته في {prior_date}، مع تغيّر {changed} قيمة/قيم.",
+      "does_not_stop": "ما لا تمنعه هذه الدرجة: {clause}",
+      "gate_fail": "تمنع القاعدة {gate} هذا الإفراج: {detail}. {remedy}",
+      "reject_hint": "الرفض لا يحتاج إلى سبب. الموافقة فوق المستوى الأساسي تحتاج إلى سبب مكتوب بكلماتك.",
+      "verdict_hidden": "حكم الآلة مختوم تحت الالتزام {commitment} وسيُعرض بعد أن تقرّر."
+    },
+    "en": {
+      "accountability": "Reviewer: {reviewer}. Retention: {retention}. Recipient: {recipient}.",
+      "brief": "{requester} is asking for {what} from {deployment}. {delta} It contains {direct_count} direct identifier(s), of which {masked_count} the system has already masked, and {freetext_count} free-text field(s), which it has not. This release would expose {below_threshold} record(s) below the threshold. Nothing else from {deployment} would leave. If you approve it, {recipient} holds it for {retention} and must return proof of destruction. You are signing as {reviewer}.",
+      "delta_new": "There is no comparable earlier release; this is a new shape.",
+      "delta_same": "It is the same shape as the release you cleared on {prior_date}, with {changed} value(s) changed.",
+      "does_not_stop": "What this grade does not stop: {clause}",
+      "gate_fail": "Rule {gate} blocks this release: {detail}. {remedy}",
+      "reject_hint": "Rejecting needs no reason. Approving above the baseline tier needs your own typed reason.",
+      "verdict_hidden": "The machine's finding is sealed under commitment {commitment} and will be shown after you decide."
+    }
+  },
+  "version": "0.1.0"
+}

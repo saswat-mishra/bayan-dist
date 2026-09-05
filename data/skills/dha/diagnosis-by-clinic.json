@@ -1,0 +1,76 @@
+{
+ "skill": "diagnosis-by-clinic",
+ "version": "1.0.0",
+ "author": "omar.h@vendor.example",
+ "runtime": "sql",
+ "inputs": [
+  {
+   "store": "appointments",
+   "fields": [
+    "specialty",
+    "week",
+    "no_show",
+    "clinic_id",
+    "diagnosis_code",
+    "sud_program_id",
+    "error_code"
+   ]
+  }
+ ],
+ "sql": "SELECT clinic_id, diagnosis_code, COUNT(*) AS visit_count FROM appointments GROUP BY clinic_id, diagnosis_code HAVING COUNT(*) >= 10",
+ "params": [],
+ "output_schema": {
+  "columns": [
+   {
+    "name": "clinic_id",
+    "class": "QUASI",
+    "type": "enum",
+    "domain": [
+     "DHA-RASHID-01",
+     "DHA-DUBAI-02",
+     "DHA-LATIFA-03",
+     "DHA-HATTA-04"
+    ],
+    "transform": "bucket",
+    "params": {
+     "buckets": 4,
+     "kind": "categorical"
+    }
+   },
+   {
+    "name": "diagnosis_code",
+    "class": "SENSITIVE",
+    "type": "enum",
+    "domain": [
+     "I10",
+     "L20",
+     "J06",
+     "M54",
+     "F32",
+     "Z00"
+    ]
+   },
+   {
+    "name": "visit_count",
+    "class": "STRUCTURAL",
+    "type": "integer",
+    "min": 10,
+    "max": 100000,
+    "transform": "aggregate",
+    "params": {
+     "min_cell": 10
+    }
+   }
+  ],
+  "max_rows": 200
+ },
+ "answers": [
+  "department-correlation"
+ ],
+ "declares": {
+  "max_rows": 200,
+  "no_freetext": true
+ },
+ "description": "diagnosis mix per clinic (SENSITIVE attribute; needs a declared purpose)",
+ "description_ar": "توزيع التشخيصات لكل عيادة (سمة حساسة؛ تحتاج غرضاً معلناً)"
+}

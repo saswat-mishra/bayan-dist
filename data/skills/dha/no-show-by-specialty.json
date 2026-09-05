@@ -1,0 +1,90 @@
+{
+ "skill": "no-show-by-specialty",
+ "version": "1.0.0",
+ "author": "omar.h@vendor.example",
+ "runtime": "sql",
+ "inputs": [
+  {
+   "store": "appointments",
+   "fields": [
+    "specialty",
+    "week",
+    "no_show",
+    "clinic_id",
+    "diagnosis_code",
+    "sud_program_id",
+    "error_code"
+   ]
+  }
+ ],
+ "sql": "SELECT specialty, week, SUM(no_show) AS no_show_count FROM appointments GROUP BY specialty, week HAVING COUNT(*) >= 10",
+ "params": [],
+ "output_schema": {
+  "columns": [
+   {
+    "name": "specialty",
+    "class": "STRUCTURAL",
+    "type": "enum",
+    "domain": [
+     "cardiology",
+     "dermatology",
+     "paediatrics",
+     "orthopaedics",
+     "psychiatry",
+     "general"
+    ]
+   },
+   {
+    "name": "week",
+    "class": "QUASI",
+    "type": "enum",
+    "domain": [
+     "2026-W22",
+     "2026-W23",
+     "2026-W24",
+     "2026-W25",
+     "2026-W26",
+     "2026-W27",
+     "2026-W28",
+     "2026-W29",
+     "2026-W30",
+     "2026-W31",
+     "2026-W32",
+     "2026-W33",
+     "2026-W34",
+     "2026-W35",
+     "2026-W36",
+     "2026-W37"
+    ],
+    "transform": "coarsen",
+    "params": {
+     "granularity": "week",
+     "kind": "time"
+    }
+   },
+   {
+    "name": "no_show_count",
+    "class": "STRUCTURAL",
+    "type": "integer",
+    "min": 0,
+    "max": 100000,
+    "transform": "aggregate",
+    "params": {
+     "min_cell": 10
+    },
+    "load_bearing": true
+   }
+  ],
+  "max_rows": 200
+ },
+ "answers": [
+  "service-health",
+  "adoption"
+ ],
+ "declares": {
+  "max_rows": 200,
+  "no_freetext": true
+ },
+ "description": "no-shows per specialty per week",
+ "description_ar": "حالات عدم الحضور لكل تخصص في كل أسبوع"
+}

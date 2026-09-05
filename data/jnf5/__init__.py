@@ -1,0 +1,3 @@
+from data.jnf5.kwk8 import bank_card_events,dha_appointments,difc_deal_desk,itsm_fingerprints
+from data.jnf5.identifiers import bahrain_cpr,emirates_id,hijri_date,makani,person,qatar_qid,saudi_iqama,saudi_national_id,uae_iban,uae_mobile
+__all__=['bank_card_events','dha_appointments','difc_deal_desk','itsm_fingerprints','bahrain_cpr','emirates_id','hijri_date','makani','person','qatar_qid','saudi_iqama','saudi_national_id','uae_iban','uae_mobile']

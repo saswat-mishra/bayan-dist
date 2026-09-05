@@ -1,0 +1,96 @@
+{
+ "skill": "error-mix-by-topic",
+ "version": "1.0.0",
+ "author": "omar.h@vendor.example",
+ "runtime": "sql",
+ "inputs": [
+  {
+   "store": "fingerprints",
+   "fields": [
+    "record_id",
+    "ts_hour",
+    "week",
+    "tier",
+    "operation",
+    "topic",
+    "route",
+    "finish_reason",
+    "error_code",
+    "latency_bucket",
+    "input_bucket",
+    "output_bucket",
+    "hit_count",
+    "doc_ref_count",
+    "index_generation"
+   ]
+  }
+ ],
+ "sql": "SELECT topic, error_code, COUNT(*) AS failure_count FROM fingerprints WHERE error_code != 'none' AND topic IS NOT NULL AND ts_hour >= :since GROUP BY topic, error_code HAVING COUNT(*) >= 10",
+ "params": [
+  "since"
+ ],
+ "output_schema": {
+  "columns": [
+   {
+    "name": "topic",
+    "class": "STRUCTURAL",
+    "type": "enum",
+    "domain": [
+     "pension",
+     "leave",
+     "payroll",
+     "it-access",
+     "housing",
+     "medical-insurance",
+     "training"
+    ],
+    "load_bearing": true
+   },
+   {
+    "name": "error_code",
+    "class": "STRUCTURAL",
+    "type": "enum",
+    "domain": [
+     "none",
+     "upstream_timeout",
+     "upstream_refused",
+     "context_overflow",
+     "parse_failure",
+     "schema_violation",
+     "retrieval_empty",
+     "retrieval_timeout",
+     "tool_failure",
+     "guardrail_block",
+     "auth_failure",
+     "rate_limited",
+     "index_unavailable",
+     "model_unavailable",
+     "internal"
+    ],
+    "load_bearing": true
+   },
+   {
+    "name": "failure_count",
+    "class": "STRUCTURAL",
+    "type": "integer",
+    "min": 10,
+    "max": 100000,
+    "transform": "aggregate",
+    "params": {
+     "min_cell": 10
+    }
+   }
+  ],
+  "max_rows": 200
+ },
+ "answers": [
+  "service-health",
+  "failing-stage"
+ ],
+ "declares": {
+  "max_rows": 200,
+  "no_freetext": true
+ },
+ "description": "which error codes drive failures per topic since a date",
+ "description_ar": "أي رموز الأخطاء تسبب الإخفاقات لكل موضوع منذ تاريخ معيّن"
+}

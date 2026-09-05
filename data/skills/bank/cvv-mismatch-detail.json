@@ -1,0 +1,65 @@
+{
+ "skill": "cvv-mismatch-detail",
+ "version": "1.0.0",
+ "author": "omar.h@vendor.example",
+ "runtime": "sql",
+ "inputs": [
+  {
+   "store": "card_events",
+   "fields": [
+    "card_brand",
+    "decline_code",
+    "week",
+    "branch",
+    "pan",
+    "cvv"
+   ]
+  }
+ ],
+ "sql": "SELECT card_brand, cvv, COUNT(*) AS decline_count FROM card_events WHERE decline_code = 'cvv_mismatch' GROUP BY card_brand, cvv HAVING COUNT(*) >= 1",
+ "params": [],
+ "output_schema": {
+  "columns": [
+   {
+    "name": "card_brand",
+    "class": "STRUCTURAL",
+    "type": "enum",
+    "domain": [
+     "visa",
+     "mastercard",
+     "amex"
+    ]
+   },
+   {
+    "name": "cvv",
+    "class": "DIRECT",
+    "type": "pseudonym",
+    "transform": "hmac_enclave",
+    "tags": [
+     "pci.sad"
+    ]
+   },
+   {
+    "name": "decline_count",
+    "class": "STRUCTURAL",
+    "type": "integer",
+    "min": 1,
+    "max": 1000000,
+    "transform": "aggregate",
+    "params": {
+     "min_cell": 1
+    }
+   }
+  ],
+  "max_rows": 100
+ },
+ "answers": [
+  "failing-stage"
+ ],
+ "declares": {
+  "max_rows": 100,
+  "no_freetext": true
+ },
+ "description": "CVV values behind mismatches — sensitive authentication data, even hashed",
+ "description_ar": "قيم CVV وراء حالات عدم التطابق — بيانات مصادقة حساسة حتى لو مُجزّأة"
+}

@@ -1,0 +1,107 @@
+{
+ "skill": "document-attribution",
+ "version": "1.0.0",
+ "author": "omar.h@vendor.example",
+ "runtime": "sql",
+ "inputs": [
+  {
+   "store": "fingerprints",
+   "fields": [
+    "record_id",
+    "ts_hour",
+    "week",
+    "tier",
+    "operation",
+    "topic",
+    "route",
+    "finish_reason",
+    "error_code",
+    "latency_bucket",
+    "input_bucket",
+    "output_bucket",
+    "hit_count",
+    "doc_ref_count",
+    "index_generation"
+   ]
+  },
+  {
+   "store": "doc_refs",
+   "fields": [
+    "record_id",
+    "doc_ref",
+    "rank"
+   ]
+  },
+  {
+   "store": "doc_index",
+   "fields": [
+    "doc_ref",
+    "doc_id"
+   ]
+  }
+ ],
+ "sql": "SELECT x.doc_id, COUNT(*) AS failure_count FROM fingerprints f JOIN doc_refs d ON d.record_id = f.record_id JOIN doc_index x ON x.doc_ref = d.doc_ref WHERE f.error_code != 'none' GROUP BY x.doc_id HAVING COUNT(*) >= 10",
+ "params": [],
+ "output_schema": {
+  "columns": [
+   {
+    "name": "doc_id",
+    "class": "QUASI",
+    "type": "enum",
+    "domain": [
+     "HR-POLICY-2019-004",
+     "PENSION-CIRCULAR-2024-11",
+     "PENSION-CIRCULAR-2023-07",
+     "LEAVE-POLICY-2022-002",
+     "PAYROLL-SOP-2021-013",
+     "IT-ACCESS-STD-2020-001",
+     "HOUSING-ALLOWANCE-2024-03",
+     "MEDICAL-INSURANCE-2023-09",
+     "TRAINING-CATALOGUE-2025",
+     "PENSION-FAQ-2022-01",
+     "GPSSA-GUIDE-2024",
+     "END-OF-SERVICE-2021-005",
+     "REMOTE-WORK-POLICY-2020-004",
+     "DISCIPLINE-CODE-2019-002",
+     "GRADING-STRUCTURE-2023-01",
+     "OVERTIME-RULES-2022-006",
+     "TRAVEL-ALLOWANCE-2024-02",
+     "ONBOARDING-SOP-2023-04",
+     "DATA-CLASS-POLICY-2021-001",
+     "IT-SEC-STD-2022-007",
+     "PENSION-CIRCULAR-2024-11-AR",
+     "PENSION-ELIGIBILITY-TABLE-2025",
+     "MATERNITY-LEAVE-2021-003",
+     "PROBATION-2020-002"
+    ],
+    "load_bearing": true,
+    "params": {
+     "kind": "identifier"
+    }
+   },
+   {
+    "name": "failure_count",
+    "class": "STRUCTURAL",
+    "type": "integer",
+    "min": 10,
+    "max": 100000,
+    "transform": "aggregate",
+    "params": {
+     "min_cell": 10
+    },
+    "load_bearing": true
+   }
+  ],
+  "max_rows": 100
+ },
+ "answers": [
+  "bad-documents",
+  "index-regression"
+ ],
+ "declares": {
+  "max_rows": 100,
+  "no_freetext": true
+ },
+ "description": "which specific documents are retrieved in failed answers (document IDENTITY)",
+ "description_ar": "أي مستندات بعينها تُسترجع في الإجابات الفاشلة (هوية المستند)"
+}

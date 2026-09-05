@@ -1,0 +1,263 @@
+{
+  "budget": {
+    "exemplarQuota": 3,
+    "perCohortLimit": 40,
+    "period": "quarter"
+  },
+  "certificate": {
+    "validityDays": 90
+  },
+  "classification": {
+    "defaultOnSilence": "Confidential",
+    "mixedSet": "highest-in-set",
+    "scheme": "eu.mar.v1",
+    "tiers": {
+      "Confidential": 2,
+      "Inside": 3,
+      "Internal": 1,
+      "Public": 0
+    }
+  },
+  "dFloor": null,
+  "fieldDefaults": {
+    "confidence": {
+      "class": "SENSITIVE"
+    },
+    "conversation_id": {
+      "class": "QUASI"
+    },
+    "counterparty_name": {
+      "class": "QUASI",
+      "tags": [
+        "mnpi"
+      ]
+    },
+    "deal_codename": {
+      "class": "QUASI",
+      "tags": [
+        "mnpi"
+      ]
+    },
+    "deal_count": {
+      "class": "STRUCTURAL"
+    },
+    "deal_size": {
+      "class": "SENSITIVE",
+      "tags": [
+        "mnpi"
+      ]
+    },
+    "deal_status": {
+      "class": "STRUCTURAL",
+      "tags": [
+        "mnpi"
+      ]
+    },
+    "deal_timing": {
+      "class": "QUASI",
+      "tags": [
+        "mnpi"
+      ]
+    },
+    "department": {
+      "class": "QUASI"
+    },
+    "deployment_id": {
+      "class": "VENDOR"
+    },
+    "doc_ref": {
+      "class": "QUASI"
+    },
+    "email": {
+      "class": "DIRECT"
+    },
+    "error_code": {
+      "class": "STRUCTURAL"
+    },
+    "error_string": {
+      "class": "FREETEXT"
+    },
+    "failure_count": {
+      "class": "STRUCTURAL"
+    },
+    "finish_reason": {
+      "class": "STRUCTURAL"
+    },
+    "guardrail_category": {
+      "class": "SENSITIVE",
+      "tags": [
+        "non_exportable"
+      ]
+    },
+    "guardrail_tripped": {
+      "class": "SENSITIVE"
+    },
+    "hit_count": {
+      "class": "STRUCTURAL"
+    },
+    "index_generation": {
+      "class": "VENDOR"
+    },
+    "input_bucket": {
+      "class": "STRUCTURAL"
+    },
+    "insider_id": {
+      "class": "DIRECT"
+    },
+    "job_title": {
+      "class": "QUASI"
+    },
+    "latency_bucket": {
+      "class": "STRUCTURAL"
+    },
+    "model_version": {
+      "class": "VENDOR"
+    },
+    "operation": {
+      "class": "STRUCTURAL"
+    },
+    "output_bucket": {
+      "class": "STRUCTURAL"
+    },
+    "product_version": {
+      "class": "VENDOR"
+    },
+    "prompt_text": {
+      "class": "FREETEXT"
+    },
+    "prompt_version": {
+      "class": "VENDOR"
+    },
+    "record_id": {
+      "class": "VENDOR"
+    },
+    "request_count": {
+      "class": "STRUCTURAL"
+    },
+    "response_text": {
+      "class": "FREETEXT"
+    },
+    "route": {
+      "class": "STRUCTURAL"
+    },
+    "sector": {
+      "class": "QUASI"
+    },
+    "stage": {
+      "class": "STRUCTURAL"
+    },
+    "tool_name": {
+      "class": "SENSITIVE"
+    },
+    "topic": {
+      "class": "STRUCTURAL"
+    },
+    "ts_hour": {
+      "class": "QUASI"
+    },
+    "user_id": {
+      "class": "DIRECT"
+    },
+    "week": {
+      "class": "QUASI"
+    }
+  },
+  "gates": {
+    "exportPermittedCitizenships": [
+      "US"
+    ]
+  },
+  "id": "mnpi",
+  "jurisdiction": "EU",
+  "name": "MNPI and deal data (MAR)",
+  "name_ar": "معلومات جوهرية غير معلنة وبيانات الصفقات",
+  "retention": {
+    "clientLogRetention": "P18M",
+    "disposalMethod": "nist-800-88-purge",
+    "vendorDisposal": "P90D"
+  },
+  "review": {
+    "baselineTier": 1,
+    "byD": [
+      3,
+      3,
+      1,
+      1,
+      1
+    ],
+    "exemplar": 3,
+    "policyClearRiskClasses": [
+      "green",
+      "amber"
+    ],
+    "reasonMinLength": 20,
+    "red": 3,
+    "threshold": 2
+  },
+  "rules": [
+    {
+      "advisory": false,
+      "citation": "Regulation (EU) 596/2014 (MAR) Art 10, Art 14(c)",
+      "evidence": "P",
+      "id": "MAR-ART10-14C",
+      "note": "containment is a market-integrity control: no consent, no subject-access right, no anonymisation cure",
+      "packVersion": "0.1.0",
+      "quote": "unlawful disclosure of inside information"
+    },
+    {
+      "advisory": false,
+      "citation": "MAR Art 18",
+      "evidence": "P",
+      "id": "MAR-ART18",
+      "packVersion": "0.1.0",
+      "quote": "the duty to maintain the insider list, not an access rule"
+    },
+    {
+      "advisory": false,
+      "citation": "Commission Implementing Regulation (EU) 2026/1291 of 12 June 2026 (repeals (EU) 2022/1210), applies from 5 July 2026",
+      "evidence": "P",
+      "id": "MAR-IR-2026-1291",
+      "packVersion": "0.1.0",
+      "quote": "insider list template"
+    },
+    {
+      "advisory": false,
+      "citation": "Investment Advisers Act §204A",
+      "evidence": "P",
+      "id": "ADVISERS-204A",
+      "packVersion": "0.1.0",
+      "quote": "a buy-side firm leaking deal data breaches §204A, not Reg FD"
+    },
+    {
+      "advisory": true,
+      "citation": "market practice",
+      "evidence": "I",
+      "id": "DEAL-CODENAME",
+      "packVersion": "0.1.0",
+      "quote": "deal codenames are ubiquitous practice but no rule names them"
+    }
+  ],
+  "templates": {
+    "ar": {
+      "accountability": "المراجع: {reviewer}. مدة الاحتفاظ: {retention}. المستلم: {recipient}.",
+      "brief": "يطلب {requester} {what} من {deployment}. {delta} يحتوي على {direct_count} معرّف(ات) مباشرة، حجب النظام منها {masked_count}، و{freetext_count} حقل(حقول) نص حر لم يحجبها. سيكشف هذا الإفراج عن {below_threshold} سجل(سجلات) دون الحد الأدنى. لن يخرج أي شيء آخر من {deployment}. إذا وافقت، يحتفظ به {recipient} لمدة {retention} ويجب أن يعيد إثبات الإتلاف. أنت توقّع بصفتك {reviewer}.",
+      "delta_new": "لا يوجد إفراج سابق مماثل؛ هذا شكل جديد.",
+      "delta_same": "له الشكل نفسه للإفراج الذي أجزته في {prior_date}، مع تغيّر {changed} قيمة/قيم.",
+      "does_not_stop": "ما لا تمنعه هذه الدرجة: {clause}",
+      "gate_fail": "تمنع القاعدة {gate} هذا الإفراج: {detail}. {remedy}",
+      "reject_hint": "الرفض لا يحتاج إلى سبب. الموافقة فوق المستوى الأساسي تحتاج إلى سبب مكتوب بكلماتك.",
+      "verdict_hidden": "حكم الآلة مختوم تحت الالتزام {commitment} وسيُعرض بعد أن تقرّر."
+    },
+    "en": {
+      "accountability": "Reviewer: {reviewer}. Retention: {retention}. Recipient: {recipient}.",
+      "brief": "{requester} is asking for {what} from {deployment}. {delta} It contains {direct_count} direct identifier(s), of which {masked_count} the system has already masked, and {freetext_count} free-text field(s), which it has not. This release would expose {below_threshold} record(s) below the threshold. Nothing else from {deployment} would leave. If you approve it, {recipient} holds it for {retention} and must return proof of destruction. You are signing as {reviewer}.",
+      "delta_new": "There is no comparable earlier release; this is a new shape.",
+      "delta_same": "It is the same shape as the release you cleared on {prior_date}, with {changed} value(s) changed.",
+      "does_not_stop": "What this grade does not stop: {clause}",
+      "gate_fail": "Rule {gate} blocks this release: {detail}. {remedy}",
+      "reject_hint": "Rejecting needs no reason. Approving above the baseline tier needs your own typed reason.",
+      "verdict_hidden": "The machine's finding is sealed under commitment {commitment} and will be shown after you decide."
+    }
+  },
+  "version": "0.1.0"
+}

@@ -1,0 +1,83 @@
+{
+ "skill": "counterparty-failure-analysis",
+ "version": "1.0.0",
+ "author": "omar.h@vendor.example",
+ "runtime": "sql",
+ "inputs": [
+  {
+   "store": "deal_desk",
+   "fields": [
+    "stage",
+    "week",
+    "counterparty_name",
+    "deal_codename",
+    "deal_status",
+    "sector",
+    "error_code"
+   ]
+  }
+ ],
+ "sql": "SELECT counterparty_name, stage, COUNT(*) AS deal_count FROM deal_desk WHERE error_code != 'none' GROUP BY counterparty_name, stage HAVING COUNT(*) >= 5",
+ "params": [],
+ "output_schema": {
+  "columns": [
+   {
+    "name": "counterparty_name",
+    "class": "QUASI",
+    "type": "enum",
+    "domain": [
+     "Emirates Steel Arkan",
+     "Al Futtaim Group",
+     "Gulf Marine Services",
+     "Abraaj Successor Fund",
+     "Dana Gas",
+     "Aramex",
+     "Network International",
+     "Damac Properties"
+    ],
+    "transform": "hmac_enclave",
+    "tags": [
+     "mnpi"
+    ],
+    "load_bearing": true,
+    "params": {
+     "kind": "identifier"
+    }
+   },
+   {
+    "name": "stage",
+    "class": "STRUCTURAL",
+    "type": "enum",
+    "domain": [
+     "nda",
+     "diligence",
+     "term-sheet",
+     "signing",
+     "closing"
+    ]
+   },
+   {
+    "name": "deal_count",
+    "class": "STRUCTURAL",
+    "type": "integer",
+    "min": 5,
+    "max": 100000,
+    "transform": "aggregate",
+    "params": {
+     "min_cell": 5
+    }
+   }
+  ],
+  "max_rows": 200
+ },
+ "answers": [
+  "failing-stage",
+  "department-correlation"
+ ],
+ "declares": {
+  "max_rows": 200,
+  "no_freetext": true
+ },
+ "description": "failures by COUNTERPARTY — inside information (MAR)",
+ "description_ar": "الإخفاقات حسب الطرف المقابل — معلومات داخلية (MAR)"
+}

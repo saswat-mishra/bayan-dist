@@ -1,0 +1,74 @@
+{
+ "skill": "pan-truncated-declines",
+ "version": "1.0.0",
+ "author": "omar.h@vendor.example",
+ "runtime": "sql",
+ "inputs": [
+  {
+   "store": "card_events",
+   "fields": [
+    "card_brand",
+    "decline_code",
+    "week",
+    "branch",
+    "pan",
+    "cvv"
+   ]
+  }
+ ],
+ "sql": "SELECT SUBSTR(pan, 1, 8) || '****' || SUBSTR(pan, -4) AS pan, decline_code, COUNT(*) AS decline_count FROM card_events WHERE decline_code != 'none' AND LENGTH(pan) = 16 GROUP BY SUBSTR(pan, 1, 8) || '****' || SUBSTR(pan, -4), decline_code HAVING COUNT(*) >= 1",
+ "params": [],
+ "output_schema": {
+  "columns": [
+   {
+    "name": "pan",
+    "class": "DIRECT",
+    "type": "pattern",
+    "transform": "truncate",
+    "tags": [
+     "pci.pan"
+    ],
+    "params": {
+     "keep_first": 8,
+     "keep_other": 4,
+     "pan_digits": 16
+    },
+    "pattern": "^[0-9]{8}\\*{4}[0-9]{4}$"
+   },
+   {
+    "name": "decline_code",
+    "class": "STRUCTURAL",
+    "type": "enum",
+    "domain": [
+     "none",
+     "insufficient_funds",
+     "do_not_honor",
+     "expired_card",
+     "cvv_mismatch",
+     "fraud_suspected"
+    ]
+   },
+   {
+    "name": "decline_count",
+    "class": "STRUCTURAL",
+    "type": "integer",
+    "min": 1,
+    "max": 1000000,
+    "transform": "aggregate",
+    "params": {
+     "min_cell": 1
+    }
+   }
+  ],
+  "max_rows": 5000
+ },
+ "answers": [
+  "single-response"
+ ],
+ "declares": {
+  "max_rows": 5000,
+  "no_freetext": true
+ },
+ "description": "declines per truncated PAN (first 8 + last 4) — passes PCI-PAN, still a partial identifier",
+ "description_ar": "الرفض لكل رقم بطاقة مقتطع (8 أولى + 4 أخيرة) — يجتاز PCI-PAN لكنه يبقى معرّفاً جزئياً"
+}

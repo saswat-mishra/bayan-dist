@@ -1,0 +1,71 @@
+{
+ "skill": "decline-reasons-by-brand",
+ "version": "1.0.0",
+ "author": "omar.h@vendor.example",
+ "runtime": "sql",
+ "inputs": [
+  {
+   "store": "card_events",
+   "fields": [
+    "card_brand",
+    "decline_code",
+    "week",
+    "branch",
+    "pan",
+    "cvv"
+   ]
+  }
+ ],
+ "sql": "SELECT card_brand, decline_code, COUNT(*) AS decline_count FROM card_events WHERE decline_code != 'none' GROUP BY card_brand, decline_code HAVING COUNT(*) >= 10",
+ "params": [],
+ "output_schema": {
+  "columns": [
+   {
+    "name": "card_brand",
+    "class": "STRUCTURAL",
+    "type": "enum",
+    "domain": [
+     "visa",
+     "mastercard",
+     "amex"
+    ]
+   },
+   {
+    "name": "decline_code",
+    "class": "STRUCTURAL",
+    "type": "enum",
+    "domain": [
+     "none",
+     "insufficient_funds",
+     "do_not_honor",
+     "expired_card",
+     "cvv_mismatch",
+     "fraud_suspected"
+    ]
+   },
+   {
+    "name": "decline_count",
+    "class": "STRUCTURAL",
+    "type": "integer",
+    "min": 10,
+    "max": 1000000,
+    "transform": "aggregate",
+    "params": {
+     "min_cell": 10
+    },
+    "load_bearing": true
+   }
+  ],
+  "max_rows": 100
+ },
+ "answers": [
+  "service-health",
+  "failing-stage"
+ ],
+ "declares": {
+  "max_rows": 100,
+  "no_freetext": true
+ },
+ "description": "decline reasons per card brand",
+ "description_ar": "أسباب الرفض لكل علامة بطاقة"
+}

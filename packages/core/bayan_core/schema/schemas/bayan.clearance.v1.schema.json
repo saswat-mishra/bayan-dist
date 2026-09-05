@@ -1,0 +1,456 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bayan.dev/schemas/clearance/v1",
+  "title": "Bayan Clearance v1",
+  "description": "The decision on a release request: which rules applied, what the machine found, who approved, and what was removed. Carried as the base64 `payload` of a DSSE v1.0.2 envelope with payloadType `application/vnd.in-toto+json`.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "_type",
+    "subject",
+    "predicateType",
+    "predicate"
+  ],
+  "properties": {
+    "_type": {
+      "const": "https://in-toto.io/Statement/v1"
+    },
+    "subject": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "digest"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "digest": {
+            "$ref": "#/$defs/digest"
+          }
+        }
+      }
+    },
+    "predicateType": {
+      "const": "https://bayan.dev/clearance/v1"
+    },
+    "predicate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request",
+        "policyProfile",
+        "machineCheck",
+        "humanReviews",
+        "outcome"
+      ],
+      "properties": {
+        "request": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "digest"
+          ],
+          "properties": {
+            "digest": {
+              "$ref": "#/$defs/digest"
+            }
+          }
+        },
+        "policyProfile": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "version",
+            "digest"
+          ],
+          "$comment": "Digest-pinned. A clearance under an unknown or altered profile fails verification (PRD R-P1).",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "digest": {
+              "$ref": "#/$defs/digest"
+            }
+          }
+        },
+        "machineCheck": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "commitment",
+            "verdict",
+            "rrsaClass",
+            "findings"
+          ],
+          "properties": {
+            "commitment": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "$comment": "THE DEBIASING PRIMITIVE (PRD R-E5, 7.3). Computed over {verdict, rrsaClass, findings, nonce} and sealed BEFORE the review UI renders. Revealed only after the human verdict is recorded. The human cannot anchor on the machine; the human cannot later be said to have ignored it."
+            },
+            "nonce": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{32,}$"
+            },
+            "verdict": {
+              "type": "string",
+              "enum": [
+                "pass",
+                "fail",
+                "review"
+              ]
+            },
+            "rrsaClass": {
+              "type": "string",
+              "enum": [
+                "runner",
+                "repeater",
+                "stranger",
+                "alien"
+              ],
+              "$comment": "Alves & Ritchie triage. Only 'runner' may auto-clear, and only where the profile permits. 'stranger' escalates AND opens a rule-authoring task. 'alien' means the request is out of scope for this environment."
+            },
+            "findings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "rule",
+                  "target",
+                  "action"
+                ],
+                "properties": {
+                  "rule": {
+                    "type": "string"
+                  },
+                  "target": {
+                    "type": "string"
+                  },
+                  "action": {
+                    "type": "string",
+                    "enum": [
+                      "block",
+                      "strip",
+                      "modify",
+                      "quarantine",
+                      "pass"
+                    ]
+                  },
+                  "detail": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "humanReviews": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "reviewer",
+              "verdict",
+              "blinded",
+              "at"
+            ],
+            "properties": {
+              "reviewer": {
+                "$ref": "#/$defs/identity"
+              },
+              "verdict": {
+                "type": "string",
+                "enum": [
+                  "approve",
+                  "changes"
+                ]
+              },
+              "reason": {
+                "type": "string"
+              },
+              "blinded": {
+                "const": true,
+                "$comment": "Independent blinded review, as OpenSAFELY Airlock. A reviewer cannot retrieve another's verdict before submitting their own; blinding is asserted here and enforced by the gate."
+              },
+              "language": {
+                "type": "string",
+                "$comment": "BCP-47. The record captures the language the decision was actually made in (PRD R-X1)."
+              },
+              "presentedTextDigest": {
+                "$ref": "#/$defs/digest",
+                "$comment": "Digest of exactly what the reviewer was shown at the moment of decision. Without this, 'they approved it' is unfalsifiable."
+              },
+              "at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        },
+        "transformations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "op",
+              "target"
+            ],
+            "properties": {
+              "op": {
+                "type": "string",
+                "enum": [
+                  "mask",
+                  "round",
+                  "drop",
+                  "hmac",
+                  "bucket",
+                  "coarsen",
+                  "aggregate"
+                ]
+              },
+              "target": {
+                "type": "string"
+              },
+              "params": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "redactedAssertions": {
+          "type": "array",
+          "$comment": "Borrowed from C2PA: a signed record that something WAS removed, so redaction is distinguishable from absence. This is the structured Vaughn index that FOIA practice has only as prose (PRD 5.3).",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "target",
+              "rule"
+            ],
+            "properties": {
+              "target": {
+                "type": "string"
+              },
+              "rule": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "outcome": {
+          "type": "string",
+          "enum": [
+            "release",
+            "block",
+            "strip",
+            "modify",
+            "quarantine"
+          ],
+          "$comment": "block|strip|modify|quarantine are the four NIST SP 800-53 AC-4(8) filter failure actions. 'release' denotes no filter action."
+        },
+        "decidedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "allOf": [
+        {
+          "$comment": "A non-runner can never clear without human review.",
+          "if": {
+            "properties": {
+              "machineCheck": {
+                "properties": {
+                  "rrsaClass": {
+                    "not": {
+                      "const": "runner"
+                    }
+                  }
+                },
+                "required": [
+                  "rrsaClass"
+                ]
+              }
+            },
+            "required": [
+              "machineCheck"
+            ]
+          },
+          "then": {
+            "properties": {
+              "humanReviews": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "$comment": "An exemplar release is never auto-cleared, whatever the machine says.",
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "release"
+              }
+            }
+          },
+          "then": {
+            "anyOf": [
+              {
+                "properties": {
+                  "machineCheck": {
+                    "properties": {
+                      "rrsaClass": {
+                        "const": "runner"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "humanReviews": {
+                    "minItems": 1
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "digest": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "sha512": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{128}$"
+        }
+      }
+    },
+    "resourceDescriptor": {
+      "$comment": "in-toto ResourceDescriptor. At least one of uri, digest, content. content SHOULD be <1KB.",
+      "type": "object",
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "uri"
+          ]
+        },
+        {
+          "required": [
+            "digest"
+          ]
+        },
+        {
+          "required": [
+            "content"
+          ]
+        }
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "uri": {
+          "type": "string"
+        },
+        "digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "content": {
+          "type": "string",
+          "contentEncoding": "base64"
+        },
+        "downloadLocation": {
+          "type": "string"
+        },
+        "mediaType": {
+          "type": "string"
+        },
+        "annotations": {
+          "type": "object"
+        }
+      }
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "keyid"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "keyid": {
+          "type": "string",
+          "minLength": 1,
+          "$comment": "Informational only. DSSE states keyid MUST NOT be used for security decisions; trust comes from signature verification against the trusted key set."
+        },
+        "role": {
+          "type": "string",
+          "$comment": "Profile-supplied role name, e.g. Authorizing Official. Never hard-coded."
+        }
+      }
+    },
+    "classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scheme",
+        "tier",
+        "basis"
+      ],
+      "properties": {
+        "scheme": {
+          "type": "string"
+        },
+        "tier": {
+          "type": "string"
+        },
+        "sensitivity": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "basis": {
+          "type": "string",
+          "enum": [
+            "assigned",
+            "inherited-from-system",
+            "default-on-silence",
+            "highest-in-set"
+          ]
+        }
+      }
+    }
+  }
+}

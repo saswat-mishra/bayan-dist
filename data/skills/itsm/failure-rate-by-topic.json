@@ -1,0 +1,102 @@
+{
+ "skill": "failure-rate-by-topic",
+ "version": "1.0.0",
+ "author": "omar.h@vendor.example",
+ "runtime": "sql",
+ "inputs": [
+  {
+   "store": "fingerprints",
+   "fields": [
+    "record_id",
+    "ts_hour",
+    "week",
+    "tier",
+    "operation",
+    "topic",
+    "route",
+    "finish_reason",
+    "error_code",
+    "latency_bucket",
+    "input_bucket",
+    "output_bucket",
+    "hit_count",
+    "doc_ref_count",
+    "index_generation"
+   ]
+  }
+ ],
+ "sql": "SELECT topic, week, COUNT(*) AS failure_count FROM fingerprints WHERE error_code != 'none' AND topic IS NOT NULL GROUP BY topic, week HAVING COUNT(*) >= 10",
+ "params": [],
+ "output_schema": {
+  "columns": [
+   {
+    "name": "topic",
+    "class": "STRUCTURAL",
+    "type": "enum",
+    "domain": [
+     "pension",
+     "leave",
+     "payroll",
+     "it-access",
+     "housing",
+     "medical-insurance",
+     "training"
+    ],
+    "load_bearing": true
+   },
+   {
+    "name": "week",
+    "class": "QUASI",
+    "type": "enum",
+    "domain": [
+     "2026-W22",
+     "2026-W23",
+     "2026-W24",
+     "2026-W25",
+     "2026-W26",
+     "2026-W27",
+     "2026-W28",
+     "2026-W29",
+     "2026-W30",
+     "2026-W31",
+     "2026-W32",
+     "2026-W33",
+     "2026-W34",
+     "2026-W35",
+     "2026-W36",
+     "2026-W37"
+    ],
+    "transform": "coarsen",
+    "params": {
+     "granularity": "week",
+     "kind": "time"
+    }
+   },
+   {
+    "name": "failure_count",
+    "class": "STRUCTURAL",
+    "type": "integer",
+    "min": 10,
+    "max": 100000,
+    "transform": "aggregate",
+    "params": {
+     "min_cell": 10
+    },
+    "load_bearing": true
+   }
+  ],
+  "max_rows": 500
+ },
+ "answers": [
+  "service-health",
+  "failing-stage",
+  "adoption"
+ ],
+ "declares": {
+  "max_rows": 500,
+  "no_freetext": true,
+  "disjoint_strata": true
+ },
+ "description": "failed answers per topic per week (counts, cells below 10 suppressed)",
+ "description_ar": "عدد الإجابات الفاشلة لكل موضوع في كل أسبوع (خلايا أقل من 10 محذوفة)"
+}

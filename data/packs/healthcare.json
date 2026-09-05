@@ -1,0 +1,333 @@
+{
+  "budget": {
+    "exemplarQuota": 3,
+    "perCohortLimit": 40,
+    "period": "quarter"
+  },
+  "certificate": {
+    "validityDays": 90
+  },
+  "classification": {
+    "defaultOnSilence": "Confidential",
+    "mixedSet": "highest-in-set",
+    "scheme": "ae.doh.v1",
+    "tiers": {
+      "Confidential": 1,
+      "Public": 0,
+      "Secret": 3,
+      "Sensitive": 2
+    }
+  },
+  "dFloor": null,
+  "fieldDefaults": {
+    "account_number": {
+      "class": "DIRECT",
+      "safeHarbor": "J"
+    },
+    "appointment_date": {
+      "class": "QUASI",
+      "safeHarbor": "C"
+    },
+    "biometric_id": {
+      "class": "DIRECT",
+      "safeHarbor": "P"
+    },
+    "clinic_id": {
+      "class": "QUASI"
+    },
+    "confidence": {
+      "class": "SENSITIVE"
+    },
+    "conversation_id": {
+      "class": "QUASI"
+    },
+    "department": {
+      "class": "QUASI"
+    },
+    "deployment_id": {
+      "class": "VENDOR"
+    },
+    "device_id": {
+      "class": "DIRECT",
+      "safeHarbor": "M"
+    },
+    "diagnosis_code": {
+      "class": "SENSITIVE"
+    },
+    "dob": {
+      "class": "QUASI",
+      "safeHarbor": "C"
+    },
+    "doc_ref": {
+      "class": "QUASI"
+    },
+    "email": {
+      "class": "DIRECT",
+      "safeHarbor": "F"
+    },
+    "emirates_id": {
+      "class": "DIRECT",
+      "safeHarbor": "R"
+    },
+    "error_code": {
+      "class": "STRUCTURAL"
+    },
+    "error_string": {
+      "class": "FREETEXT"
+    },
+    "failure_count": {
+      "class": "STRUCTURAL"
+    },
+    "fax": {
+      "class": "DIRECT",
+      "safeHarbor": "E"
+    },
+    "finish_reason": {
+      "class": "STRUCTURAL"
+    },
+    "guardrail_category": {
+      "class": "SENSITIVE",
+      "tags": [
+        "non_exportable"
+      ]
+    },
+    "guardrail_tripped": {
+      "class": "SENSITIVE"
+    },
+    "health_plan_id": {
+      "class": "DIRECT",
+      "safeHarbor": "I"
+    },
+    "hit_count": {
+      "class": "STRUCTURAL"
+    },
+    "index_generation": {
+      "class": "VENDOR"
+    },
+    "input_bucket": {
+      "class": "STRUCTURAL"
+    },
+    "ip_address": {
+      "class": "QUASI",
+      "safeHarbor": "O"
+    },
+    "job_title": {
+      "class": "QUASI"
+    },
+    "latency_bucket": {
+      "class": "STRUCTURAL"
+    },
+    "licence_number": {
+      "class": "DIRECT",
+      "safeHarbor": "K"
+    },
+    "model_version": {
+      "class": "VENDOR"
+    },
+    "no_show_count": {
+      "class": "STRUCTURAL"
+    },
+    "operation": {
+      "class": "STRUCTURAL"
+    },
+    "output_bucket": {
+      "class": "STRUCTURAL"
+    },
+    "patient_mrn": {
+      "class": "DIRECT",
+      "safeHarbor": "R"
+    },
+    "patient_name": {
+      "class": "DIRECT",
+      "safeHarbor": "A"
+    },
+    "phone": {
+      "class": "DIRECT",
+      "safeHarbor": "D"
+    },
+    "photo_ref": {
+      "class": "DIRECT",
+      "safeHarbor": "Q"
+    },
+    "product_version": {
+      "class": "VENDOR"
+    },
+    "prompt_text": {
+      "class": "FREETEXT"
+    },
+    "prompt_version": {
+      "class": "VENDOR"
+    },
+    "record_id": {
+      "class": "VENDOR"
+    },
+    "request_count": {
+      "class": "STRUCTURAL"
+    },
+    "response_text": {
+      "class": "FREETEXT"
+    },
+    "route": {
+      "class": "STRUCTURAL"
+    },
+    "specialty": {
+      "class": "STRUCTURAL"
+    },
+    "ssn": {
+      "class": "DIRECT",
+      "safeHarbor": "G"
+    },
+    "sud_program_id": {
+      "class": "DIRECT",
+      "tags": [
+        "part2"
+      ]
+    },
+    "tool_name": {
+      "class": "SENSITIVE"
+    },
+    "topic": {
+      "class": "STRUCTURAL"
+    },
+    "ts_hour": {
+      "class": "QUASI"
+    },
+    "url": {
+      "class": "DIRECT",
+      "safeHarbor": "N"
+    },
+    "user_id": {
+      "class": "DIRECT"
+    },
+    "vehicle_id": {
+      "class": "DIRECT",
+      "safeHarbor": "L"
+    },
+    "visit_count": {
+      "class": "STRUCTURAL"
+    },
+    "week": {
+      "class": "QUASI"
+    },
+    "zip": {
+      "class": "QUASI",
+      "safeHarbor": "B"
+    }
+  },
+  "gates": {
+    "exportPermittedCitizenships": [
+      "US"
+    ]
+  },
+  "id": "healthcare",
+  "jurisdiction": "AE",
+  "name": "Healthcare / PHI (DHA, HIPAA Safe Harbor + Expert Determination, 42 CFR Part 2)",
+  "name_ar": "الرعاية الصحية / المعلومات الصحية المحمية",
+  "retention": {
+    "clientLogRetention": "P18M",
+    "disposalMethod": "nist-800-88-purge",
+    "vendorDisposal": "P90D"
+  },
+  "review": {
+    "baselineTier": 1,
+    "byD": [
+      3,
+      3,
+      1,
+      1,
+      1
+    ],
+    "exemplar": 3,
+    "policyClearRiskClasses": [
+      "green",
+      "amber"
+    ],
+    "reasonMinLength": 20,
+    "red": 3,
+    "threshold": 2
+  },
+  "rules": [
+    {
+      "advisory": false,
+      "citation": "45 CFR §164.514(b)(2)",
+      "evidence": "P",
+      "id": "HIPAA-SAFE-HARBOR",
+      "note": "(R) catch-all and the actual-knowledge condition §164.514(b)(2)(ii) are attested by a named human at release time",
+      "packVersion": "0.1.0",
+      "quote": "all 18 identifiers, of the individual or of relatives, employers, or household members"
+    },
+    {
+      "advisory": false,
+      "citation": "45 CFR §164.514(b)(1)",
+      "evidence": "P",
+      "id": "HIPAA-EXPERT",
+      "packVersion": "0.1.0",
+      "quote": "document the methods and results of the analysis that justify such determination"
+    },
+    {
+      "advisory": true,
+      "citation": "45 CFR §164.514(c)",
+      "evidence": "P",
+      "id": "HIPAA-REID-CODE",
+      "note": "whether a keyed HMAC cures this is an OPEN legal question; pseudonymised releases claim Expert Determination, not Safe Harbor",
+      "packVersion": "0.1.0",
+      "quote": "a re-identification code must not be derived from information about the individual"
+    },
+    {
+      "advisory": false,
+      "citation": "42 CFR Part 2 §2.12(d)",
+      "evidence": "P",
+      "id": "PART2-LAWFUL-HOLDER",
+      "packVersion": "0.1.0",
+      "quote": "any person who obtains the record… or other lawful holder"
+    },
+    {
+      "advisory": false,
+      "citation": "42 CFR Part 2 §2.32",
+      "evidence": "P",
+      "id": "PART2-NOTICE",
+      "packVersion": "0.1.0",
+      "quote": "a redisclosure-prohibition notice must accompany every consented disclosure"
+    },
+    {
+      "advisory": true,
+      "citation": "UAE Federal Law 2/2019 Art 13; Ministerial Resolution 51/2021",
+      "evidence": "S",
+      "id": "UAE-HEALTH-LOCAL",
+      "note": "PRD OQ-11: vendor-diagnostics exception unverified",
+      "packVersion": "0.1.0",
+      "quote": "health data cannot leave the State"
+    },
+    {
+      "advisory": true,
+      "citation": "American Hospital Ass'n v. Becerra, N.D. Tex., 20 June 2024",
+      "evidence": "S",
+      "id": "OCR-TRACKING-VACATED",
+      "packVersion": "0.1.0",
+      "quote": "IP address alone in a log is not PHI, but it is in the same record as health context"
+    }
+  ],
+  "templates": {
+    "ar": {
+      "accountability": "المراجع: {reviewer}. مدة الاحتفاظ: {retention}. المستلم: {recipient}.",
+      "brief": "يطلب {requester} {what} من {deployment}. {delta} يحتوي على {direct_count} معرّف(ات) مباشرة، حجب النظام منها {masked_count}، و{freetext_count} حقل(حقول) نص حر لم يحجبها. سيكشف هذا الإفراج عن {below_threshold} سجل(سجلات) دون الحد الأدنى. لن يخرج أي شيء آخر من {deployment}. إذا وافقت، يحتفظ به {recipient} لمدة {retention} ويجب أن يعيد إثبات الإتلاف. أنت توقّع بصفتك {reviewer}.",
+      "delta_new": "لا يوجد إفراج سابق مماثل؛ هذا شكل جديد.",
+      "delta_same": "له الشكل نفسه للإفراج الذي أجزته في {prior_date}، مع تغيّر {changed} قيمة/قيم.",
+      "does_not_stop": "ما لا تمنعه هذه الدرجة: {clause}",
+      "gate_fail": "تمنع القاعدة {gate} هذا الإفراج: {detail}. {remedy}",
+      "reject_hint": "الرفض لا يحتاج إلى سبب. الموافقة فوق المستوى الأساسي تحتاج إلى سبب مكتوب بكلماتك.",
+      "verdict_hidden": "حكم الآلة مختوم تحت الالتزام {commitment} وسيُعرض بعد أن تقرّر."
+    },
+    "en": {
+      "accountability": "Reviewer: {reviewer}. Retention: {retention}. Recipient: {recipient}.",
+      "brief": "{requester} is asking for {what} from {deployment}. {delta} It contains {direct_count} direct identifier(s), of which {masked_count} the system has already masked, and {freetext_count} free-text field(s), which it has not. This release would expose {below_threshold} record(s) below the threshold. Nothing else from {deployment} would leave. If you approve it, {recipient} holds it for {retention} and must return proof of destruction. You are signing as {reviewer}.",
+      "delta_new": "There is no comparable earlier release; this is a new shape.",
+      "delta_same": "It is the same shape as the release you cleared on {prior_date}, with {changed} value(s) changed.",
+      "does_not_stop": "What this grade does not stop: {clause}",
+      "gate_fail": "Rule {gate} blocks this release: {detail}. {remedy}",
+      "reject_hint": "Rejecting needs no reason. Approving above the baseline tier needs your own typed reason.",
+      "verdict_hidden": "The machine's finding is sealed under commitment {commitment} and will be shown after you decide."
+    }
+  },
+  "version": "0.1.0"
+}

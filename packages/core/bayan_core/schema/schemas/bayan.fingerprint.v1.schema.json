@@ -1,0 +1,424 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bayan.dev/schemas/fingerprint/v1",
+  "title": "Bayan Fingerprint v1",
+  "description": "A per-response diagnostic record emitted inside a deployment boundary. Every property carries x-bayan-tier, a sensitivity level from 0 (vendor artefact, no client derivation) to 4 (content, never present in a fingerprint). Projection to tier m retains only properties whose tier is <= m, plus the always-retained set listed in x-bayan-always. Tier NAMES are supplied by the deployment's policy profile and are deliberately absent from this schema (PRD R-2.1).",
+  "type": "object",
+  "x-bayan-tier-scale": {
+    "0": "Vendor artefact. Not derived from client data. Always releasable.",
+    "1": "Operational. Client-derived but non-identifying in isolation.",
+    "2": "Structural. Client-derived; safe only in aggregate or under pseudonymisation.",
+    "3": "Sensitive inference. Protected inference about an identifiable subject.",
+    "4": "Content. Never carried in a fingerprint; reference only."
+  },
+  "x-bayan-always": [
+    "schemaVersion",
+    "recordId",
+    "deploymentId",
+    "classification"
+  ],
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "recordId",
+    "deploymentId",
+    "classification",
+    "operation"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "x-bayan-tier": 0,
+      "const": "bayan.fingerprint/v1"
+    },
+    "recordId": {
+      "x-bayan-tier": 0,
+      "description": "ULID. Opaque, monotonic, vendor-generated, carries no client semantics. Tier 0 because it is in x-bayan-always: an always-retained field cannot be tiered above the lowest projection target.",
+      "type": "string",
+      "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "deploymentId": {
+      "x-bayan-tier": 0,
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "classification": {
+      "x-bayan-tier": 0,
+      "description": "Travels with every record and every projection. PRD R-P4, R-P5.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scheme",
+        "tier",
+        "basis"
+      ],
+      "properties": {
+        "scheme": {
+          "description": "Identifier of the client's own classification scheme. Bayan never imposes its own labels.",
+          "type": "string",
+          "minLength": 1
+        },
+        "tier": {
+          "description": "A label from that scheme, verbatim.",
+          "type": "string",
+          "minLength": 1
+        },
+        "sensitivity": {
+          "description": "The scheme tier mapped onto the 0-4 scale by the policy profile. Used for projection.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "basis": {
+          "type": "string",
+          "enum": [
+            "assigned",
+            "inherited-from-system",
+            "default-on-silence",
+            "highest-in-set"
+          ]
+        }
+      }
+    },
+    "productVersion": {
+      "x-bayan-tier": 0,
+      "type": "string"
+    },
+    "promptVersion": {
+      "x-bayan-tier": 0,
+      "$ref": "#/$defs/digest"
+    },
+    "modelVersion": {
+      "x-bayan-tier": 0,
+      "$ref": "#/$defs/digest"
+    },
+    "indexVersion": {
+      "x-bayan-tier": 1,
+      "description": "Container at tier 1 so `generation` survives a low projection; the DIGEST is tier 2. The retrieval index is built from the CLIENT's corpus, so its digest is client-derived and a changing value leaks corpus-mutation timing (PRD 2.2 B6). Where timing is itself sensitive, emit generation only.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "generation": {
+          "x-bayan-tier": 1,
+          "type": "integer",
+          "minimum": 0
+        },
+        "digest": {
+          "x-bayan-tier": 2,
+          "$ref": "#/$defs/digest"
+        }
+      }
+    },
+    "operation": {
+      "x-bayan-tier": 0,
+      "type": "string",
+      "enum": [
+        "chat",
+        "completion",
+        "embedding",
+        "retrieval",
+        "tool",
+        "rerank",
+        "guardrail"
+      ]
+    },
+    "route": {
+      "x-bayan-tier": 1,
+      "description": "Enumerated pipeline path. Closed set declared per product; free text is invalid.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+      },
+      "maxItems": 32
+    },
+    "finishReason": {
+      "x-bayan-tier": 1,
+      "type": "string",
+      "enum": [
+        "stop",
+        "length",
+        "tool_calls",
+        "content_filter",
+        "error",
+        "timeout",
+        "cancelled"
+      ]
+    },
+    "errorCode": {
+      "x-bayan-tier": 1,
+      "description": "Closed enumeration. Free text is invalid by construction: error strings routinely embed the user content that failed to parse (PRD R-F3, NIST AC-4(14)).",
+      "type": "string",
+      "enum": [
+        "none",
+        "upstream_timeout",
+        "upstream_refused",
+        "context_overflow",
+        "parse_failure",
+        "schema_violation",
+        "retrieval_empty",
+        "retrieval_timeout",
+        "tool_failure",
+        "guardrail_block",
+        "auth_failure",
+        "rate_limited",
+        "index_unavailable",
+        "model_unavailable",
+        "internal"
+      ]
+    },
+    "latency": {
+      "x-bayan-tier": 1,
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "bucket": {
+          "x-bayan-tier": 1,
+          "type": "string",
+          "enum": [
+            "<100ms",
+            "100ms-500ms",
+            "500ms-1s",
+            "1s-5s",
+            "5s-30s",
+            ">30s"
+          ]
+        },
+        "ms": {
+          "x-bayan-tier": 2,
+          "description": "Exact latency. Combined with token counts this reconstructs message shape (PRD 2.2 B6).",
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "tokens": {
+      "x-bayan-tier": 1,
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "inputBucket": {
+          "x-bayan-tier": 1,
+          "$ref": "#/$defs/tokenBucket"
+        },
+        "outputBucket": {
+          "x-bayan-tier": 1,
+          "$ref": "#/$defs/tokenBucket"
+        },
+        "inputExact": {
+          "x-bayan-tier": 2,
+          "type": "integer",
+          "minimum": 0
+        },
+        "outputExact": {
+          "x-bayan-tier": 2,
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "timestamp": {
+      "x-bayan-tier": 1,
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "coarse"
+      ],
+      "properties": {
+        "coarse": {
+          "x-bayan-tier": 1,
+          "description": "Truncated to the granularity the profile sets. Default: hour.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "exact": {
+          "x-bayan-tier": 2,
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "conversationId": {
+      "x-bayan-tier": 2,
+      "description": "HMAC-SHA256 under an enclave-resident key. Stable within a deployment, unlinkable across deployments.",
+      "$ref": "#/$defs/pseudonym"
+    },
+    "retrieval": {
+      "x-bayan-tier": 1,
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "hitCount": {
+          "x-bayan-tier": 1,
+          "type": "integer",
+          "minimum": 0
+        },
+        "docRefs": {
+          "x-bayan-tier": 2,
+          "description": "Pseudonymised document identifiers (PRD R-F5). A SEQUENCE of real doc IDs reconstructs what a user was reading; in a small corpus the ID is the content. Each entry must be HMAC'd under an enclave-resident key and must satisfy the profile's k-frequency floor. Entries below the floor are dropped, not included with a flag.",
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "ref",
+              "kFloorMet"
+            ],
+            "properties": {
+              "ref": {
+                "$ref": "#/$defs/pseudonym"
+              },
+              "kFloorMet": {
+                "const": true
+              },
+              "rank": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "score": {
+                "x-bayan-tier": 2,
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "guardrails": {
+      "x-bayan-tier": 2,
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tripped": {
+          "x-bayan-tier": 2,
+          "type": "boolean"
+        },
+        "categories": {
+          "x-bayan-tier": 3,
+          "description": "The most sensitive field in this schema (PRD 2.2 B6, R-F6). A category name is a protected inference about an identifiable subject at a known time, generated by the vendor's own system. Non-exportable in the default profile; releasable only as cohort counts above a k-floor.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_.-]{0,63}$"
+          },
+          "maxItems": 16
+        }
+      }
+    },
+    "confidence": {
+      "x-bayan-tier": 3,
+      "description": "A per-record confidence score is an inference about a specific interaction and is treated as sensitive.",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "toolCalls": {
+      "x-bayan-tier": 1,
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "count": {
+          "x-bayan-tier": 1,
+          "type": "integer",
+          "minimum": 0
+        },
+        "names": {
+          "x-bayan-tier": 3,
+          "description": "Which tool was invoked can reveal the nature of the request.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_.-]{0,63}$"
+          },
+          "maxItems": 32
+        }
+      }
+    },
+    "contentRef": {
+      "x-bayan-tier": 2,
+      "description": "A POINTER to the separately-stored prompt/response content, never the content itself. The referent is tier 4 and never travels in a fingerprint. Mirrors the OTel split between the span and OTEL_INSTRUMENTATION_GENAI_UPLOAD_BASE_PATH.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "digest",
+        "storeId"
+      ],
+      "properties": {
+        "digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "storeId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "content"
+            ]
+          },
+          {
+            "required": [
+              "text"
+            ]
+          },
+          {
+            "required": [
+              "inline"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "digest": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "sha512": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{128}$"
+        }
+      }
+    },
+    "pseudonym": {
+      "type": "string",
+      "description": "Lowercase hex HMAC-SHA256 output. The key never leaves the enclave.",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "tokenBucket": {
+      "type": "string",
+      "enum": [
+        "0",
+        "1-16",
+        "17-64",
+        "65-256",
+        "257-1k",
+        "1k-4k",
+        "4k-16k",
+        "16k-64k",
+        ">64k"
+      ]
+    }
+  },
+  "x-bayan-invariants": [
+    "A property listed in x-bayan-always must have x-bayan-tier 0.",
+    "A required property must have x-bayan-tier 0, or a tier-0 projection is unconstructable.",
+    "A container's tier must be <= the minimum tier of its children, or low-tier children become unreachable by projection.",
+    "Projection is monotonic: the field set retained at tier n is a subset of that retained at tier n+1.",
+    "Projection is lossy by omission only. It never transforms a value."
+  ]
+}

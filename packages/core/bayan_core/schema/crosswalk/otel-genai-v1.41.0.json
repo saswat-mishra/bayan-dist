@@ -1,0 +1,34 @@
+{
+  "$comment": "Bayan <-> OpenTelemetry GenAI crosswalk. This file exists so that OTel semantic-convention churn costs a mapping update rather than a schema break (PRD R-F8). The core Bayan schema contains NO OTel identifiers.",
+  "bayanSchema": "bayan.fingerprint/v1",
+  "otelSemconv": {
+    "pinnedVersion": "1.41.0",
+    "status": "UNSTABLE",
+    "warning": "As of Sep 2026 no gen_ai.* span, metric or attribute is marked Stable. The conventions were reportedly deprecated in semconv v1.42.0 and removed in v1.43.0, relocating to open-telemetry/semantic-conventions-genai. The MOVE is confirmed from the official semconv redirect notice; the version numbers are from a third-party source and are UNVERIFIED. Re-pin before shipping.",
+    "verify": "https://github.com/open-telemetry/semantic-conventions-genai"
+  },
+  "direction": "bayan -> otel (emit); reverse mapping is lossy and not defined",
+  "mappings": [
+    { "bayan": "operation",                "otel": "gen_ai.operation.name",           "note": "Bayan enum is a superset; unmapped values emit as-is" },
+    { "bayan": "modelVersion",             "otel": "gen_ai.request.model",            "note": "Bayan carries a DIGEST, OTel carries a NAME. Not interchangeable; emit both or neither" },
+    { "bayan": "finishReason",             "otel": "gen_ai.response.finish_reasons",  "note": "OTel is an array; Bayan is scalar" },
+    { "bayan": "tokens.inputExact",        "otel": "gen_ai.usage.input_tokens" },
+    { "bayan": "tokens.outputExact",       "otel": "gen_ai.usage.output_tokens" },
+    { "bayan": "tokens.inputBucket",       "otel": null, "note": "No OTel equivalent. Bucketing is a Bayan minimisation control (R-F7)" },
+    { "bayan": "tokens.outputBucket",      "otel": null, "note": "No OTel equivalent" },
+    { "bayan": "conversationId",           "otel": "gen_ai.conversation.id",          "note": "Bayan value is HMAC'd; OTel's is typically raw. NEVER emit the raw value to satisfy OTel" },
+    { "bayan": "toolCalls.names",          "otel": "gen_ai.tool.name",                "note": "Tier 3 in Bayan. Suppressed by default despite OTel treating it as ordinary metadata" },
+    { "bayan": "latency.ms",               "otel": null, "note": "Covered by span duration" },
+    { "bayan": "contentRef",               "otel": "OTEL_INSTRUMENTATION_GENAI_UPLOAD_BASE_PATH", "note": "Not an attribute. OTel's off-span content upload path is the architectural equivalent: the span holds a reference, the content lives in a separate store. This is the seam Bayan puts a reviewer on" },
+    { "bayan": "retrieval.docRefs",        "otel": null, "note": "OTel retrieval spans carry no document-identity convention. Bayan's pseudonymisation requirement has no OTel counterpart" },
+    { "bayan": "guardrails.categories",    "otel": null, "note": "No OTel equivalent, and this is correct: OTel has no notion of a field too sensitive to export" },
+    { "bayan": "classification",           "otel": null, "note": "No OTel equivalent. This is the central gap that makes Bayan a separate schema rather than an OTel profile" }
+  ],
+  "explicitlyNotMapped": {
+    "gen_ai.input.messages":     "Tier 4 content. Never enters a fingerprint.",
+    "gen_ai.output.messages":    "Tier 4 content. Never enters a fingerprint.",
+    "gen_ai.system_instructions":"Vendor artefact but potentially client-tuned; carry as promptVersion digest instead.",
+    "gen_ai.tool.call.arguments":"Tier 4 content.",
+    "gen_ai.tool.call.result":   "Tier 4 content."
+  }
+}
