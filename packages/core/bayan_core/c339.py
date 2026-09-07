@@ -27,10 +27,11 @@ zp9=2
 def xgl(kind:str,subject:list[dict[str,Any]],predicate:dict[str,Any],version:int=zp9)->dict[str,Any]:return{'_type':kiy,'subject':subject,'predicateType':f"https://bayan.dev/{kind}/v{version}",'predicate':predicate}
 def azw(*,request_digest:str,reviewer:str,verdict:str,reason:str,presented_digest:str,lang:str,at:str)->bytes:return mhbq({_H:request_digest,_M:reviewer,_I:verdict,_G:reason,_N:presented_digest,'lang':lang,_E:at})
 def lcs(entry:dict[str,Any])->bytes:A=entry;return azw(request_digest=str(A[_H]),reviewer=str(A[_M]['id']),verdict=str(A[_I]),reason=str(A.get(_G,'')),presented_digest=str(A[_N]),lang=str(A['lang']),at=str(A[_E]))
-def evg(*,subject_name:str,subject_digest:str,deployment:dict[str,str],classification:dict[str,Any],purpose:str,mechanism:str,minimisation:dict[str,Any],budget:dict[str,int],retention:dict[str,str],requester:dict[str,str],recipient:dict[str,Any],created_at:str,query:dict[str,Any]|_A=_A)->dict[str,Any]:
-	A=query;B:dict[str,Any]={_F:deployment,'classification':classification,'purpose':purpose,'mechanism':mechanism,'minimisation':minimisation,'budget':budget,_O:retention,'requester':requester,'recipient':recipient,'createdAt':created_at}
-	if A is not _A:B['query']=A
-	return xgl(_P,[{_D:subject_name,_C:{_B:subject_digest}}],B)
+def evg(*,subject_name:str,subject_digest:str,deployment:dict[str,str],classification:dict[str,Any],purpose:str,mechanism:str,minimisation:dict[str,Any],budget:dict[str,int],retention:dict[str,str],requester:dict[str,str],recipient:dict[str,Any],created_at:str,query:dict[str,Any]|_A=_A,lookup:dict[str,Any]|_A=_A)->dict[str,Any]:
+	C=lookup;B=query;A:dict[str,Any]={_F:deployment,'classification':classification,'purpose':purpose,'mechanism':mechanism,'minimisation':minimisation,'budget':budget,_O:retention,'requester':requester,'recipient':recipient,'createdAt':created_at}
+	if B is not _A:A['query']=B
+	if C is not _A:A['lookup']=C
+	return xgl(_P,[{_D:subject_name,_C:{_B:subject_digest}}],A)
 def wr5(*,request_payload:bytes,profile:dict[str,Any],commitment:str,nonce:str,verdict:str,rrsa_class:str,findings:list[dict[str,str]],human_reviews:list[dict[str,Any]],transformations:list[dict[str,Any]],redacted:list[dict[str,str]],outcome:str,decided_at:str,certificate:dict[str,Any],certificate_at_request:str|_A=_A,recommendation:str|_A=_A,recommendation_basis:list[str]|_A=_A)->dict[str,Any]:
 	C=recommendation;B=certificate_at_request;D=gkou(request_payload);A:dict[str,Any]={'commitment':commitment,'nonce':nonce,_I:verdict,'rrsaClass':rrsa_class,'findings':findings}
 	if B is not _A:A['certificateAtRequest']={_B:B}

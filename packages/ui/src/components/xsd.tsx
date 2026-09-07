@@ -50,7 +50,7 @@ export function CertificateDetails({ cert, lang, micros, mechanisms, controls, o
 }) {
     return (<div className="card" data-testid="certificate">
       <Headline h={cert.headline} lang={lang}/>
-      <details open={open}>
+      <details open={open} data-technical="true">
         <summary>{t(lang, "showDetails")} · <span className="label small">{cert.label}</span></summary>
         <CertificateBody cert={cert} lang={lang} micros={micros} mechanisms={mechanisms} controls={controls}/>
       </details>

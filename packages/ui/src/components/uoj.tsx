@@ -24,6 +24,6 @@ export function Headline({ h, lang, compact }: {
     return (<div className={`headline ${k.cls}${compact ? " compact" : ""}`} data-testid="headline" data-kind={h.kind} role="status">
       <span className="hl-icon" aria-hidden="true">{k.icon}</span>
       <span className="hl-kind">{t(lang, k.label)}</span>
-      <span className="hl-text">{pick(lang, h)}</span>
+      <span className="hl-text" data-gate-text="true">{pick(lang, h)}</span>
     </div>);
 }

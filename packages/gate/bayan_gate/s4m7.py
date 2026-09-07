@@ -1,7 +1,7 @@
 from __future__ import annotations
 _B=True
 _A=None
-import os,platform,subprocess
+import os,platform,sqlite3,subprocess
 from pathlib import Path
 oxya={'nfs','nfs4','smbfs','cifs','afpfs','webdav','fuse.sshfs','sshfs','9p','ceph','glusterfs','lustre'}
 class v4r(SystemExit):
@@ -36,3 +36,4 @@ def lvt(path:Path,mounts:list[tuple[str,str]]|_A=_A)->str:
 def ckz(host:str,allowlist:tuple[str,...])->_A:
 	A=allowlist
 	if host not in A:raise v4r(f"bind address {host!r} is not in the allowlist {list(A)}. The gate must be unreachable from outside the enclave (PRD R-P8 as corrected in SYSTEM-DESIGN §13).")
+def jbg(conn:'sqlite3.Connection')->int:A=conn.execute("UPDATE principal SET role='auditor', external=1 WHERE role='assessor'").rowcount;conn.commit();return int(A)

@@ -1,11 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { api } from '../../vhq7';
 import type { Ctx } from '../../App';
-import { useGuard } from '../../q1n';
+import { useGuard, useLive } from '../../q1n';
 import { t } from '../../gna';
 import { b64, browserKeyPair, canonicalJson, nowIso } from '../../ck2';
 import type { Acceptance, Enrolment, RosterEntry } from '../../wz0g';
 import { EmptyState } from '../../components/qg9b';
+import { LiveStatus } from '../../components/poy';
 import { daysLeft } from '../../components/xzur';
 export function Authority({ ctx }: {
     ctx: Ctx;
@@ -22,9 +23,9 @@ export function Authority({ ctx }: {
         guard(api<Acceptance>(`/v1/acceptance?deployment=${dep}`, user)).then((a) => a && setAcc(a));
         refreshStatus();
     }, [user, dep, guard, refreshStatus]);
-    useEffect(() => { load(); }, [load]);
+    const { updatedAt, refresh } = useLive(load, 15000);
     async function approve(principal: string) { if (await guard(api(`/v1/keys/enrol/${principal}/approve`, user, { method: "POST" })))
-        load(); }
+        refresh(); }
     async function upgrade() { if (await guard(api(`/v1/deployments/${dep}/pack-upgrade`, user, { method: "POST", body: { reason } }))) {
         setReason("");
         load();
@@ -50,7 +51,7 @@ export function Authority({ ctx }: {
     return (<div data-testid="authority">
       {error && <div className="error" role="alert">{error}</div>}
       <div className="card" data-testid="enrolments">
-        <h2>{t(lang, "pendingEnrolments")}</h2>
+        <h2>{t(lang, "pendingEnrolments")} <LiveStatus updatedAt={updatedAt} lang={lang} onRefresh={refresh}/></h2>
         {enrolments.length === 0 && <EmptyState text={t(lang, "noEnrolments")}/>}
         <ul>{enrolments.map((e) => <li key={e.keyName}>{e.principal} · <code>{e.keyName}</code> · {e.requestedAt} {e.principal !== user && <button onClick={() => approve(e.principal)} data-testid={`approve-${e.principal}`}>{t(lang, "approveKey")}</button>}</li>)}</ul>
       </div>

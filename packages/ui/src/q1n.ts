@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { explain } from './x27r';
 import type { Lang } from './gna';
 export function usePersisted(key: string, initial: string): [
@@ -41,6 +41,38 @@ export function useGuard(lang: Lang): [
         }
     }, [lang]);
     return [error, guard, setError];
+}
+export function useLive(load: () => Promise<unknown> | void, intervalMs: number, enabled = true): {
+    updatedAt: number | null;
+    refresh: () => void;
+} {
+    const [updatedAt, setUpdatedAt] = useState<number | null>(null);
+    const inFlight = useRef(false);
+    const refresh = useCallback(() => {
+        if (inFlight.current)
+            return;
+        inFlight.current = true;
+        const done = () => { inFlight.current = false; setUpdatedAt(Date.now()); };
+        Promise.resolve().then(() => load()).then(done, done);
+    }, [load]);
+    useEffect(() => {
+        refresh();
+        if (!enabled)
+            return;
+        const visible = () => typeof document === "undefined" || document.visibilityState !== "hidden";
+        const tick = () => { if (visible())
+            refresh(); };
+        const id = setInterval(tick, intervalMs);
+        document.addEventListener("visibilitychange", tick);
+        window.addEventListener("focus", tick);
+        return () => { clearInterval(id); document.removeEventListener("visibilitychange", tick); window.removeEventListener("focus", tick); };
+    }, [refresh, intervalMs, enabled]);
+    return { updatedAt, refresh };
+}
+export function useTicker(everyMs = 5000): number {
+    const [now, setNow] = useState(() => Date.now());
+    useEffect(() => { const id = setInterval(() => setNow(Date.now()), everyMs); return () => clearInterval(id); }, [everyMs]);
+    return now;
 }
 export const ago = (seconds: number, lang: Lang): string => {
     const h = Math.floor(seconds / 3600), m = Math.floor((seconds % 3600) / 60);

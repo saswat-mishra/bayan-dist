@@ -1,13 +1,17 @@
 from __future__ import annotations
+_E='stranger'
+_D='repeater'
+_C='runner'
 _B='pass'
 _A=None
 from datetime import datetime,timedelta,timezone
-from bayan_core.blg2.oj2 import vj3,s9zz,f30
+from bayan_core.blg2.oj2 import fqub,s9zz,f30
 from bayan_core.blg2.vfn import c5k
 from bayan_core.blg2.f2xo import pb0s
 from bayan_core.blg2.dl9 import v9y,bre,icna,erx,fil6,ik4,mgyg,si1,c2v,pkj1,gy0
 from bayan_core.blg2.ugee import s0a8
 from bayan_core.blg2.nf3 import jv94,apgg
+o9n:tuple[str,...]=(_C,_D,_E,'alien')
 lpeb='expiry date reached','the declared QI list changes',"a new auxiliary dataset is published in the client's sector",'the recipient set changes','the extract is forwarded onward'
 ndvw='The environmental qualifier records exposure, not what was done to the data or who approved it; it is void the moment the extract is forwarded.'
 def t80(s:str)->datetime:
@@ -32,11 +36,11 @@ def rrt(m:fil6,blockers:tuple[v9y,...],gates:tuple[erx,...],pol:mgyg,p_level:int
 	if not A:return
 	D=tuple(B.with_transform(gy0.DROP)if B.name in A else B for B in m.fields);B=fil6(D,m.sensitive_declared,m.row_level,m.mechanism,frozenset(),m.verified_properties,m.dp);C=s9zz(B);E=apgg(C.level,B,f30(B),pol,p_level);F=tuple(sorted(B.name for B in m.fields if B.name in A and B.load_bearing));return ik4(C.level,E,tuple(sorted(A)),F)
 def v5e(manifest:fil6,provenance:si1,review:pkj1,recipient:c2v,policy:mgyg,*,issued_at:str,matches_prior_cleared_shape:bool=False)->bre:
-	P='review';L=recipient;C=manifest;B=policy;A=s9zz(C);H,Q=s0a8(provenance);D=jv94(review);R=c5k(L);E=pb0s(C,L,B);I=apgg(A.level,C,A.risk_class,B,H);J=any(not A.passed for A in E);K=A.risk_class=='black'
+	P='review';L=recipient;C=manifest;A=policy;B=s9zz(C);H,Q=s0a8(provenance);D=jv94(review);R=c5k(L);E=pb0s(C,L,A);I=apgg(B.level,C,B.risk_class,A,H);J=any(not A.passed for A in E);K=B.risk_class=='black'
 	if J or K:F,G='alien','fail'
-	elif I==1:F,G='runner',_B
-	elif matches_prior_cleared_shape:F,G='repeater',P
-	else:F,G='stranger',P
-	M=B.d_floor is _A or A.level>=B.d_floor or D.level>=4;N=list(D.notes)+list(Q)
-	if not M:N.append(f"pack floor: no release below D{B.d_floor} without R4")
-	S=not J and not K and D.level>=I and M;O=t80(issued_at);return bre(d=A.level,p=H,r=D.level,e=R,required_r=I,risk_class=A.risk_class,gates=E,d_blockers=A.blockers,r_notes=tuple(N),verdict=G,rrsa_class=F,findings=ed6i(C,A.blockers,E),does_not_stop=(vj3[A.level],ndvw),releasable=S,disqualified=J or K,nearest_releasable=rrt(C,A.blockers,E,B,H),issued_at=x0l(O),expires_at=x0l(O+timedelta(days=B.certificate_validity_days)),pack_id=B.pack_id,pack_version=B.pack_version,reassessment_triggers=lpeb)
+	elif I==1:F,G=_C,_B
+	elif matches_prior_cleared_shape:F,G=_D,P
+	else:F,G=_E,P
+	M=A.d_floor is _A or B.level>=A.d_floor or D.level>=4;N=list(D.notes)+list(Q)
+	if not M:N.append(f"pack floor: no release below D{A.d_floor} without R4")
+	S=not J and not K and D.level>=I and M;O=t80(issued_at);return bre(d=B.level,p=H,r=D.level,e=R,required_r=I,risk_class=B.risk_class,gates=E,d_blockers=B.blockers,r_notes=tuple(N),verdict=G,rrsa_class=F,findings=ed6i(C,B.blockers,E),does_not_stop=(fqub(B.level,A.d1_example),ndvw),releasable=S,disqualified=J or K,nearest_releasable=rrt(C,B.blockers,E,A,H),issued_at=x0l(O),expires_at=x0l(O+timedelta(days=A.certificate_validity_days)),pack_id=A.pack_id,pack_version=A.pack_version,reassessment_triggers=lpeb)

@@ -21,6 +21,7 @@ class vkx(Exception):
 	def __init__(A,field:str,detail:str)->_A:C=detail;B=field;super().__init__(f"{B}: {C}");A.field=B;A.detail=C
 def kzcr(changes:Sequence[im5])->str:A={'pipeline':hf4f,'changes':[{'field':A.name,'transform':A.transform.value if A.transform else _A,'params':dict(A.params)}for A in changes]};return gkou(mhbq(A))
 def l3rg(key:bytes,value:Any)->str:A=value;B=A.encode('utf-8')if isinstance(A,str)else b'json:'+mhbq(A);return hmac.new(key,B,hashlib.sha256).hexdigest()
+zpw5=l3rg
 def am31(value:Any,granularity:str)->str:
 	B=granularity;D=str(value);A=ow6.match(D)
 	if A:return A.group(1)if B=='year'else D

@@ -1,4 +1,13 @@
 from __future__ import annotations
+_J='non_exportable'
+_I='undeclared_field'
+_H='sensitive_undeclared'
+_G='row_level'
+_F='freetext'
+_E='direct_untransformed'
+_D='quasi_untransformed'
+_C='unratified_field'
+_B=True
 _A=None
 import sqlite3
 from collections.abc import Mapping
@@ -6,21 +15,41 @@ from dataclasses import dataclass
 from typing import Any
 from bayan_core.blg.brgs import mhbq,gkou
 from bayan_core.blg2.oj2 import s9zz,f30
-from bayan_core.blg2.dl9 import fil6
+from bayan_core.blg2.dl9 import q66,fil6
+from bayan_core.schema.g5v import lhkf,c5aj
 from bayan_core.evxn.iuoq import vjs,ycf,f3w
 from bayan_core.evxn.b3xe import ptt2,hndw,i4x
 from bayan_core.evxn.schema import sui,hh5,htz
 from bayan_core.evxn.czq import z2z8,iij3
 r46c=2
-@dataclass(frozen=True)
+r982=_C,_D,_E,_F,_G,_H,_I,_J
+@dataclass(frozen=_B)
+class zn7:
+	kind:str;field:str|_A
+	def to_json(A)->dict[str,str|_A]:return{'kind':A.kind,'field':A.field}
+def f12(dt:q66)->tuple[zn7,...]:
+	C:list[zn7]=[]
+	for A in dt.blockers:
+		if A.reason==lhkf:B=_C
+		elif A.field=='*':B=_G
+		elif A.field_class=='UNDECLARED':B=_I
+		elif A.reason.startswith('non-exportable'):B=_J
+		elif A.field_class=='FREETEXT':B=_F
+		elif A.field_class=='DIRECT':B=_E
+		elif A.field_class=='QUASI':B=_D
+		else:B=_H
+		D=zn7(B,_A if A.field=='*'else A.field)
+		if D not in C:C.append(D)
+	return tuple(C)
+@dataclass(frozen=_B)
 class xtf8:
-	name:str;version:str;bundle_digest:str;risk_class:str;max_grade_d:int;manifest:fil6;static_violations:tuple[z2z8,...];schema_errors:tuple[str,...]
+	name:str;version:str;bundle_digest:str;risk_class:str;max_grade_d:int;manifest:fil6;static_violations:tuple[z2z8,...];schema_errors:tuple[str,...];cap_reasons:tuple[zn7,...]=()
 	@property
 	def certified(self)->bool:A=self;return not A.static_violations and not A.schema_errors and A.risk_class!='black'
-def l0zv(spec:sui,ratified:frozenset[str]|_A=_A,sensitive_declared:frozenset[str]=frozenset())->xtf8:A=spec;B=htz(A.output_schema,ratified,sensitive_declared);C=s9zz(B);return xtf8(A.name,A.version,hh5(A),f30(B),C.level,B,tuple(iij3(A)),tuple(A.output_schema.declaration_errors()))
-@dataclass(frozen=True)
+def l0zv(spec:sui,ratified:frozenset[str]|_A=_A,sensitive_declared:frozenset[str]=frozenset(),classes:Mapping[str,c5aj]|_A=_A)->xtf8:A=spec;B=htz(A.output_schema,ratified,sensitive_declared,classes=classes);C=s9zz(B);return xtf8(A.name,A.version,hh5(A),f30(B),C.level,B,tuple(iij3(A)),tuple(A.output_schema.declaration_errors()),f12(C))
+@dataclass(frozen=_B)
 class wxn:rule:str;detail:str
-@dataclass(frozen=True)
+@dataclass(frozen=_B)
 class gty:
 	rows:tuple[dict[str,Any],...];output_digest:str;input_digest:str;elapsed_s:float;quarantine:wxn|_A
 	@property

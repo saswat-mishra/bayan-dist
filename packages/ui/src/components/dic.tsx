@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { api, ApiError, Principal } from '../vhq7';
+import { useLive } from '../q1n';
 import { Lang, t } from '../gna';
 import { browserPublicKey, ed25519Available } from '../ck2';
-type State = {
+import { Codes } from '../d7t';
+export type CustodyState = {
     kind: "loading";
 } | {
     kind: "gate";
@@ -17,27 +19,36 @@ type State = {
 } | {
     kind: "unenrolled";
 };
-export function KeyCustody({ user, me, lang, onEnrolled }: {
-    user: string;
-    me: Principal;
-    lang: Lang;
-    onEnrolled?: () => void;
-}) {
-    const [state, setState] = useState<State>({ kind: "loading" });
+export function useCustody(user: string, me: Principal, onEnrolled?: () => void): {
+    state: CustodyState;
+    error: string | null;
+    enrol: () => Promise<void>;
+    refresh: () => void;
+    updatedAt: number | null;
+} {
+    const [state, setState] = useState<CustodyState>({ kind: "loading" });
     const [error, setError] = useState<string | null>(null);
+    const previous = useRef<CustodyState["kind"]>("loading");
+    const settle = useCallback((next: CustodyState) => {
+        setState(next);
+        if (next.kind === "enrolled" && previous.current !== "enrolled" && previous.current !== "loading")
+            onEnrolled?.();
+        previous.current = next.kind;
+    }, [onEnrolled]);
     const check = useCallback(async () => {
         if (me.role !== "reviewer") {
-            setState({ kind: "gate" });
+            settle({ kind: "gate" });
             return;
         }
         if (!ed25519Available()) {
-            setState({ kind: "unsupported" });
+            settle({ kind: "unsupported" });
             return;
         }
         try {
             const mine = await browserPublicKey(user);
-            if (me.publicKey === mine && me.keyName) {
-                setState({ kind: "enrolled", keyName: me.keyName });
+            const fresh = await api<Principal>("/v1/me", user);
+            if (fresh.publicKey === mine && fresh.keyName) {
+                settle({ kind: "enrolled", keyName: fresh.keyName });
                 return;
             }
             const rows = await api<{
@@ -46,32 +57,42 @@ export function KeyCustody({ user, me, lang, onEnrolled }: {
                 status: string;
             }[]>(`/v1/keys/enrolments?principal=${encodeURIComponent(user)}`, user);
             const pending = rows.find((r) => r.status === "pending" && r.publicKey === mine);
-            setState(pending ? { kind: "pending", keyName: pending.keyName } : { kind: "unenrolled" });
+            settle(pending ? { kind: "pending", keyName: pending.keyName } : { kind: "unenrolled" });
         }
         catch (e) {
             setError(String(e));
         }
-    }, [user, me]);
-    useEffect(() => { check(); }, [check]);
-    async function enrol() {
+    }, [user, me.role, settle]);
+    const polling = state.kind === "pending" || state.kind === "unenrolled";
+    const { updatedAt, refresh } = useLive(check, 30000, polling);
+    const enrol = useCallback(async () => {
         try {
             setError(null);
             const r = await api<{
                 keyName: string;
             }>("/v1/keys/enrol", user, { method: "POST", body: { publicKey: await browserPublicKey(user) } });
-            setState({ kind: "pending", keyName: r.keyName });
-            onEnrolled?.();
+            settle({ kind: "pending", keyName: r.keyName });
         }
         catch (e) {
             setError(e instanceof ApiError ? `${e.status}: ${e.message}` : String(e));
         }
-    }
+    }, [user, settle]);
+    return { state, error, enrol, refresh, updatedAt };
+}
+export function KeyCustody({ user, me, lang, onEnrolled }: {
+    user: string;
+    me: Principal;
+    lang: Lang;
+    onEnrolled?: () => void;
+}) {
+    const { state, error, enrol } = useCustody(user, me, onEnrolled);
     return (<span className="custody" data-testid="key-custody" data-state={state.kind}>
-      {state.kind === "gate" && <span className="muted">{t(lang, "gateKey")}</span>}
+      {state.kind === "gate" && <span className="muted"><Codes text={t(lang, "gateKey")}/></span>}
       {state.kind === "unsupported" && <span className="bad">{t(lang, "keyUnsupported")}</span>}
       {state.kind === "enrolled" && <span className="ok">{t(lang, "browserKey")} · {state.keyName}</span>}
       {state.kind === "pending" && <span className="warn">{t(lang, "keyPending")} · {state.keyName}</span>}
-      {state.kind === "unenrolled" && <span><span className="bad">{t(lang, "keyUnenrolled")}</span> <button data-testid="enrol-key" onClick={enrol}>{t(lang, "enrolKey")}</button></span>}
+      
+      {state.kind === "unenrolled" && <span><span className="warn">{t(lang, "keyUnenrolled")}</span> <button data-testid="enrol-key" onClick={enrol}>{t(lang, "enrolKey")}</button></span>}
       {error && <span className="error">{error}</span>}
     </span>);
 }

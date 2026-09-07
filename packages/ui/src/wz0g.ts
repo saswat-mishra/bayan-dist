@@ -1,4 +1,4 @@
-export type Role = "engineer" | "reviewer" | "lead" | "auditor" | "dba" | "assessor" | "sensor";
+export type Role = "engineer" | "reviewer" | "lead" | "auditor" | "dba";
 export interface Principal {
     id: string;
     displayName: string;
@@ -6,6 +6,7 @@ export interface Principal {
     lang: string;
     keyType: string;
     authority?: string | null;
+    external?: boolean;
     keyName?: string | null;
     publicKey?: string | null;
     custody?: "client" | "gate-colocated";
@@ -13,6 +14,7 @@ export interface Principal {
 export interface Deployment {
     id: string;
     name: string;
+    name_ar?: string;
     pack: string;
     product?: string;
     version?: string;
@@ -62,6 +64,7 @@ export interface Certificate {
         load_bearing_lost: string[];
     } | null;
     headline?: HeadlineJson;
+    dpe?: string;
     verdict?: string;
     rrsa_class?: string;
     findings?: {
@@ -84,6 +87,10 @@ export interface Run {
     skill: string;
     version: string;
     status: string;
+    params?: Record<string, unknown>;
+    lookup?: Lookup | null;
+    requester?: string;
+    deployment?: string;
     certificate: Certificate;
     certificateMicros: number;
     rows: Record<string, unknown>[];
@@ -136,6 +143,10 @@ export interface ReleaseRequest {
     releaseId: string | null;
     leafIndex: number | null;
     mechanism: string;
+    run?: string | null;
+    skill?: string | null;
+    purpose?: string;
+    lookup?: Lookup | null;
     machineCheck?: {
         verdict: string;
         rrsaClass: string;
@@ -158,6 +169,7 @@ export interface RequestListItem {
     skill: string | null;
     mechanism: string;
     requester: string;
+    requesterName?: string;
     purpose: string;
     status: string;
     outcome: string;
@@ -167,6 +179,11 @@ export interface RequestListItem {
     votes: number;
     headline: HeadlineJson | null;
     waitingOn: WaitingOn;
+    outstandingReviewers?: Outstanding[];
+    stuck?: boolean;
+    stuckAfterSeconds?: number;
+    lastReminderAt?: string | null;
+    lookup?: Lookup | null;
     releaseId: string | null;
     leafIndex: number | null;
     certificate: string;
@@ -189,25 +206,35 @@ export interface Timeline {
         path: string;
         leafIndex: number;
         verify: string;
+        release?: string;
+        trustDir?: string;
     } | null;
     suspended: boolean;
+    outstandingReviewers?: Outstanding[];
+    nextActions?: NextAction[];
 }
 export interface FeasRow {
     question: string;
     text: string;
     text_ar: string;
     minClass: string;
+    minClass_ar?: string;
     achievableD: number | null;
     approvalPath: string;
     realTime: boolean | null;
     skills: string[];
     blocked: boolean;
 }
+export interface CapReason {
+    kind: "unratified_field" | "quasi_untransformed" | "direct_untransformed" | "freetext" | "row_level" | "sensitive_undeclared" | "undeclared_field" | "non_exportable";
+    field: string | null;
+}
 export interface Skill {
     name: string;
     version: string;
     riskClass: string;
     maxGradeD: number;
+    capReasons?: CapReason[];
     answers: string[];
     description: string;
     description_ar: string;
@@ -215,6 +242,81 @@ export interface Skill {
     paramExamples: Record<string, string>;
     decertified: boolean;
     certified: boolean;
+    certifiedBy?: string | null;
+    certifiedAt?: string | null;
+    bundleDigest?: string;
+}
+export interface SkillRequest {
+    id: string;
+    deployment: string;
+    requester: string;
+    question: string;
+    questionText: string;
+    questionText_ar: string;
+    fieldsNeeded: string[];
+    why: string;
+    status: string;
+    note: string | null;
+    closedBy: string | null;
+    closedAt: string | null;
+    createdAt: string;
+}
+export interface Outstanding {
+    principal: string;
+    displayName: string;
+}
+export interface Lookup {
+    ofRelease: string;
+    ofLeaf: number;
+    field: string;
+    keys: string[];
+}
+export interface ReceiptHeader {
+    request: string;
+    requester: {
+        principal: string;
+        displayName: string;
+    };
+    purpose: string;
+    approvers: {
+        principal: string;
+        displayName: string;
+        role: string;
+        authority: string | null;
+        verdict: string;
+    }[];
+    decidedAt: string | null;
+    retention: {
+        period: string;
+        until: string | null;
+    };
+    disposal: {
+        status: "not-released" | "pending" | "attested" | "overdue";
+        dueBy: string | null;
+        leaf: number | null;
+        at?: string | null;
+    };
+    outcome: string;
+    release: string | null;
+    leafIndex: number | null;
+    lookupAvailable: boolean;
+}
+export interface RegisterLine {
+    line: string;
+    lang: {
+        en: string;
+        ar: string;
+    };
+    receiptDigest: string;
+    leafIndex: number;
+    releasedAt: string;
+    deployment: string;
+    requester: string;
+}
+export interface NextAction {
+    kind: string;
+    en: string;
+    ar: string;
 }
 export interface Budget {
     cohort: string;
@@ -249,10 +351,17 @@ export interface RosterEntry {
 export interface QueueItem {
     id: string;
     deployment: string;
+    deploymentName?: string;
+    deploymentName_ar?: string;
     skill: string | null;
     mechanism: string;
     riskClass: string;
     requester: string;
+    requesterName?: string;
+    purpose?: string;
+    headline?: HeadlineJson | null;
+    ageSeconds?: number;
+    lookup?: boolean;
     requiredReviews: number;
     votes: number;
     youVoted: boolean;
@@ -280,8 +389,20 @@ export interface Brief {
         direct_count: number;
         masked_count: number;
         freetext_count: number;
+        threshold?: number;
         prior_date?: string | null;
-        failed_gates?: string[];
+        prior_by?: string | null;
+        prior_by_you?: boolean;
+        failed_gates?: {
+            gate: string;
+            detail: string;
+            remedy: string;
+        }[];
+        does_not_stop?: string;
+        retention_days?: number;
+        retention?: string;
+        recipient_org?: string;
+        what?: string;
     };
     diff: {
         changed: number | null;
@@ -320,7 +441,11 @@ export interface Brief {
     accountability: {
         reviewer: string;
         retention: string;
+        retentionDays?: number;
+        retentionText?: string;
         recipient: string;
+        recipientOrg?: string;
+        recipientEmployer?: string | null;
     };
     recipientEntry?: {
         name: string;
@@ -331,6 +456,9 @@ export interface Brief {
         validUntil?: string;
         entryDigest?: string;
     } | null;
+    outstandingReviewers?: Outstanding[];
+    lookup?: Lookup | null;
+    certificateDpe?: string;
 }
 export interface Reveal {
     machineCheck: {
@@ -383,17 +511,39 @@ export interface DeploymentStatus {
         at: string;
         components: string[];
     } | null;
+    trustDir?: string;
+    outboxDir?: string;
+    retention?: {
+        vendorDisposal: string;
+        clientLogRetention?: string | null;
+    };
+    primaryFramework?: string | null;
+    name?: string;
+    nameAr?: string;
 }
 export interface Summary {
     deployment: string;
+    from?: string | null;
+    to?: string | null;
     fingerprints: number;
     runs: number;
     released: number;
     refused: number;
+    pending?: number;
+    pendingVotes?: number;
     autoClearedRunners: number;
     humanReviewed: number;
+    votes?: number;
     overrideRate: string;
     agreementRate: string;
+    agreementText?: {
+        en: string;
+        ar: string;
+    };
+    overrideText?: {
+        en: string;
+        ar: string;
+    };
     byGrade: Record<string, number>;
     budget: Budget[];
 }
@@ -403,6 +553,7 @@ export interface RegisterRow {
     skill: string | null;
     mechanism: string;
     requester: string;
+    purpose?: string;
     status: string;
     outcome: string;
     release: string | null;
@@ -417,6 +568,7 @@ export interface RegisterRow {
     createdAt: string;
     headline: HeadlineJson | null;
     outbox: string | null;
+    header?: ReceiptHeader | null;
 }
 export interface LedgerEntry {
     index: number;
@@ -450,6 +602,10 @@ export interface BundleFiles {
         sha256: string;
         text: string | null;
     }>;
+    header?: ReceiptHeader | null;
+    trustDir?: string;
+    verify?: string;
+    registerLine?: RegisterLine | null;
 }
 export interface ControlRow {
     control: string;
@@ -458,6 +614,12 @@ export interface ControlRow {
     releases: number;
     refusals: number;
     sensorHours: number;
+    lastEvidenceAt?: string | null;
+}
+export interface Gap {
+    control: string;
+    why: "no-refusal" | "no-release" | "sensor-absent" | "no-sensor-hour";
+    sensorPresent: boolean;
 }
 export interface ControlsIndex {
     deployment: string;
@@ -467,8 +629,18 @@ export interface ControlsIndex {
         version: string;
         digest: string;
     };
+    primaryFramework?: string | null;
     sensorHours: number;
+    sensorPresent?: boolean;
     frameworks: Record<string, ControlRow[]>;
+    gaps?: Record<string, Gap[]>;
+}
+export interface LedgerRange {
+    deployment: string;
+    from: string | null;
+    to: string | null;
+    periods: string[];
+    leaves: number;
 }
 export interface EvidenceHit {
     leaf: number;
@@ -479,6 +651,7 @@ export interface EvidenceHit {
     headline: HeadlineJson;
     mechanisms: string[];
     label: string;
+    header?: ReceiptHeader | null;
 }
 export interface ControlEvidence {
     deployment: string;
@@ -557,6 +730,7 @@ export interface FieldClass {
         skills: string[];
         cappedAtD1: string[];
         text: string;
+        text_ar?: string;
     };
 }
 export interface Pack {
@@ -564,6 +738,7 @@ export interface Pack {
     version: string;
     digest: string;
     name?: string;
+    name_ar?: string;
     rules: {
         id: string;
         citation: string;
@@ -575,4 +750,30 @@ export interface Pack {
     fieldDefaults: Record<string, {
         class: string;
     }>;
+    review?: Record<string, unknown> & {
+        roleFloors?: Record<string, number>;
+        stuckAfterSeconds?: number;
+        threshold?: number;
+    };
+    budget?: {
+        perCohortLimit?: number;
+        period?: string;
+        exemplarQuota?: number;
+    };
+    retention?: {
+        vendorDisposal?: string;
+        clientLogRetention?: string;
+    };
+    lookup?: {
+        maxKeys: number;
+    };
+    terms?: Record<string, Record<string, {
+        label: string;
+        line: string;
+    }>>;
+    primaryFramework?: string;
+    doesNotStopExample?: {
+        en: string;
+        ar: string;
+    };
 }

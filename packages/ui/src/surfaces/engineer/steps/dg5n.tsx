@@ -3,7 +3,10 @@ import { api } from '../../../vhq7';
 import { Lang, t } from '../../../gna';
 import type { Run, UpliftMenu, UpliftOption } from '../../../wz0g';
 import { CertificateDetails } from '../../../components/xsd';
+import { Progress } from '../../../components/nv8';
+import { RowsPreview } from '../../../components/hnm';
 import { OutputPreview } from './edn5';
+import { Codes } from '../../../d7t';
 export function describeOption(o: UpliftOption, lang: Lang): string {
     const parts = o.changes.map((c) => {
         if (c.transform === "hmac_enclave")
@@ -26,8 +29,9 @@ interface Props {
     guard: <T>(p: Promise<T>) => Promise<T | null>;
     onRun: (r: Run) => void;
     onRequest: () => void;
+    onBusy?: (b: boolean) => void;
 }
-export function ImproveStep({ run, lang, user, guard, onRun, onRequest }: Props) {
+export function ImproveStep({ run, lang, user, guard, onRun, onRequest, onBusy }: Props) {
     const [menu, setMenu] = useState<UpliftMenu | null>(null);
     const applied = !!run.derivedFrom;
     const [job, setJob] = useState<{
@@ -35,13 +39,22 @@ export function ImproveStep({ run, lang, user, guard, onRun, onRequest }: Props)
         status: string;
         certificate?: string;
     } | null>(null);
+    const [busy, setBusy] = useState(false);
+    const [compare, setCompare] = useState(false);
+    const [parent, setParent] = useState<Run | null>(null);
     useEffect(() => {
         setMenu(null);
         if (run.certificate.d < 2 && run.status === "complete")
             guard(api<UpliftMenu>(`/v1/runs/${run.id}/uplift?target=D2`, user, { method: "POST" })).then((m) => m && setMenu(m));
     }, [run.id, run.certificate.d, run.status, user, guard]);
+    useEffect(() => { setParent(null); setCompare(false); if (run.derivedFrom)
+        api<Run>(`/v1/runs/${run.derivedFrom}`, user).then(setParent).catch(() => setParent(null)); }, [run.derivedFrom, user]);
     async function apply(i: number) {
+        setBusy(true);
+        onBusy?.(true);
         const r = await guard(api<Run>(`/v1/runs/${run.id}/uplift/apply?option=${i}`, user, { method: "POST" }));
+        setBusy(false);
+        onBusy?.(false);
         if (r)
             onRun(r);
     }
@@ -67,25 +80,31 @@ export function ImproveStep({ run, lang, user, guard, onRun, onRequest }: Props)
         };
         setTimeout(poll, 300);
     }
+    const d3Blocked = run.certificate.d !== 2;
     return (<div data-testid="step-improve">
       <CertificateDetails cert={run.certificate} lang={lang}/>
-      {applied && <div className="ok" role="status" data-testid="applied">{t(lang, "applied")}</div>}
-      <OutputPreview run={run} lang={lang}/>
+      {applied && <div className="ok" role="status" data-testid="applied">{t(lang, "applied")} {parent && <button className="link" onClick={() => setCompare(!compare)} data-testid="compare-toggle" aria-pressed={compare}>{compare ? t(lang, "hideCompare") : t(lang, "compareWithBefore")}</button>}</div>}
+      {compare && parent ? (<div className="grid" data-testid="compare">
+          <div className="card"><h2>{t(lang, "beforeLabel")} · {parent.certificate.label}</h2><RowsPreview rows={parent.rows} fields={parent.manifest.fields} lang={lang} limit={8} testid="rows-before"/></div>
+          <div className="card"><h2>{t(lang, "afterLabel")} · {run.certificate.label}</h2><RowsPreview rows={run.rows} fields={run.manifest.fields} lang={lang} limit={8} testid="rows-after"/></div>
+        </div>) : <OutputPreview run={run} lang={lang}/>}
       <div className="card" data-testid="uplift-menu">
         <h2>{t(lang, "stepImprove")}</h2>
         <p className="muted">{t(lang, "improveIntro")}</p>
-        {run.certificate.d >= 2 && <div className="muted">{t(lang, "noUplift")}</div>}
+        {run.certificate.d >= 2 && <div className="muted"><Codes text={t(lang, "noUplift")}/></div>}
         {menu?.unreachableReason && <div className="warn">{menu.unreachableReason}</div>}
         {menu && <ol>{menu.options.map((o, i) => (<li key={i}>
-            <span data-testid={`option-${i}`}>{describeOption(o, lang)}</span>
+            <span data-testid={`option-${i}`}><Codes text={describeOption(o, lang)}/></span>
             {o.loses.length > 0 && <span className="warn"> — loses load-bearing {o.loses.join(", ")}</span>}
             {o.recommended && <strong> ← {t(lang, "recommended")}</strong>}{" "}
-            <button onClick={() => apply(i)} disabled={!o.reachesTarget} data-testid={`apply-${i}`}>{t(lang, "applyOption")}</button>
+            <button onClick={() => apply(i)} disabled={!o.reachesTarget || busy} data-testid={`apply-${i}`}>{t(lang, "applyOption")}</button>
           </li>))}</ol>}
+        {busy && <Progress label={t(lang, "progressApplying")}/>}
         <div className="vote">
-          <button onClick={upgrade} disabled={run.certificate.d !== 2 || !!job} data-testid="upgrade-d3">{t(lang, "upgradeD3")}</button>
+          <button onClick={upgrade} disabled={d3Blocked || !!job || busy} data-testid="upgrade-d3" aria-describedby={d3Blocked ? "d3-why" : undefined}><Codes text={t(lang, "upgradeD3")} plain/></button>
+          {d3Blocked && <span id="d3-why" className="muted" data-testid="d3-why"><Codes text={t(lang, "d3Unavailable")}/></span>}
           {job && <span className="muted" data-testid="job">{job.status === "done" ? job.certificate : t(lang, "upgradeRunning")}</span>}
-          <button className="primary" onClick={onRequest} data-testid="to-request">{t(lang, "stepRequest")} →</button>
+          <button className="primary" onClick={onRequest} disabled={busy} data-testid="to-request">{t(lang, "stepRequest")} →</button>
         </div>
       </div>
     </div>);

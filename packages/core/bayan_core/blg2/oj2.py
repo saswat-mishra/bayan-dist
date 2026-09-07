@@ -1,11 +1,14 @@
 from __future__ import annotations
+_A='red'
 from bayan_core.blg2.dl9 import y9n,ba9,peh2,v9y,q66,im5,fil6
 from bayan_core.schema.g5v import lhkf,c5aj
-vj3={0:'Everything. D0 is raw; it exists so that break-glass and exemplars have a name.',1:'Quasi-identifier combination. ZIP+sex+DOB is a D1 pass and a re-identification.',2:'Linkage against auxiliary data the declared QI list did not anticipate. Sequence and differencing attacks.',3:'Composition across releases. Nothing about D3 survives being run twice (Denning 1979).',4:'Nothing at the individual level, correctly — but utility is often unacceptable.'}
+fdlf:tuple[str,...]=('green','amber',_A,'black')
+vj3={0:'Everything. D0 is raw; it exists so that break-glass and exemplars have a name.',1:'Quasi-identifier combination. {example} is a D1 pass and a re-identification.',2:'Linkage against auxiliary data the declared QI list did not anticipate. Sequence and differencing attacks.',3:'Composition across releases. Nothing about D3 survives being run twice (Denning 1979).',4:'Nothing at the individual level, correctly — but utility is often unacceptable.'}
+def fqub(level:int,example:str)->str:return vj3[level].replace('{example}',example)
 def f30(m:fil6)->str:
 	if m.undeclared:return'black'
 	A=[A for A in m.fields if A.retained]
-	if m.row_level or any(A.field_class in(c5aj.SENSITIVE,c5aj.FREETEXT)for A in A):return'red'
+	if m.row_level or any(A.field_class in(c5aj.SENSITIVE,c5aj.FREETEXT)for A in A):return _A
 	if any(A.field_class in(c5aj.QUASI,c5aj.DIRECT)for A in A):return'amber'
 	return'green'
 def axy(f:im5,m:fil6)->list[v9y]:
@@ -22,7 +25,7 @@ def s9zz(m:fil6)->q66:
 	for D in m.fields:B.extend(axy(D,m))
 	for E in sorted(m.undeclared):B.append(v9y(2,E,'UNDECLARED','field has no declared class: blocks certification above D1 and opens a classification task (Toolkit §14.4).'))
 	C=f30(m)
-	if C=='red'and m.row_level:B.append(v9y(2,'*','ROW_LEVEL','row-level output: per-record extracts are capped at D1 (Toolkit §9.4); aggregate to reach D2.'))
+	if C==_A and m.row_level:B.append(v9y(2,'*','ROW_LEVEL','row-level output: per-record extracts are capped at D1 (Toolkit §9.4); aggregate to reach D2.'))
 	A=2
 	for F in B:A=min(A,F.level-1)
 	if A>=2 and m.verified_properties and all(A.passed for A in m.verified_properties):A=3

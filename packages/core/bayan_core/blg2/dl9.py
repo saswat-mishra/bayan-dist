@@ -44,7 +44,7 @@ class c2v:
 	@property
 	def location_country(self)->str|_A:return self.location.split('-')[0].upper()if self.location else _A
 @dataclass(frozen=_C)
-class mgyg:pack_id:str;pack_version:str;review_by_d:tuple[int,int,int,int,int]=(3,3,1,1,1);review_exemplar:int=3;review_red:int=3;policy_clear_risk_classes:frozenset[str]=frozenset({'green','amber'});threshold:int=2;export_permitted_citizenships:frozenset[str]=frozenset({'US'});certificate_validity_days:int=90;d_floor:int|_A=_A;permitted_jurisdictions:frozenset[str]=frozenset();prohibited_nationalities:frozenset[str]=frozenset();locality_instrument:str|_A=_A
+class mgyg:pack_id:str;pack_version:str;review_by_d:tuple[int,int,int,int,int]=(3,3,1,1,1);review_exemplar:int=3;review_red:int=3;policy_clear_risk_classes:frozenset[str]=frozenset({'green','amber'});threshold:int=2;export_permitted_citizenships:frozenset[str]=frozenset({'US'});certificate_validity_days:int=90;d_floor:int|_A=_A;permitted_jurisdictions:frozenset[str]=frozenset();prohibited_nationalities:frozenset[str]=frozenset();locality_instrument:str|_A=_A;d1_example:str='ZIP+sex+DOB'
 @dataclass(frozen=_C)
 class erx:name:str;passed:bool;citation:str;detail:str;remedy_kind:str;remedy:str;fixable_by_transformation:bool;offending_fields:tuple[str,...]=()
 @dataclass(frozen=_C)

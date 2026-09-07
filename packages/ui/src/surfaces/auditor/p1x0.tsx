@@ -24,7 +24,7 @@ export function Register({ ctx, readOnly }: {
         {rows && rows.length > 0 && <table>
           <thead><tr><th scope="col">when</th><th scope="col">skill</th><th scope="col">requester</th><th scope="col">{t(lang, "colHeadline")}</th><th scope="col">certificate</th><th scope="col">outcome</th><th scope="col">gates</th><th scope="col">reviews</th><th scope="col">leaf</th></tr></thead>
           <tbody>{rows.map((r) => (<tr key={r.id} className={"clickable" + (sel?.id === r.id ? " selected" : "")} onClick={() => setSel(r)} data-testid={`register-${r.id}`}>
-              <td className="muted">{r.createdAt}</td><td>{r.skill ?? r.mechanism}</td><td>{r.requester}</td><td><Headline h={r.headline} lang={lang} compact/></td><td><code>{r.certificate}</code></td>
+              <td className="muted">{r.createdAt}</td><td>{r.skill ?? r.mechanism}</td><td>{r.requester}</td><td><Headline h={r.headline} lang={lang} compact/></td><td data-technical="true"><code>{r.certificate}</code></td>
               <td className={r.outcome === "release" ? "ok" : r.outcome === "block" ? "bad" : "muted"}>{r.outcome}</td><td className="bad">{r.failedGates.join(", ")}</td>
               <td>{r.reviews.map((v) => `${v.reviewer.split("@")[0]}:${v.verdict}`).join(" ")}</td><td>{r.leafIndex ?? "—"}</td>
             </tr>))}</tbody>

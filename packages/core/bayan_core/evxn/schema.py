@@ -27,6 +27,7 @@ _D='pattern'
 _C='enum'
 _B=True
 _A=None
+from collections.abc import Mapping
 from dataclasses import dataclass,field
 from typing import Any
 from bayan_core.blg.brgs import mhbq,gkou
@@ -95,4 +96,4 @@ class sui:
 	def from_dict(A,d:dict[str,Any])->sui:return A(name=d['skill'],version=d[_S],author=d.get(_T,''),runtime=d.get(_U,_J),inputs=tuple(zl0e(A['store'],tuple(A[_V]))for A in d.get(_W,[])),sql=d[_J],param_specs=tuple(ckxc.from_entry(A)for A in d.get(_F,[])),output_schema=t2ji.from_dict(d[_X]),answers=tuple(d.get(_Y,[])),declares=dict(d.get(_Z,{})),description=d.get(_a,''),description_ar=d.get(_b,''))
 	def to_dict(A)->dict[str,Any]:return{'skill':A.name,_S:A.version,_T:A.author,_U:A.runtime,_W:[{'store':A.store,_V:list(A.fields)}for A in A.inputs],_J:A.sql,_F:[A.to_entry()for A in A.param_specs],_X:A.output_schema.to_dict(),_Y:list(A.answers),_Z:dict(A.declares),_a:A.description,_b:A.description_ar}
 def hh5(spec:sui)->str:return gkou(mhbq(spec.to_dict()))
-def htz(schema:t2ji,ratified:frozenset[str]|_A=_A,sensitive_declared:frozenset[str]=frozenset(),mechanism:str='output-check',row_level:bool=_H)->fil6:B=ratified;A=tuple(im5(A.name,A.field_class,A.transform,A.params,ratified=B is _A or A.name in B,tags=A.tags,load_bearing=A.load_bearing)for A in schema.columns);return fil6(A,sensitive_declared,row_level,mechanism)
+def htz(schema:t2ji,ratified:frozenset[str]|_A=_A,sensitive_declared:frozenset[str]=frozenset(),mechanism:str='output-check',row_level:bool=_H,classes:Mapping[str,c5aj]|_A=_A)->fil6:B=ratified;A=tuple(im5(A.name,(classes or{}).get(A.name,A.field_class),A.transform,A.params,ratified=B is _A or A.name in B,tags=A.tags,load_bearing=A.load_bearing)for A in schema.columns);return fil6(A,sensitive_declared,row_level,mechanism)

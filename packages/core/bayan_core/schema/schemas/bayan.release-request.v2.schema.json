@@ -240,6 +240,43 @@
               "additionalProperties": false
             }
           }
+        },
+        "lookup": {
+          "type": "object",
+          "additionalProperties": false,
+          "$comment": "v3, optional and additive: a pseudonym LOOKUP — the identity of pseudonymised values from an earlier release, requested as an ordinary release (graded D1, reviewed, a leaf). Never a side channel (Standard §9).",
+          "required": [
+            "ofRelease",
+            "ofLeaf",
+            "field",
+            "keys"
+          ],
+          "properties": {
+            "ofRelease": {
+              "type": "string",
+              "minLength": 1,
+              "$comment": "the release id whose artefact carries the pseudonyms"
+            },
+            "ofLeaf": {
+              "type": "integer",
+              "minimum": 0,
+              "$comment": "that release's ledger leaf"
+            },
+            "field": {
+              "type": "string",
+              "minLength": 1,
+              "$comment": "the hmac_enclave field being reversed"
+            },
+            "keys": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "uniqueItems": true
+            }
+          }
         }
       }
     }

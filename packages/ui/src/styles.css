@@ -1,7 +1,19 @@
-/* System fonts only — no external font, no CDN (constraint 1). */
-:root { --ink: #1b1f24; --muted: #5b6470; --line: #d9dee5; --paper: #fbfbf9; --card: #fff; --ok: #1f7a3e; --bad: #a8321f; --warn: #9a6b00; --accent: #144a7c; }
+/* No CDN, no external font (constraint 1). The one bundled face is Noto Naskh Arabic (OFL, packages/ui/public/fonts),
+   self-hosted for RTL parity of weight; Latin text stays on the system stack.
+   Tokens: the calm document-like palette kept from v2, with spacing and colour steps aligned to the UAE Design
+   System (https://designsystem.gov.ae — the DLS is not a dependency; its scale is adopted as CSS variables). */
+@font-face { font-family: "Noto Naskh Arabic"; src: url("/fonts/NotoNaskhArabic-Regular.ttf") format("truetype"); font-weight: 400; font-style: normal; font-display: swap; }
+:root {
+  --ink: #1b1f24; --muted: #5b6470; --line: #d9dee5; --paper: #fbfbf9; --card: #fff; --ok: #1f7a3e; --bad: #a8321f; --warn: #9a6b00; --accent: #144a7c;
+  /* UAE DLS-compatible steps: an 8 px grid and a 4-step type scale */
+  --space-1: 8px; --space-2: 16px; --space-3: 24px; --space-4: 32px;
+  --text-1: 1rem; --text-2: 1.125rem; --text-3: 1.375rem; --text-4: 1.75rem;
+  --reading: 880px; --tables: 1200px;
+  --aegov-gold: #b68a35; --aegov-green: #1f7a3e; --aegov-red: #a8321f; --aegov-slate: #1b1f24;
+}
 * { box-sizing: border-box; }
-body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Arabic", "Geeza Pro", sans-serif; color: var(--ink); background: var(--paper); line-height: 1.45; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Naskh Arabic", "Noto Sans Arabic", "Geeza Pro", sans-serif; color: var(--ink); background: var(--paper); line-height: 1.5; }
+[dir="rtl"] body, [dir="rtl"] { font-family: "Noto Naskh Arabic", "Geeza Pro", "Noto Sans Arabic", system-ui, sans-serif; }
 header { display: flex; gap: 1rem; align-items: center; padding: .6rem 1rem; border-bottom: 1px solid var(--line); background: var(--card); flex-wrap: wrap; }
 header h1 { font-size: 1.05rem; margin: 0; }
 main { padding: 1rem; max-width: 1200px; margin: 0 auto; }
@@ -21,7 +33,11 @@ button { font: inherit; padding: .45rem .8rem; border-radius: 6px; border: 1px s
 button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
 button.danger { background: var(--bad); color: #fff; border-color: var(--bad); }
 button:disabled { opacity: .5; cursor: not-allowed; }
-textarea, input, select { font: inherit; padding: .4rem; border: 1px solid var(--line); border-radius: 6px; width: 100%; }
+textarea, input:not([type=radio]):not([type=checkbox]), select { font: inherit; padding: .4rem; border: 1px solid var(--line); border-radius: 6px; width: 100%; }
+/* F-04: a radio or checkbox sits inside its label's box, never on its own full-width line */
+input[type=radio], input[type=checkbox] { width: auto; margin: 0; flex: 0 0 auto; }
+.choice { display: flex; gap: .4rem; align-items: center; }
+.choice.block { align-items: flex-start; }
 pre { white-space: pre-wrap; font-size: .82rem; background: #f6f7f9; padding: .6rem; border-radius: 6px; overflow-x: auto; }
 .brief { font-size: 1.05rem; white-space: pre-wrap; padding: .8rem 1rem; border-inline-start: 4px solid var(--accent); background: #f6f8fb; }
 .accountability { border: 2px solid var(--accent); padding: .6rem .8rem; border-radius: 6px; margin: .8rem 0; }
@@ -79,3 +95,85 @@ details > summary { cursor: pointer; color: var(--accent); }
 .counter { font-size: .8rem; }
 @media (max-width: 900px) { .layout { flex-direction: column; } .rolenav { width: 100%; flex: none; min-height: 0; border-inline-end: 0; border-bottom: 1px solid var(--line); } .rolenav ul { display: flex; flex-wrap: wrap; gap: .2rem; } }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* ---- v3: live state, progress, technical tier ---- */
+.live { font-size: .8rem; color: var(--muted); }
+.progress { display: inline-flex; gap: .5rem; align-items: center; color: var(--muted); padding: .4rem 0; }
+.progress .spinner { width: .9rem; height: .9rem; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: spin .9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .progress .spinner { animation: none; } }
+.technical { margin-top: .6rem; font-size: .85rem; }
+.technical > summary { color: var(--muted); }
+.technical .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .8rem; background: #f6f7f9; padding: .5rem .6rem; border-radius: 6px; overflow-x: auto; white-space: pre-wrap; word-break: break-word; }
+.status-pop { font-size: .85rem; }
+.status-pop > summary { cursor: pointer; color: var(--accent); }
+.status-pop .body { position: absolute; z-index: 5; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: .6rem .8rem; max-width: 26rem; box-shadow: 0 6px 20px rgba(0,0,0,.08); }
+button.link { all: unset; color: var(--accent); cursor: pointer; text-decoration: underline; font-size: inherit; }
+.small { font-size: .85rem; }
+
+/* ---- v3 design tiers (report §6) ---------------------------------------------------------------- */
+main.client { font-size: 16px; }                       /* the client-facing surfaces read like a document */
+main.client .card, main.client .block { padding: var(--space-2) var(--space-3); }
+.reading { max-width: var(--reading); }
+.tables { max-width: var(--tables); }
+.home-line { margin: 0 0 var(--space-2); color: var(--muted); font-size: var(--text-1); }
+.tier { margin-bottom: var(--space-3); }
+.tier > h2 { font-size: var(--text-3); margin: 0 0 var(--space-2); }
+.tier.explanation > summary, .tier.technical > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+.headline-sentence { font-size: var(--text-3); line-height: 1.35; margin: 0 0 var(--space-2); }
+.headline-sentence.releases-now { border-inline-start: 6px solid var(--ok); padding-inline-start: var(--space-2); }
+.headline-sentence.needs-review { border-inline-start: 6px solid var(--warn); padding-inline-start: var(--space-2); }
+.headline-sentence.blocked-fixable, .headline-sentence.blocked-recipient, .headline-sentence.blocked-roster, .headline-sentence.blocked-budget, .headline-sentence.quarantined { border-inline-start: 6px solid var(--bad); padding-inline-start: var(--space-2); }
+.purpose-quote { font-size: var(--text-2); border-inline-start: 3px solid var(--line); padding: var(--space-1) var(--space-2); margin: 0; white-space: pre-wrap; }
+.term { display: inline; position: relative; }
+.term-chip { all: unset; cursor: pointer; border-bottom: 1px dotted var(--accent); color: inherit; }
+.term-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.term-code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .8em; color: var(--muted); }
+.term-card { display: block; margin-top: 4px; padding: var(--space-1) var(--space-2); background: var(--card); border: 1px solid var(--line); border-radius: 6px; font-size: .9rem; max-width: 34rem; }
+.term.missing { color: var(--bad); font-family: ui-monospace, monospace; }
+.col-class { font-weight: 400; font-size: .8rem; color: var(--muted); }
+.table-wrap { overflow-x: auto; max-width: 100%; }
+.person { padding: var(--space-1) 0; }
+.person-name { font-weight: 600; font-size: var(--text-2); }
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li { padding: var(--space-1) 0; }
+.checklist li[data-state="done"] .tick { color: var(--ok); }
+.checklist li[data-state="pending"] .tick { color: var(--warn); }
+.segmented { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.segmented label { padding: .5rem 1rem; cursor: pointer; display: flex; gap: .4rem; align-items: center; border-inline-end: 1px solid var(--line); }
+.segmented label:last-child { border-inline-end: 0; }
+.segmented label:has(input:checked) { background: #e8eef7; font-weight: 600; }
+.segmented input { margin: 0; }
+.explain-panel { border: 1px solid var(--line); border-radius: 8px; padding: var(--space-2); margin-top: var(--space-1); background: var(--card); }
+.explain-panel h4 { margin: var(--space-1) 0 4px; font-size: var(--text-1); }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-2); margin-bottom: var(--space-2); }
+.tile { border: 1px solid var(--line); border-radius: 8px; padding: var(--space-2); background: var(--card); }
+.tile .num { font-size: var(--text-4); font-weight: 600; line-height: 1.1; }
+.tile .sub { color: var(--muted); font-size: .9rem; }
+.gap { border-inline-start: 4px solid var(--warn); padding: .3rem var(--space-2); margin: .3rem 0; }
+.field-card { border: 1px solid var(--line); border-radius: 8px; padding: var(--space-2); background: var(--card); }
+.field-card.unratified { border-color: var(--warn); }
+.nav-group { margin-top: var(--space-2); padding: 0 .6rem; font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.register-line { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .85rem; word-break: break-all; background: #f6f7f9; padding: var(--space-1) var(--space-2); border-radius: 6px; }
+@media (max-width: 900px) { .tiles { grid-template-columns: 1fr 1fr; } }
+@media print { header, nav, .no-print, .rolenav { display: none !important; } main { padding: 0; max-width: none; } .card { border: 0; break-inside: avoid; } }
+/* inbox and brief */
+.inbox-list { list-style: none; padding: 0; margin: 0; }
+.inbox-row { border-top: 1px solid var(--line); }
+.inbox-row.selected { background: #eef3f9; }
+.row-button { all: unset; display: block; width: 100%; cursor: pointer; padding: var(--space-1) var(--space-1); box-sizing: border-box; }
+.row-button:focus-visible { outline: 2px solid var(--accent); }
+.inbox-line { margin-top: 2px; }
+.inbox-purpose { font-style: italic; }
+.brief-tiers .tier.decision > h2 { font-size: var(--text-3); }
+.approve-form { margin-top: var(--space-2); }
+.segmented label.danger:has(input:checked) { background: #fbe4df; }
+.qcard-title { all: unset; cursor: pointer; display: block; width: 100%; font-size: var(--text-2); padding-bottom: 4px; }
+.qcard-title:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.qcard-title:disabled { cursor: not-allowed; color: var(--muted); }
+.term.inline .term-chip { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .92em; }
+.grid.brief-open { grid-template-columns: minmax(280px, 1fr) minmax(0, 2fr); }
+@media (max-width: 900px) { .grid.brief-open { grid-template-columns: 1fr; } }
+/* long digests inside prose (the sealed commitment in the brief) must wrap, never widen the page */
+.brief, .purpose-quote, .register-line, .term-card, .next-actions, .inbox-purpose { overflow-wrap: anywhere; }
+.tile .num.small-num { font-size: var(--text-1); font-weight: 500; line-height: 1.3; }
+.mechanisms { list-style: none; padding: 0; margin: var(--space-1) 0; display: flex; flex-wrap: wrap; gap: 4px 12px; }
