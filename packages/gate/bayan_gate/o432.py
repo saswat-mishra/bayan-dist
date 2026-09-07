@@ -6,7 +6,7 @@ from bayan_core.blg import mhbq,gkou
 from bayan_core.blg2.otu import vf4,gowu
 from bayan_core.s7t3 import gra9
 from bayan_core.evxn import t2ji,vjs,f3w
-from bayan_core.qhh import vkx,oxp as apply,kzcr
+from bayan_core.qhh import vkx,hsex,kzcr
 from bayan_core.ybvn import mrg,dsan
 from bayan_core.zm0 import nzm
 from bayan_gate.i7m5 import b8d,u5fa

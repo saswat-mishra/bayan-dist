@@ -108,7 +108,7 @@ data/mock         the demo data generators                        data/sensor   
 
 ## About this distribution build
 
-This is a packaged, runnable build of the private repository: identifiers are name-mangled and sources minified; comments, docstrings, design documents and the development test suite are removed. The JSON Schemas are the exception — they are the open specification and ship as written. The full suite (property tests, golden certificates, mutation testing at the grader and verifier layers, the role × route matrix, the 24-step smoke narrative, the Playwright journeys) lives in the private repository and produced this build at commit `0ce84ca` on 7 September 2026.
+This is a packaged, runnable build of the private repository: identifiers are name-mangled and sources minified; comments, docstrings, design documents and the development test suite are removed. The JSON Schemas are the exception — they are the open specification and ship as written. The full suite (property tests, golden certificates, mutation testing at the grader and verifier layers, the role × route matrix, the 24-step smoke narrative, the Playwright journeys) lives in the private repository and produced this build at commit `61b8012` on 7 September 2026.
 
 ## Licence
 
