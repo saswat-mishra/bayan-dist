@@ -31,3 +31,51 @@ pre { white-space: pre-wrap; font-size: .82rem; background: #f6f7f9; padding: .6
 .error { color: var(--bad); background: #fbe4df; padding: .4rem .6rem; border-radius: 6px; }
 .gate-fail { border-inline-start: 4px solid var(--bad); padding-inline-start: .6rem; margin: .4rem 0; }
 [dir="rtl"] { text-align: right; }
+/* ---- v2 shell ---- */
+.layout { display: flex; gap: 0; align-items: flex-start; }
+.rolenav { width: 190px; flex: 0 0 190px; padding: 1rem .6rem; border-inline-end: 1px solid var(--line); min-height: calc(100vh - 56px); background: var(--card); }
+.rolenav ul { list-style: none; margin: 0; padding: 0; }
+.rolenav a { display: block; padding: .45rem .6rem; border-radius: 6px; color: var(--ink); text-decoration: none; }
+.rolenav a[aria-current="page"] { background: #e8eef7; font-weight: 600; }
+.rolenav a:hover { background: #f1f4f8; }
+main { flex: 1; min-width: 0; }
+.who .pill { margin-inline-start: .2rem; }
+.picker select { width: auto; max-width: 30rem; }
+.custody { font-size: .85rem; }
+.banner { background: #fbe4df; border: 1px solid var(--bad); border-radius: 8px; padding: .7rem .9rem; margin-bottom: 1rem; }
+.grow { flex: 1; min-width: 16rem; }
+.empty { padding: 1rem; border: 1px dashed var(--line); border-radius: 8px; text-align: center; }
+.headline { display: flex; gap: .6rem; align-items: baseline; padding: .7rem .9rem; border-radius: 8px; margin-bottom: .6rem; border: 1px solid var(--line); font-size: 1.05rem; }
+.headline.compact { padding: .3rem .6rem; font-size: .95rem; margin: 0; }
+.hl-icon { font-size: 1.2rem; }
+.hl-kind { font-weight: 700; white-space: nowrap; }
+.hl-ok { background: #e2f3e6; border-color: var(--ok); } .hl-review { background: #fff1cc; border-color: var(--warn); }
+.hl-fix { background: #e8eef7; border-color: var(--accent); } .hl-recipient, .hl-roster, .hl-budget, .hl-quarantine { background: #fbe4df; border-color: var(--bad); }
+.label.small { font-size: 1rem; }
+details > summary { cursor: pointer; color: var(--accent); }
+.controls caption { text-align: start; font-weight: 600; padding: .3rem 0; }
+.verify-row { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; }
+.verify-row code { background: #f6f7f9; padding: .4rem .6rem; border-radius: 6px; word-break: break-all; }
+.timeline { list-style: none; padding: 0; margin: .4rem 0; }
+.timeline li { padding: .3rem 0 .3rem 1.6rem; position: relative; }
+.timeline li .tl-mark { position: absolute; inset-inline-start: 0; }
+.timeline li.todo { color: var(--muted); }
+.timeline li.done .tl-label { font-weight: 600; }
+.rail { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1rem; list-style: none; padding: 0; }
+.rail li { padding: .3rem .7rem; border-radius: 999px; border: 1px solid var(--line); background: var(--card); }
+.rail li[aria-current="step"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+.rail li.done { background: #e2f3e6; }
+.rail li button { all: unset; cursor: pointer; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: .8rem; }
+.qcard { border: 1px solid var(--line); border-radius: 8px; padding: .7rem .8rem; background: var(--card); cursor: pointer; text-align: start; font: inherit; }
+.qcard[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.bar { height: .6rem; background: #eef1f5; border-radius: 999px; overflow: hidden; }
+.bar > span { display: block; height: 100%; background: var(--accent); }
+.roster-card.invalid { border-color: var(--bad); }
+.block { border: 1px solid var(--line); border-radius: 8px; padding: .7rem .9rem; margin-bottom: .8rem; }
+.block h3 { margin: 0 0 .4rem; font-size: .95rem; }
+.tabs { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: .6rem; }
+.tabs button[aria-selected="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+.counter { font-size: .8rem; }
+@media (max-width: 900px) { .layout { flex-direction: column; } .rolenav { width: 100%; flex: none; min-height: 0; border-inline-end: 0; border-bottom: 1px solid var(--line); } .rolenav ul { display: flex; flex-wrap: wrap; gap: .2rem; } }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

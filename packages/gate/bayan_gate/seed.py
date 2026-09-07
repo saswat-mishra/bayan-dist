@@ -1,69 +1,90 @@
 from __future__ import annotations
-_R='card_events'
-_Q='deal_desk'
-_P='error_code'
-_O='no_show'
-_N='appointments'
-_M='dewa-billing-assist'
-_L='doc_index'
-_K='week'
-_J='uae-gov'
-_I='doc_ref'
-_H=False
-_G='doc_id'
-_F='noura.s@moi.gov.example'
-_E='reviewer'
-_D='en'
-_C='Confidential'
-_B=True
+_f='%Y-%m-%dT%H:%M:%SZ'
+_e='card_events'
+_d='deal_desk'
+_c='error_code'
+_b='no_show'
+_a='appointments'
+_Z='dewa-billing-assist'
+_Y='doc_index'
+_X='priya.n@vendor.example'
+_W='engineer'
+_V='omar.h@vendor.example'
+_U='week'
+_T='dha-appointment-bot'
+_S='uae-gov'
+_R='doc_ref'
+_Q=False
+_P='moi-itsm-prod-01'
+_O='vendor.example'
+_N='location'
+_M='residency'
+_L='citizenships'
+_K='employer'
+_J='arjun.v@vendor.example'
+_I='doc_id'
+_H='IN'
+_G='noura.s@moi.gov.example'
+_F='layla.a@moi.gov.example'
+_E='Confidential'
+_D=True
+_C='reviewer'
+_B='en'
 _A=None
-import hashlib,hmac,json,time
+import base64,hashlib,hmac,json,time
 from pathlib import Path
 from typing import Any
-from bayan_core.sandbox import SkillSpec
-from bayan_gate import skills as skillreg
+from bayan_core.evxn import sui
+from bayan_gate import v6y as skillreg
 from bayan_gate.xc45 import tgd,nwp
-from bayan_gate.service import b8d
-from bayan_gate.store import s6m,g742,bnj3
-from bayan_sdk import Collector,read_wal
-def _drain_segments(zfay=_A):
-	A=list(zfay or())
-	while len(A)>1 and A[0]==A[-1]:A=A[1:-1]
-	return A
-class SlabTable:
-	__slots__=()
-	def __init__(A,autwx=_A):A._autwx=autwx or{}
-	def backfill(A,sgld):return A._autwx.get(sgld)
-	def seal_all(A):return tuple(sorted(A._autwx))
-def _drain_envelopes(mjs=_A):
-	A=list(mjs or())
-	while len(A)>1 and A[0]==A[-1]:A=A[1:-1]
-	return A
-bf5r=[('omar.h@vendor.example','Omar H.','engineer','vendor-fde-03',_A,_D),('priya.n@vendor.example','Priya N.','lead','vendor-lead-01',_A,_D),('layla.a@moi.gov.example','Layla A. — ليلى',_E,'moi-iso-01','Authorizing Official','ar'),('faisal.k@moi.gov.example','Faisal K. — فيصل',_E,'moi-iso-02','Deputy ISO',_D),('khalid.m@moi.gov.example','Khalid M. — خالد','auditor','moi-audit-01',_A,_D),(_F,'Noura S. — نورة','dba','moi-dba-01',_A,'ar')]
-ovm={'name':'vendor FDE team (Omar H., Priya N.)','namedOrg':_B,'purposeLimited':_B,'namedIndividuals':_B,'attributesVerified':_B,'onwardTransferProhibited':_B,'disposalBound':_B,'environmentAssessed':_H,'onInsiderList':_H,'citizenships':['IN','GB'],'location':'Dubai, in-country vendor enclave'}
-e5w={'fingerprints':list(s6m),'doc_refs':['record_id',_I,'rank'],_L:[_I,_G]}
-u1if=[('moi-itsm-prod-01','MOI staff IT-service assistant','itsm-assistant','4.2.1',_J,'moi.gov.example/bayan/moi-itsm-prod-01',_C,e5w,'itsm'),(_M,'DEWA billing assistant','billing-assistant','2.8.0',_J,'dewa.gov.example/bayan/dewa-billing-assist',_C,e5w,_A),('tamm-citizen-svc','TAMM citizen services assistant','citizen-assistant','1.4.3',_J,'tamm.gov.example/bayan/tamm-citizen-svc',_C,e5w,_A),('dha-appointment-bot','DHA patient appointment bot','appointment-bot','3.1.0','healthcare','dha.gov.example/bayan/dha-appointment-bot',_C,{_N:['specialty',_K,_O,'clinic_id','diagnosis_code','sud_program_id',_P]},'dha'),('difc-contract-review','DIFC deal-desk contract-review assistant','contract-review','0.9.2','mnpi','difc.example/bayan/difc-contract-review',_C,{_Q:['stage',_K,'counterparty_name','deal_codename','deal_status','sector',_P]},'difc'),('gulfbank-card-assist','Gulf Bank card-services assistant','card-assistant','5.0.1','financial','gulfbank.example/bayan/gulfbank-card-assist','Internal',{_R:['card_brand','decline_code',_K,'branch','pan','cvv']},'bank')]
-def seed(cfg:nwp,*,small:bool=_H,log:Any=print)->b8d:
-	d='recordId';c='vendor';K=log;E=cfg;D=small;e=time.time();from data.jnf5 import bank_card_events as f,dha_appointments as g,difc_deal_desk as h,itsm_fingerprints as i;from data.jnf5.identifiers import DOC_IDS as j;B=b8d(E);F=B.db
-	for(k,L,Q,I,l,m)in bf5r:F.execute('INSERT OR REPLACE INTO principal (id, display_name, role, key_name, key_type, authority, lang) VALUES (?,?,?,?,?,?,?)',(k,L,Q,I,'software',l,m));B.keys.ensure(I,frozenset({_E if Q==_E else'requester'}))
-	R=B.keys.get('registry.vendor.example');M=0
-	for(A,L,n,o,S,T,p,U,C)in u1if:
-		if D and C is _A:continue
-		F.execute('INSERT OR REPLACE INTO deployment (id, name, product, version, pack_id, origin, recipient, classification_tier, views) VALUES (?,?,?,?,?,?,?,?,?)',(A,L,n,o,S,T,json.dumps(ovm),p,json.dumps(U)));B.keys.ensure(T,frozenset({'log'}));q=B.packs[S]
-		for(V,r)in q.raw['fieldDefaults'].items():W=_A if A==_M and V=='department'else _F;F.execute('INSERT OR REPLACE INTO field_class (deployment_id, field, class, proposed_by, ratified_by, ratified_at) VALUES (?,?,?,?,?,?)',(A,V,r['class'],c,W,int(time.time())if W else _A))
-		for X in(_G,'no_show_count','deal_count','decline_count','visit_count',_O):F.execute('INSERT OR IGNORE INTO field_class (deployment_id, field, class, proposed_by, ratified_by, ratified_at) VALUES (?,?,?,?,?,?)',(A,X,'QUASI'if X==_G else'STRUCTURAL',c,_F,int(time.time())))
-		G=B.store(A)
-		if C=='itsm':
-			s=2000 if D else 50000;t=i(n=s,deployment_id=A);J=E.data_dir/'wal'/f"{A}.jsonl"
-			if J.exists():J.unlink()
-			N=Collector(J);Y={}
-			for(Z,a)in t:
-				N.emit(Z)
-				if a:Y[Z[d]]=a
-			N.close();O=N.stats();K(f"  sdk: emitted={O.emitted} dropped={O.dropped} written={O.written}");u=read_wal(J);M+=bnj3(G,[(A,Y.get(A[d]))for A in u]);I=hashlib.sha256(f"enclave-key:{A}".encode()).digest();g742(G,_L,[{_I:hmac.new(I,A.encode(),hashlib.sha256).hexdigest(),_G:A}for A in j])
-		elif C=='dha':g742(G,_N,g(600 if D else 3000))
-		elif C=='difc':g742(G,_Q,h(400 if D else 1200))
-		elif C=='bank':g742(G,_R,f(500 if D else 2500))
-		if C:
-			for v in sorted((tgd/C).glob('*.json')):H=SkillSpec.from_dict(json.loads(v.read_text()));w=skillreg.sign_bundle(H,R);P=E.data_dir/'inbox'/'skills'/f"{H.name}-{H.version}.bundle";P.parent.mkdir(parents=_B,exist_ok=_B);P.write_text(json.dumps(w));x=skillreg.load_bundle(P,R.public);b=skillreg.register(F,A,x,B.ratified(A),_F,U);K(f"  {A}: {H.name}@{H.version} {b.risk_class} max D{b.max_grade_d}")
-	B.keys.trust_root().save(E.data_dir/'trust'/'keys.json');B.events.emit('seed',fingerprints=M,small=D);K(f"seeded {M} fingerprints in {time.time()-e:.1f}s at {E.data_dir}");return B
+from bayan_gate.i7m5 import b8d
+from bayan_gate.wvl import s6m,g742,bnj3
+from bayan_sdk import yv88,su4
+bf5r=[(_V,'Omar H.',_W,'vendor-fde-03',_A,_B),(_X,'Priya N.','lead','vendor-lead-01',_A,_B),(_F,'Layla A. — ليلى',_C,'moi-iso-01','Authorizing Official','ar'),('faisal.k@moi.gov.example','Faisal K. — فيصل',_C,'moi-iso-02','Deputy ISO',_B),('khalid.m@moi.gov.example','Khalid M. — خالد','auditor','moi-audit-01',_A,_B),(_G,'Noura S. — نورة','dba','moi-dba-01',_A,'ar'),('hessa.r@assessor.example','Hessa R. — حصة','assessor','assessor-01',_A,_B),('mariam.h@moi.gov.example','Mariam H. — مريم',_C,'moi-iso-03',_A,'ar'),(_J,'Arjun V.',_W,'vendor-fde-07',_A,_B)]
+q58={_V:{_K:_O,_L:[_H],_M:['AE'],_N:'AE-DU'},_X:{_K:_O,_L:['GB'],_M:['AE'],_N:'AE-DU'}}
+byt={_K:_O,_L:[_H],_M:[_H],_N:_H}
+wli3={(_P,'error-mix-by-topic')}
+ovm={'name':'vendor FDE team','namedOrg':_D,'purposeLimited':_D,'onwardTransferProhibited':_D,'disposalBound':_D,'environmentAssessed':_Q,'onInsiderList':_Q}
+e5w={'fingerprints':list(s6m),'doc_refs':['record_id',_R,'rank'],_Y:[_R,_I]}
+u1if=[(_P,'MOI staff IT-service assistant','itsm-assistant','4.2.1',_S,'moi.gov.example/bayan/moi-itsm-prod-01',_E,e5w,'itsm'),(_Z,'DEWA billing assistant','billing-assistant','2.8.0',_S,'dewa.gov.example/bayan/dewa-billing-assist',_E,e5w,_A),('tamm-citizen-svc','TAMM citizen services assistant','citizen-assistant','1.4.3',_S,'tamm.gov.example/bayan/tamm-citizen-svc',_E,e5w,_A),(_T,'DHA patient appointment bot','appointment-bot','3.1.0','healthcare','dha.gov.example/bayan/dha-appointment-bot',_E,{_a:['specialty',_U,_b,'clinic_id','diagnosis_code','sud_program_id',_c]},'dha'),('difc-contract-review','DIFC deal-desk contract-review assistant','contract-review','0.9.2','mnpi','difc.example/bayan/difc-contract-review',_E,{_d:['stage',_U,'counterparty_name','deal_codename','deal_status','sector',_c]},'difc'),('gulfbank-card-assist','Gulf Bank card-services assistant','card-assistant','5.0.1','financial','gulfbank.example/bayan/gulfbank-card-assist','Internal',{_e:['card_brand','decline_code',_U,'branch','pan','cvv']},'bank')]
+def guc(gate:b8d,dep_id:str)->_A:
+	G='verified';E=gate;C=dep_id;from bayan_gate import ggp6 as F;D=31536000;A=int(time.time());B=lambda t:time.strftime(_f,time.gmtime(t))
+	for(H,I)in q58.items():F.u21(E,C,H,valid_from=B(A-2592000),valid_until=B(A+D),clearance_status=G,clearance_checked_at=B(A-2592000),**I)
+	if C==_P:F.u21(E,C,_J,valid_from=B(A-2592000),valid_until=B(A+D),clearance_status=G,clearance_checked_at=B(A-2592000),**byt)
+	if C==_T:F.u21(E,C,_J,valid_from=B(A-2*D),valid_until=B(A-D),**byt)
+def khii(cfg:nwp,*,small:bool=_Q,log:Any=print)->b8d:
+	r='sensor-adapter-01';q='recordId';p='STRUCTURAL';o='software';Z='sensor';Y='vendor';P=log;G=small;C=cfg;s=time.time();from data.mock import tdl as t,op2c as u,pg9 as v,umfr as w;from data.mock.identifiers import hrci as x;B=b8d(C);D=B.db
+	for(K,Q,L,E,y,z)in bf5r:D.execute('INSERT OR REPLACE INTO principal (id, display_name, role, key_name, key_type, authority, lang) VALUES (?,?,?,?,?,?,?)',(K,Q,L,E,o,y,z));B.keys.ensure(E,frozenset({_C if L==_C else'requester'}))
+	a=B.keys.get('registry.vendor.example');R=0
+	for(A,Q,A0,A1,S,b,A2,c,F)in u1if:
+		if G and F is _A:continue
+		D.execute('INSERT OR REPLACE INTO deployment (id, name, product, version, pack_id, origin, recipient, classification_tier, views, pack_digest) VALUES (?,?,?,?,?,?,?,?,?,?)',(A,Q,A0,A1,S,b,json.dumps(ovm),A2,json.dumps(c),B.packs[S].digest));B.keys.ensure(b,frozenset({'log'}));A3=B.packs[S]
+		for(d,A4)in A3.raw['fieldDefaults'].items():e=_A if A==_Z and d=='department'else _G;D.execute('INSERT OR REPLACE INTO field_class (deployment_id, field, class, proposed_by, ratified_by, ratified_at) VALUES (?,?,?,?,?,?)',(A,d,A4['class'],Y,e,int(time.time())if e else _A))
+		for f in(_I,'no_show_count','deal_count','decline_count','visit_count',_b):D.execute('INSERT OR IGNORE INTO field_class (deployment_id, field, class, proposed_by, ratified_by, ratified_at) VALUES (?,?,?,?,?,?)',(A,f,'QUASI'if f==_I else p,Y,_G,int(time.time())))
+		if A==_T:D.execute('INSERT OR IGNORE INTO field_class (deployment_id, field, class, proposed_by) VALUES (?,?,?,?)',(A,'error_count',p,Y))
+		guc(B,A);I=B.store(A)
+		if F=='itsm':
+			A5=2000 if G else 50000;A6=w(n=A5,deployment_id=A);M=C.data_dir/'wal'/f"{A}.jsonl"
+			if M.exists():M.unlink()
+			T=yv88(M);g={}
+			for(h,i)in A6:
+				T.emit(h)
+				if i:g[h[q]]=i
+			T.close();U=T.stats();P(f"  sdk: emitted={U.emitted} dropped={U.dropped} written={U.written}");A7=su4(M);R+=bnj3(I,[(A,g.get(A[q]))for A in A7]);E=hashlib.sha256(f"enclave-key:{A}".encode()).digest();B.keys.write_secret(f"enclave-{A}",E);assert B.enclave_key(A)==E;g742(I,_Y,[{_R:hmac.new(E,A.encode(),hashlib.sha256).hexdigest(),_I:A}for A in x])
+		elif F=='dha':g742(I,_a,u(600 if G else 3000))
+		elif F=='difc':g742(I,_d,v(400 if G else 1200))
+		elif F=='bank':g742(I,_e,t(500 if G else 2500))
+		if F:
+			for A8 in sorted((tgd/F).glob('*.json')):H=sui.from_dict(json.loads(A8.read_text()));A9=skillreg.m4w(H,a);V=C.data_dir/'inbox'/'skills'/f"{H.name}-{H.version}.bundle";V.parent.mkdir(parents=_D,exist_ok=_D);V.write_text(json.dumps(A9));AA=skillreg.rs5(V,a.public);j=_A if(A,H.name)in wli3 else _G;k=skillreg.ondp(D,A,AA,B.ratified(A),j,c);P(f"  {A}: {H.name}@{H.version} {k.risk_class} max D{k.max_grade_d}"+(''if j else' (uncertified: awaiting co-signature)'))
+	from bayan_core.blg import lfq1 as J;N=C.data_dir/Z/'adapter.pem';W=J.load(N)if N.exists()else J.generate()
+	if not N.exists():W.save(N)
+	D.execute('INSERT OR REPLACE INTO principal (id, display_name, role, key_name, key_type, authority, lang, public_key) VALUES (?,?,?,?,?,?,?,?)',('sensor-adapter@client.example','client EDR adapter',Z,r,o,_A,_B,W.public.b64));B.keys.register_public(r,W.public.b64,frozenset({Z}));from bayan_gate.gji2 import mtre as AB;l=C.data_dir/'client-keys'
+	for(K,AF,L,E,AG,AH)in bf5r:
+		if L!=_C:continue
+		O=l/f"{K}.pem";m=J.load(O)if O.exists()else J.generate()
+		if not O.exists():m.save(O)
+		AB(B,K,m.public.b64)
+	B.keys.trust_root().save(C.data_dir/'trust'/'keys.json');from bayan_gate import lhc as X;AC=J.load(l/'layla.a@moi.gov.example.pem')
+	for(A,*_)in u1if:
+		if B.db.execute('SELECT 1 FROM deployment WHERE id=?',(A,)).fetchone():n=time.strftime(_f,time.gmtime());AD=X.ofc(B,A);AE=base64.b64encode(AC.sign(X.qwt(AD,A,_F,n))).decode();X.w6cn(B,A,_F,AE,B.principal(_F)['key_name'],n)
+	B.events.emit('seed',fingerprints=R,small=G);P(f"seeded {R} fingerprints in {time.time()-s:.1f}s at {C.data_dir}");return B

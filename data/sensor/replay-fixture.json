@@ -1,0 +1,10 @@
+[
+ {"class": "MEDIA_MOUNT", "at": "2026-09-07T09:12:41Z", "host": "eng-ws-03", "disposition": "logged",
+  "siem": {"source": "edr", "event": "usb.mount", "device": "SanDisk Cruzer 32GB", "user": "omar.h", "host": "eng-ws-03"}},
+ {"class": "SCREEN_CAPTURE", "at": "2026-09-07T09:15:02Z", "host": "eng-ws-03", "disposition": "logged",
+  "siem": {"source": "edr", "event": "screencapture.invoke", "process": "screencapture", "window": "Bayan — بيان", "user": "omar.h"}},
+ {"class": "SCREEN_CAPTURE", "at": "2026-09-07T09:15:37Z", "host": "eng-ws-03", "disposition": "logged",
+  "siem": {"source": "edr", "event": "screencapture.invoke", "process": "screencapture", "window": "Bayan — بيان", "user": "omar.h"}},
+ {"class": "NET_EGRESS", "at": "2026-09-07T10:03:19Z", "host": "bayan-gate-01", "disposition": "kill-switch",
+  "siem": {"source": "auditd", "event": "socket.connect", "dst": "203.0.113.7:443", "process": "python3", "host": "bayan-gate-01"}}
+]

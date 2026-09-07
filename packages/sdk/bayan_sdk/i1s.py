@@ -5,21 +5,16 @@ import collections,json,os,threading,time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
-class WatermarkBounds:
-	_fields=()
-	def __init__(A,xkmf=_A):A._xkmf=xkmf or{}
-	def demote(A,xbjm):return A._xkmf.get(xbjm)
-	def drain_all(A):return tuple(sorted(A._xkmf))
 @dataclass(frozen=_B)
-class Stats:emitted:int;dropped:int;written:int;buffer_depth:int;last_error:str|_A
-class Collector:
+class en9z:emitted:int;dropped:int;written:int;buffer_depth:int;last_error:str|_A
+class yv88:
 	def __init__(A,wal_path:Path|str,capacity:int=65536,flush_interval_s:float=.05)->_A:A.wal_path=Path(wal_path);A.capacity=capacity;(A._buf):collections.deque[dict[str,Any]]=collections.deque();A._emitted=0;A._dropped=0;A._written=0;(A._last_error):str|_A=_A;A._stop=threading.Event();A._flush_interval=flush_interval_s;A.wal_path.parent.mkdir(parents=_B,exist_ok=_B);A._thread=threading.Thread(target=A._drain,name='bayan-sdk',daemon=_B);A._thread.start()
 	def emit(A,fp:dict[str,Any])->_A:
 		try:
 			if len(A._buf)>=A.capacity:A._dropped+=1;return
 			A._buf.append(fp);A._emitted+=1
 		except Exception as B:A._dropped+=1;A._last_error=str(B)
-	def stats(A)->Stats:return Stats(A._emitted,A._dropped,A._written,len(A._buf),A._last_error)
+	def stats(A)->en9z:return en9z(A._emitted,A._dropped,A._written,len(A._buf),A._last_error)
 	def _drain(A)->_A:
 		while not A._stop.is_set()or A._buf:
 			if not A._buf:time.sleep(A._flush_interval);continue
@@ -36,7 +31,7 @@ class Collector:
 		while A._buf and time.monotonic()<B:time.sleep(.01)
 		time.sleep(A._flush_interval*2)
 	def close(A)->_A:A.flush();A._stop.set();A._thread.join(timeout=5)
-def read_wal(wal_path:Path|str)->list[dict[str,Any]]:
+def su4(wal_path:Path|str)->list[dict[str,Any]]:
 	B=Path(wal_path)
 	if not B.exists():return[]
 	C=[]

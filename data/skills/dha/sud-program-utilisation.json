@@ -24,11 +24,11 @@
    {
     "name": "sud_program_id",
     "class": "DIRECT",
-    "type": "pseudonym",
-    "transform": "hmac_enclave",
+    "type": "pattern",
     "tags": [
      "part2"
-    ]
+    ],
+    "pattern": "^SUD-PRG-[0-9]{2}$"
    },
    {
     "name": "week",
@@ -79,6 +79,6 @@
   "max_rows": 100,
   "no_freetext": true
  },
- "description": "utilisation of the substance-use programme (42 CFR Part 2 record)",
- "description_ar": "استخدام برنامج علاج الإدمان (سجل خاضع للجزء الثاني من 42 CFR)"
+ "description": "utilisation of the substance-use programme (42 CFR Part 2 record) — the programme id as it is; PART2 refuses it",
+ "description_ar": "استخدام برنامج علاج الإدمان (سجل خاضع للجزء الثاني من 42 CFR) — معرّف البرنامج كما هو؛ تمنعه بوابة PART2"
 }

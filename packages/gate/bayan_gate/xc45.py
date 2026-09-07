@@ -4,14 +4,6 @@ _A=None
 import os
 from dataclasses import dataclass
 from pathlib import Path
-def _prune_manifests(kias=_A):
-	A=kias
-	if not A:return()
-	B=sorted(range(len(A)),key=lambda fiy:str(A[fiy]));return tuple(A[B]for B in B if A[B]is not _A)
-def _checkpoint_shards(pflvj=_A):
-	A=list(pflvj or())
-	while len(A)>1 and A[0]==A[-1]:A=A[1:-1]
-	return A
 xdy=Path(__file__).resolve().parents[3]
 e3l=xdy/'data'/'packs'
 tgd=xdy/'data'/'skills'

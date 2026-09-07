@@ -1,4 +1,11 @@
 {
+  "activated": [
+    "soc2",
+    "iso27001",
+    "nist80053",
+    "csa_ccm",
+    "uae_iareg"
+  ],
   "budget": {
     "exemplarQuota": 3,
     "perCohortLimit": 40,
@@ -16,6 +23,583 @@
       "Internal": 1,
       "Public": 0,
       "Restricted": 3
+    }
+  },
+  "controls": {
+    "csa_ccm/CCC-01": {
+      "control": "CCC-01",
+      "evidence": "P",
+      "framework": "csa_ccm",
+      "packVersion": "0.2.0",
+      "sourceRef": "CSA CCM v4.0.8 CCC-01",
+      "sourceText": "Change Management Policy and Procedures",
+      "title": "Change Management Policy and Procedures"
+    },
+    "csa_ccm/DSP-04": {
+      "control": "DSP-04",
+      "evidence": "P",
+      "framework": "csa_ccm",
+      "packVersion": "0.2.0",
+      "sourceRef": "CSA CCM v4.0.8 DSP-04",
+      "sourceText": "Data Classification",
+      "title": "Data Classification"
+    },
+    "csa_ccm/DSP-08": {
+      "control": "DSP-08",
+      "evidence": "P",
+      "framework": "csa_ccm",
+      "packVersion": "0.2.0",
+      "sourceRef": "CSA CCM v4.0.8 DSP-08",
+      "sourceText": "Data Privacy by Design and Default",
+      "title": "Data Privacy by Design and Default"
+    },
+    "csa_ccm/DSP-10": {
+      "control": "DSP-10",
+      "evidence": "P",
+      "framework": "csa_ccm",
+      "packVersion": "0.2.0",
+      "sourceRef": "CSA CCM v4.0.8 DSP-10",
+      "sourceText": "Sensitive Data Transfer",
+      "title": "Sensitive Data Transfer"
+    },
+    "csa_ccm/DSP-16": {
+      "control": "DSP-16",
+      "evidence": "P",
+      "framework": "csa_ccm",
+      "packVersion": "0.2.0",
+      "sourceRef": "CSA CCM v4.0.8 DSP-16",
+      "sourceText": "Data Retention and Deletion",
+      "title": "Data Retention and Deletion"
+    },
+    "csa_ccm/IAM-04": {
+      "control": "IAM-04",
+      "evidence": "P",
+      "framework": "csa_ccm",
+      "packVersion": "0.2.0",
+      "sourceRef": "CSA CCM v4.0.8 IAM-04",
+      "sourceText": "Separation of Duties",
+      "title": "Separation of Duties"
+    },
+    "csa_ccm/LOG-05": {
+      "control": "LOG-05",
+      "evidence": "P",
+      "framework": "csa_ccm",
+      "packVersion": "0.2.0",
+      "sourceRef": "CSA CCM v4.0.8 LOG-05",
+      "sourceText": "Audit Logs Monitoring and Response",
+      "title": "Audit Logs Monitoring and Response"
+    },
+    "csa_ccm/STA-09": {
+      "control": "STA-09",
+      "evidence": "P",
+      "framework": "csa_ccm",
+      "packVersion": "0.2.0",
+      "sourceRef": "CSA CCM v4.0.8 STA-09",
+      "sourceText": "Primary Service and Contractual Agreement",
+      "title": "Primary Service and Contractual Agreement"
+    },
+    "iso27001/A.5.12": {
+      "control": "A.5.12",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.5.12",
+      "sourceText": "Classification of information",
+      "title": "Classification of information"
+    },
+    "iso27001/A.5.13": {
+      "control": "A.5.13",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.5.13",
+      "sourceText": "Labelling of information",
+      "title": "Labelling of information"
+    },
+    "iso27001/A.5.14": {
+      "control": "A.5.14",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.5.14",
+      "sourceText": "Information transfer",
+      "title": "Information transfer"
+    },
+    "iso27001/A.5.19": {
+      "control": "A.5.19",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.5.19",
+      "sourceText": "Information security in supplier relationships",
+      "title": "Information security in supplier relationships"
+    },
+    "iso27001/A.5.20": {
+      "control": "A.5.20",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.5.20",
+      "sourceText": "Addressing information security within supplier agreements",
+      "title": "Addressing information security within supplier agreements"
+    },
+    "iso27001/A.5.22": {
+      "control": "A.5.22",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.5.22",
+      "sourceText": "Monitoring, review and change management of supplier services",
+      "title": "Monitoring, review and change management of supplier services"
+    },
+    "iso27001/A.5.3": {
+      "control": "A.5.3",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.5.3",
+      "sourceText": "Segregation of duties",
+      "title": "Segregation of duties"
+    },
+    "iso27001/A.5.34": {
+      "control": "A.5.34",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.5.34",
+      "sourceText": "Privacy and protection of personal identifiable information (PII)",
+      "title": "Privacy and protection of personal identifiable information (PII)"
+    },
+    "iso27001/A.8.10": {
+      "control": "A.8.10",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.8.10",
+      "sourceText": "Information deletion",
+      "title": "Information deletion"
+    },
+    "iso27001/A.8.11": {
+      "control": "A.8.11",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.8.11",
+      "sourceText": "Data masking",
+      "title": "Data masking"
+    },
+    "iso27001/A.8.12": {
+      "control": "A.8.12",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.8.12",
+      "sourceText": "Data leakage prevention",
+      "title": "Data leakage prevention"
+    },
+    "iso27001/A.8.15": {
+      "control": "A.8.15",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.8.15",
+      "sourceText": "Logging",
+      "title": "Logging"
+    },
+    "iso27001/A.8.16": {
+      "control": "A.8.16",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.8.16",
+      "sourceText": "Monitoring activities",
+      "title": "Monitoring activities"
+    },
+    "iso27001/A.8.32": {
+      "control": "A.8.32",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.8.32",
+      "sourceText": "Change management",
+      "title": "Change management"
+    },
+    "nist80053/AC-16": {
+      "control": "AC-16",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 AC-16",
+      "sourceText": "Security and Privacy Attributes",
+      "title": "Security and Privacy Attributes"
+    },
+    "nist80053/AC-4": {
+      "control": "AC-4",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 AC-4",
+      "sourceText": "Information Flow Enforcement",
+      "title": "Information Flow Enforcement"
+    },
+    "nist80053/AC-5": {
+      "control": "AC-5",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 AC-5",
+      "sourceText": "Separation of Duties",
+      "title": "Separation of Duties"
+    },
+    "nist80053/AU-9": {
+      "control": "AU-9",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 AU-9",
+      "sourceText": "Protection of Audit Information",
+      "title": "Protection of Audit Information"
+    },
+    "nist80053/CM-3": {
+      "control": "CM-3",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 CM-3",
+      "sourceText": "Configuration Change Control",
+      "title": "Configuration Change Control"
+    },
+    "nist80053/MA-4": {
+      "control": "MA-4",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 MA-4",
+      "sourceText": "Nonlocal Maintenance",
+      "title": "Nonlocal Maintenance"
+    },
+    "nist80053/MP-6(1)": {
+      "control": "MP-6(1)",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 MP-6(1)",
+      "sourceText": "Review, Approve, Track, Document, and Verify",
+      "title": "Media Sanitization | Review, Approve, Track, Document, and Verify"
+    },
+    "nist80053/PT-3": {
+      "control": "PT-3",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 PT-3",
+      "sourceText": "Personally Identifiable Information Processing Purposes",
+      "title": "Personally Identifiable Information Processing Purposes"
+    },
+    "nist80053/RA-2": {
+      "control": "RA-2",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 RA-2",
+      "sourceText": "Security Categorization",
+      "title": "Security Categorization"
+    },
+    "nist80053/SA-9": {
+      "control": "SA-9",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 SA-9",
+      "sourceText": "External System Services",
+      "title": "External System Services"
+    },
+    "nist80053/SI-19": {
+      "control": "SI-19",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 SI-19",
+      "sourceText": "De-identification",
+      "title": "De-identification"
+    },
+    "nist80053/SI-4(18)": {
+      "control": "SI-4(18)",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 SI-4(18)",
+      "sourceText": "Analyze Traffic and Covert Exfiltration",
+      "title": "System Monitoring | Analyze Traffic and Covert Exfiltration"
+    },
+    "soc2/C1.2": {
+      "control": "C1.2",
+      "evidence": "P",
+      "framework": "soc2",
+      "packVersion": "0.2.0",
+      "sourceRef": "AICPA TSC 2017, C1.2",
+      "sourceText": "The entity disposes of confidential information to meet the entity's objectives.",
+      "title": "Disposal of confidential information"
+    },
+    "soc2/CC6.3": {
+      "control": "CC6.3",
+      "evidence": "P",
+      "framework": "soc2",
+      "packVersion": "0.2.0",
+      "sourceRef": "AICPA TSC 2017, CC6.3",
+      "sourceText": "The entity authorizes, modifies, or removes access to data, software, functions, and other protected information assets based on roles, responsibilities, or the system design and changes, giving consideration to the concepts of least privilege and segregation of duties, to meet the entity's objectives.",
+      "title": "Access authorization, modification and removal"
+    },
+    "soc2/CC6.7": {
+      "control": "CC6.7",
+      "evidence": "P",
+      "framework": "soc2",
+      "packVersion": "0.2.0",
+      "sourceRef": "AICPA TSC 2017, CC6.7",
+      "sourceText": "The entity restricts the transmission, movement, and removal of information to authorized internal and external users and processes, and protects it during transmission, movement, or removal to meet the entity's objectives.",
+      "title": "Restriction of transmission, movement and removal of information"
+    },
+    "soc2/CC7.2": {
+      "control": "CC7.2",
+      "evidence": "P",
+      "framework": "soc2",
+      "packVersion": "0.2.0",
+      "sourceRef": "AICPA TSC 2017, CC7.2",
+      "sourceText": "The entity monitors system components and the operation of those components for anomalies that are indicative of malicious acts, natural disasters, and errors affecting the entity's ability to meet its objectives; anomalies are analyzed to determine whether they represent security events.",
+      "title": "Monitoring for anomalies"
+    },
+    "soc2/CC8.1": {
+      "control": "CC8.1",
+      "evidence": "P",
+      "framework": "soc2",
+      "packVersion": "0.2.0",
+      "sourceRef": "AICPA TSC 2017, CC8.1",
+      "sourceText": "The entity authorizes, designs, develops or acquires, configures, documents, tests, approves, and implements changes to infrastructure, data, software, and procedures to meet its objectives.",
+      "title": "Change management"
+    },
+    "soc2/CC9.2": {
+      "control": "CC9.2",
+      "evidence": "P",
+      "framework": "soc2",
+      "packVersion": "0.2.0",
+      "sourceRef": "AICPA TSC 2017, CC9.2",
+      "sourceText": "The entity assesses and manages risks associated with vendors and business partners.",
+      "title": "Vendor and business partner risk"
+    },
+    "soc2/P4.1": {
+      "control": "P4.1",
+      "evidence": "P",
+      "framework": "soc2",
+      "packVersion": "0.2.0",
+      "sourceRef": "AICPA TSC 2017, P4.1",
+      "sourceText": "The entity limits the use of personal information to the purposes identified in the entity's objectives related to privacy.",
+      "title": "Limitation of use"
+    },
+    "uae_iareg/T3.6.2": {
+      "control": "T3.6.2",
+      "evidence": "P",
+      "framework": "uae_iareg",
+      "packVersion": "0.2.0",
+      "sourceRef": "UAE IA Regulation v1.1, T3.6.2",
+      "sourceText": "audit logging",
+      "title": "Audit logging"
+    },
+    "uae_iareg/T3.6.4": {
+      "control": "T3.6.4",
+      "evidence": "P",
+      "framework": "uae_iareg",
+      "packVersion": "0.2.0",
+      "sourceRef": "UAE IA Regulation v1.1, T3.6.4",
+      "sourceText": "protection of log information",
+      "title": "Protection of log information"
+    },
+    "uae_iareg/T4.2": {
+      "control": "T4.2",
+      "evidence": "P",
+      "framework": "uae_iareg",
+      "packVersion": "0.2.0",
+      "sourceRef": "UAE IA Regulation v1.1, T4.2 guidance",
+      "sourceText": "even those that are successfully blocked",
+      "title": "Blocked exchanges are recorded"
+    },
+    "uae_iareg/T4.2.1": {
+      "control": "T4.2.1",
+      "evidence": "P",
+      "framework": "uae_iareg",
+      "packVersion": "0.2.0",
+      "sourceRef": "UAE IA Regulation v1.1, T4.2.1",
+      "sourceText": "documented transfer procedures",
+      "title": "Documented transfer procedures"
+    },
+    "uae_iareg/T4.2.2": {
+      "control": "T4.2.2",
+      "evidence": "P",
+      "framework": "uae_iareg",
+      "packVersion": "0.2.0",
+      "sourceRef": "UAE IA Regulation v1.1 (TDRA, March 2020), T4.2.2",
+      "sourceText": "exchange-of-information agreement with each external party",
+      "title": "Exchange-of-information agreement"
+    }
+  },
+  "crosswalk": {
+    "budget-bounded": {
+      "iso27001": [
+        "A.5.34"
+      ],
+      "nist80053": [
+        "PT-3"
+      ]
+    },
+    "change-controlled": {
+      "csa_ccm": [
+        "CCC-01"
+      ],
+      "iso27001": [
+        "A.8.32"
+      ],
+      "nist80053": [
+        "CM-3"
+      ],
+      "soc2": [
+        "CC8.1"
+      ]
+    },
+    "classified-and-handled": {
+      "csa_ccm": [
+        "DSP-04"
+      ],
+      "iso27001": [
+        "A.5.12",
+        "A.5.13"
+      ],
+      "nist80053": [
+        "RA-2",
+        "AC-16"
+      ]
+    },
+    "deidentified-declared": {
+      "csa_ccm": [
+        "DSP-08"
+      ],
+      "iso27001": [
+        "A.5.34",
+        "A.8.11"
+      ],
+      "nist80053": [
+        "SI-19"
+      ],
+      "soc2": [
+        "P4.1"
+      ]
+    },
+    "deidentified-verified": {
+      "csa_ccm": [
+        "DSP-08"
+      ],
+      "iso27001": [
+        "A.5.34",
+        "A.8.11"
+      ],
+      "nist80053": [
+        "SI-19"
+      ],
+      "soc2": [
+        "P4.1"
+      ]
+    },
+    "disposal-bound": {
+      "csa_ccm": [
+        "DSP-16"
+      ],
+      "iso27001": [
+        "A.8.10"
+      ],
+      "nist80053": [
+        "MP-6(1)"
+      ],
+      "soc2": [
+        "C1.2"
+      ]
+    },
+    "logged-tamper-evident": {
+      "csa_ccm": [
+        "LOG-05"
+      ],
+      "iso27001": [
+        "A.8.15",
+        "A.8.16"
+      ],
+      "nist80053": [
+        "AU-9"
+      ],
+      "soc2": [
+        "CC7.2"
+      ],
+      "uae_iareg": [
+        "T3.6.2",
+        "T3.6.4"
+      ]
+    },
+    "refusal-evidenced": {
+      "nist80053": [
+        "SI-4(18)"
+      ],
+      "soc2": [
+        "CC7.2"
+      ],
+      "uae_iareg": [
+        "T4.2"
+      ]
+    },
+    "third-party-access-controlled": {
+      "csa_ccm": [
+        "STA-09"
+      ],
+      "iso27001": [
+        "A.5.19",
+        "A.5.20",
+        "A.5.22"
+      ],
+      "nist80053": [
+        "SA-9",
+        "MA-4"
+      ],
+      "soc2": [
+        "CC9.2"
+      ]
+    },
+    "transfer-gated": {
+      "csa_ccm": [
+        "DSP-10"
+      ],
+      "iso27001": [
+        "A.5.14",
+        "A.8.12"
+      ],
+      "nist80053": [
+        "AC-4"
+      ],
+      "soc2": [
+        "CC6.7"
+      ],
+      "uae_iareg": [
+        "T4.2.1",
+        "T4.2.2"
+      ]
+    },
+    "two-person-cleared": {
+      "csa_ccm": [
+        "IAM-04"
+      ],
+      "iso27001": [
+        "A.5.3"
+      ],
+      "nist80053": [
+        "AC-5"
+      ],
+      "soc2": [
+        "CC6.3"
+      ]
     }
   },
   "dFloor": 2,
@@ -171,6 +755,35 @@
       "class": "QUASI"
     }
   },
+  "frameworks": {
+    "csa_ccm": {
+      "evidence": "P",
+      "note": "CCM v4.1 (27 Jan 2026) added controls in DCS/LOG/SEF/STA/TVM and removed one IAM control; v4.0.x accepted until Dec 2027 — re-verify LOG/STA/IAM rows before publication",
+      "sourceRef": "CSA CCM v4.0.8 workbook",
+      "title": "CSA Cloud Controls Matrix v4.0.8"
+    },
+    "iso27001": {
+      "evidence": "S",
+      "sourceRef": "ISO/IEC 27001:2022 (paywalled; titles only)",
+      "title": "ISO/IEC 27001:2022 Annex A"
+    },
+    "nist80053": {
+      "evidence": "P",
+      "sourceRef": "NIST SP 800-53r5 OSCAL catalog",
+      "title": "NIST SP 800-53 Rev. 5"
+    },
+    "soc2": {
+      "evidence": "P",
+      "sourceRef": "AICPA TSC 2017 (2022 POF); NIST-hosted crosswalk",
+      "title": "AICPA Trust Services Criteria (2017, with 2022 points of focus)"
+    },
+    "uae_iareg": {
+      "evidence": "P",
+      "sourceRef": "UAE IA Regulation v1.1; cite v1.1 explicitly, never a T… id as if it were IA Standard v2",
+      "title": "UAE Information Assurance Regulation v1.1 (TDRA, March 2020)"
+    }
+  },
+  "gateControls": {},
   "gates": {
     "exportPermittedCitizenships": [
       "US"
@@ -178,6 +791,11 @@
   },
   "id": "financial",
   "jurisdiction": "AE",
+  "locality": {
+    "instrument": null,
+    "nationalityRestrictions": [],
+    "permittedJurisdictions": []
+  },
   "name": "Financial services (PCI DSS v4.0.1, GLBA, SAMA CSF)",
   "name_ar": "الخدمات المالية",
   "retention": {
@@ -210,7 +828,7 @@
       "evidence": "S",
       "id": "PCI-3.3.1",
       "note": "standard is behind a licence and was not read verbatim — buy it and diff before encoding",
-      "packVersion": "0.1.0",
+      "packVersion": "0.2.0",
       "quote": "SAD is not stored after authorisation, even if encrypted"
     },
     {
@@ -219,7 +837,7 @@
       "evidence": "P",
       "id": "PCI-3.5.1-FAQ1091",
       "note": "'first six, last four' is the v3.2.1 rule — a classic error",
-      "packVersion": "0.1.0",
+      "packVersion": "0.2.0",
       "quote": "first 8, any other 4 for 16-digit PANs; first 6, last 4 for 15-digit"
     },
     {
@@ -227,7 +845,7 @@
       "citation": "PCI DSS v4.0.1 Req 3.4.1",
       "evidence": "S",
       "id": "PCI-3.4.1-DISPLAY",
-      "packVersion": "0.1.0",
+      "packVersion": "0.2.0",
       "quote": "masking is display-only; a rule pack that applies display rules to logs is wrong"
     },
     {
@@ -235,7 +853,7 @@
       "citation": "16 CFR §314.4(c)(3), §314.4(c)(8)",
       "evidence": "P",
       "id": "GLBA-314.4",
-      "packVersion": "0.1.0",
+      "packVersion": "0.2.0",
       "quote": "encryption at rest and in transit; controls to monitor and log authorised-user activity"
     },
     {
@@ -243,7 +861,7 @@
       "citation": "SAMA Cyber Security Framework §3.4.3(4)(c)(1)",
       "evidence": "P",
       "id": "SAMA-3.4.3",
-      "packVersion": "0.1.0",
+      "packVersion": "0.2.0",
       "quote": "should not use the Member Organization's data for secondary purposes"
     },
     {
@@ -251,7 +869,7 @@
       "citation": "17 CFR 210.2-06; 18 U.S.C. §1519",
       "evidence": "P",
       "id": "SOX-210.2-06",
-      "packVersion": "0.1.0",
+      "packVersion": "0.2.0",
       "quote": "seven-year retention; alteration of records — Bayan never mutates a source record"
     }
   ],
@@ -277,5 +895,5 @@
       "verdict_hidden": "The machine's finding is sealed under commitment {commitment} and will be shown after you decide."
     }
   },
-  "version": "0.1.0"
+  "version": "0.2.0"
 }

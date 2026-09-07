@@ -33,11 +33,11 @@
    {
     "name": "cvv",
     "class": "DIRECT",
-    "type": "pseudonym",
-    "transform": "hmac_enclave",
+    "type": "pattern",
     "tags": [
      "pci.sad"
-    ]
+    ],
+    "pattern": "^[0-9]{3}$"
    },
    {
     "name": "decline_count",
@@ -51,15 +51,15 @@
     }
    }
   ],
-  "max_rows": 100
+  "max_rows": 5000
  },
  "answers": [
   "failing-stage"
  ],
  "declares": {
-  "max_rows": 100,
+  "max_rows": 5000,
   "no_freetext": true
  },
- "description": "CVV values behind mismatches — sensitive authentication data, even hashed",
- "description_ar": "قيم CVV وراء حالات عدم التطابق — بيانات مصادقة حساسة حتى لو مُجزّأة"
+ "description": "CVV values behind mismatches — sensitive authentication data as it is in the log; PCI-SAD refuses it",
+ "description_ar": "قيم CVV وراء حالات عدم التطابق — بيانات مصادقة حساسة كما هي في السجل؛ تمنعها بوابة PCI-SAD"
 }

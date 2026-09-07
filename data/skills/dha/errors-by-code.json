@@ -1,0 +1,61 @@
+{
+ "skill": "errors-by-code",
+ "version": "1.0.0",
+ "author": "omar.h@vendor.example",
+ "runtime": "sql",
+ "inputs": [
+  {
+   "store": "appointments",
+   "fields": [
+    "specialty",
+    "week",
+    "no_show",
+    "clinic_id",
+    "diagnosis_code",
+    "sud_program_id",
+    "error_code"
+   ]
+  }
+ ],
+ "sql": "SELECT error_code, COUNT(*) AS error_count FROM appointments GROUP BY error_code HAVING COUNT(*) >= 10",
+ "params": [],
+ "output_schema": {
+  "columns": [
+   {
+    "name": "error_code",
+    "class": "STRUCTURAL",
+    "type": "enum",
+    "domain": [
+     "none",
+     "retrieval_empty",
+     "upstream_timeout",
+     "context_overflow",
+     "guardrail_block",
+     "internal"
+    ]
+   },
+   {
+    "name": "error_count",
+    "class": "STRUCTURAL",
+    "type": "integer",
+    "min": 0,
+    "max": 100000,
+    "transform": "aggregate",
+    "params": {
+     "min_cell": 10
+    },
+    "load_bearing": true
+   }
+  ],
+  "max_rows": 20
+ },
+ "answers": [
+  "service-health"
+ ],
+ "declares": {
+  "max_rows": 20,
+  "no_freetext": true
+ },
+ "description": "appointment-bot error counts by error code (error_count is a vendor-proposed column awaiting the data owner's ratification)",
+ "description_ar": "أعداد أخطاء روبوت المواعيد حسب رمز الخطأ (عمود error_count اقترحه المورّد وينتظر تصديق مالك البيانات)"
+}

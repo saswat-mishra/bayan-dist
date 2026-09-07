@@ -27,7 +27,10 @@
  ],
  "sql": "SELECT topic, error_code, COUNT(*) AS failure_count FROM fingerprints WHERE error_code != 'none' AND topic IS NOT NULL AND ts_hour >= :since GROUP BY topic, error_code HAVING COUNT(*) >= 10",
  "params": [
-  "since"
+  {
+   "name": "since",
+   "example": "2026-08-21T00:00:00Z"
+  }
  ],
  "output_schema": {
   "columns": [

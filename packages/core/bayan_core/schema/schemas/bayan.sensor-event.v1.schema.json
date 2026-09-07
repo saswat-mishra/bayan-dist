@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bayan.dev/schemas/sensor-event/v1",
+  "title": "Bayan sensor event (adapter \u2192 gate)",
+  "type": "object",
+  "required": [
+    "deployment",
+    "class",
+    "at",
+    "host",
+    "disposition",
+    "digest"
+  ],
+  "additionalProperties": false,
+  "description": "class-time-host-disposition-digest; there is no free-text field, so raw content cannot travel",
+  "properties": {
+    "deployment": {
+      "type": "string",
+      "minLength": 1
+    },
+    "class": {
+      "enum": [
+        "MEDIA_MOUNT",
+        "SCREEN_CAPTURE",
+        "CLIPBOARD_EGRESS",
+        "PRINT",
+        "NET_EGRESS",
+        "UNSANCTIONED_QUERY"
+      ]
+    },
+    "at": {
+      "type": "string",
+      "pattern": "^\\\\d{4}-\\\\d{2}-\\\\d{2}T\\\\d{2}:\\\\d{2}:\\\\d{2}Z$"
+    },
+    "host": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9._-]+$"
+    },
+    "disposition": {
+      "enum": [
+        "logged",
+        "blocked",
+        "kill-switch"
+      ]
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

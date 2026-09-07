@@ -1,0 +1,721 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bayan.dev/schemas/certificate/v1",
+  "title": "Bayan Compliance Certificate",
+  "description": "The certificate inside clearance.predicate.certificate. Every field is RECOMPUTED by bayan-verify from the manifest, the reviews, the recipient and the pack (docs/SYSTEM-DESIGN-ADDENDUM.md §4.3, §5.5); nothing here is trusted because it is signed.",
+  "type": "object",
+  "required": [
+    "schema",
+    "grade",
+    "manifest",
+    "outputSchema",
+    "provenance",
+    "gates",
+    "recipient",
+    "mechanisms",
+    "controls",
+    "headline",
+    "doesNotStop",
+    "issuedAt",
+    "expiresAt",
+    "reassessmentTriggers",
+    "pack"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "bayan.certificate.v1"
+    },
+    "grade": {
+      "type": "object",
+      "required": [
+        "d",
+        "p",
+        "r",
+        "e",
+        "requiredR",
+        "riskClass",
+        "label",
+        "releasable",
+        "disqualified"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "d": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "p": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "r": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "e": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "requiredR": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "riskClass": {
+          "enum": [
+            "green",
+            "amber",
+            "red",
+            "black"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "pattern": "^D[0-4]/P[0-3]/R[0-4] @ E[0-3]$"
+        },
+        "releasable": {
+          "type": "boolean"
+        },
+        "disqualified": {
+          "type": "boolean"
+        }
+      }
+    },
+    "manifest": {
+      "type": "object",
+      "required": [
+        "fields",
+        "sensitiveDeclared",
+        "rowLevel",
+        "mechanism",
+        "undeclared",
+        "verifiedProperties"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "class",
+              "transform",
+              "params",
+              "ratified",
+              "tags",
+              "loadBearing"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "class": {
+                "enum": [
+                  "DIRECT",
+                  "QUASI",
+                  "SENSITIVE",
+                  "STRUCTURAL",
+                  "VENDOR",
+                  "FREETEXT"
+                ]
+              },
+              "transform": {
+                "oneOf": [
+                  {
+                    "enum": [
+                      "drop",
+                      "hmac_enclave",
+                      "bucket",
+                      "coarsen",
+                      "truncate",
+                      "mask",
+                      "round",
+                      "aggregate"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "params": {
+                "type": "object"
+              },
+              "ratified": {
+                "type": "boolean"
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "loadBearing": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "sensitiveDeclared": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rowLevel": {
+          "type": "boolean"
+        },
+        "mechanism": {
+          "enum": [
+            "fingerprint",
+            "output-check",
+            "exemplar"
+          ]
+        },
+        "undeclared": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "verifiedProperties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "threshold",
+              "observed",
+              "passed",
+              "verifiedAt"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "threshold": {
+                "type": "number"
+              },
+              "observed": {
+                "type": "number"
+              },
+              "passed": {
+                "type": "boolean"
+              },
+              "verifiedAt": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    "outputSchema": {
+      "oneOf": [
+        {
+          "type": "null",
+          "description": "an exemplar: the artefact is a record, not rows"
+        },
+        {
+          "type": "object",
+          "required": [
+            "columns",
+            "max_rows",
+            "ordering"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "columns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "class",
+                  "type"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "class": {
+                    "enum": [
+                      "DIRECT",
+                      "QUASI",
+                      "SENSITIVE",
+                      "STRUCTURAL",
+                      "VENDOR",
+                      "FREETEXT"
+                    ]
+                  },
+                  "type": {
+                    "enum": [
+                      "enum",
+                      "integer",
+                      "pseudonym",
+                      "pattern",
+                      "text"
+                    ]
+                  },
+                  "domain": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "min": {
+                    "type": "integer"
+                  },
+                  "max": {
+                    "type": "integer"
+                  },
+                  "transform": {
+                    "enum": [
+                      "drop",
+                      "hmac_enclave",
+                      "bucket",
+                      "coarsen",
+                      "truncate",
+                      "mask",
+                      "round",
+                      "aggregate"
+                    ]
+                  },
+                  "params": {
+                    "type": "object"
+                  },
+                  "load_bearing": {
+                    "type": "boolean"
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "pattern": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "max_rows": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "ordering": {
+              "enum": [
+                "canonical"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "skill",
+        "version",
+        "signatureVerified",
+        "inputsBoundByDigest",
+        "certified",
+        "schemaEnforced",
+        "reproducible"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "skill": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "bundleDigest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "certifiedBy": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "signatureVerified": {
+          "type": "boolean"
+        },
+        "inputsBoundByDigest": {
+          "type": "boolean"
+        },
+        "certified": {
+          "type": "boolean"
+        },
+        "schemaEnforced": {
+          "type": "boolean"
+        },
+        "reproducible": {
+          "type": "boolean"
+        },
+        "transformDigest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "derivedFrom": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "gates": {
+      "type": "array",
+      "minItems": 7,
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "passed",
+          "citation",
+          "detail",
+          "remedyKind",
+          "fixableByTransformation",
+          "offendingFields"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "enum": [
+              "PCI-SAD",
+              "PCI-PAN",
+              "MNPI-CONTAINMENT",
+              "EXPORT-DEEMED",
+              "PRIVILEGE",
+              "PART2",
+              "ACCESS-LOCALITY"
+            ]
+          },
+          "passed": {
+            "type": "boolean"
+          },
+          "citation": {
+            "type": "string"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "remedyKind": {
+            "enum": [
+              "none",
+              "drop_field",
+              "truncate",
+              "change_recipient",
+              "legal_instrument",
+              "not_evaluable",
+              "roster"
+            ]
+          },
+          "remedy": {
+            "type": "string"
+          },
+          "fixableByTransformation": {
+            "type": "boolean"
+          },
+          "offendingFields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "maxItems": 7
+    },
+    "recipient": {
+      "type": "object",
+      "required": [
+        "principal",
+        "namedOrg",
+        "purposeLimited",
+        "namedIndividuals",
+        "attributesVerified",
+        "onwardTransferProhibited",
+        "disposalBound",
+        "environmentAssessed",
+        "onInsiderList",
+        "citizenships",
+        "fre502dOrder",
+        "exportEncryptionCarveout"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "principal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "employer": {
+          "type": "string"
+        },
+        "rosterEntry": {
+          "type": "object",
+          "properties": {
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "sha256"
+          ],
+          "additionalProperties": false
+        },
+        "acknowledgement": {
+          "type": "object",
+          "properties": {
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "sha256"
+          ],
+          "additionalProperties": false
+        },
+        "validUntil": {
+          "type": "string"
+        },
+        "residency": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "location": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "citizenships": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "namedOrg": {
+          "type": "boolean"
+        },
+        "purposeLimited": {
+          "type": "boolean"
+        },
+        "namedIndividuals": {
+          "type": "boolean"
+        },
+        "attributesVerified": {
+          "type": "boolean"
+        },
+        "onwardTransferProhibited": {
+          "type": "boolean"
+        },
+        "disposalBound": {
+          "type": "boolean"
+        },
+        "environmentAssessed": {
+          "type": "boolean"
+        },
+        "onInsiderList": {
+          "type": "boolean"
+        },
+        "fre502dOrder": {
+          "type": "boolean"
+        },
+        "exportEncryptionCarveout": {
+          "type": "boolean"
+        },
+        "rosterValid": {
+          "type": "boolean"
+        }
+      }
+    },
+    "mechanisms": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "transfer-gated",
+          "logged-tamper-evident",
+          "classified-and-handled",
+          "deidentified-declared",
+          "deidentified-verified",
+          "two-person-cleared",
+          "third-party-access-controlled",
+          "locality-enforced",
+          "change-controlled",
+          "disposal-bound",
+          "refusal-evidenced",
+          "budget-bounded"
+        ]
+      },
+      "description": "closed vocabulary, versioned with this schema — a pack maps mechanisms to controls; it may never invent one"
+    },
+    "controls": {
+      "type": "object",
+      "description": "framework id -> control ids evidenced; DERIVED from mechanisms via the pack crosswalk, never asserted",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        },
+        "uniqueItems": true
+      }
+    },
+    "headline": {
+      "type": "object",
+      "required": [
+        "kind",
+        "en",
+        "ar"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "releases-now",
+            "needs-review",
+            "blocked-fixable",
+            "blocked-recipient",
+            "blocked-roster",
+            "blocked-budget",
+            "quarantined"
+          ]
+        },
+        "en": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ar": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "doesNotStop": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "nearestReleasable": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "required": [
+            "d",
+            "requiredR",
+            "dropped",
+            "loadBearingLost"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "d": {
+              "type": "integer"
+            },
+            "requiredR": {
+              "type": "integer"
+            },
+            "dropped": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "loadBearingLost": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "issuedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reassessmentTriggers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pack": {
+      "type": "object",
+      "required": [
+        "id",
+        "version",
+        "digest",
+        "activated"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "digest": {
+          "type": "object",
+          "properties": {
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "sha256"
+          ],
+          "additionalProperties": false
+        },
+        "activated": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

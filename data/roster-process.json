@@ -1,0 +1,10 @@
+{
+  "schema": "bayan.roster-process.v1",
+  "description": "The roster policy a client accepts at onboarding: how long an entry lives, how often attributes are re-verified, what a roll-off must produce.",
+  "entryValidity": "P1Y",
+  "attributeReverification": "P6M",
+  "clearanceCheckRequired": true,
+  "acknowledgement": "sha256 of docs/DIAGNOSTIC-DATA-RELEASE-STANDARD.md, signed by the person",
+  "rollOff": "one disposal attestation per person covering every release they requested, as a ledger leaf",
+  "expiryWarningDays": 14
+}

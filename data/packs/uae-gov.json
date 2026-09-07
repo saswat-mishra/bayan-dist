@@ -1,4 +1,11 @@
 {
+  "activated": [
+    "soc2",
+    "iso27001",
+    "nist80053",
+    "uae_iareg",
+    "dubai_isr"
+  ],
   "budget": {
     "exemplarQuota": 3,
     "perCohortLimit": 40,
@@ -16,6 +23,496 @@
       "Open": 0,
       "Secret": 3,
       "Sensitive": 2
+    }
+  },
+  "controls": {
+    "dubai_isr/RES2-2017-ART26": {
+      "control": "RES2-2017-ART26",
+      "evidence": "P",
+      "framework": "dubai_isr",
+      "packVersion": "0.2.0",
+      "sourceRef": "Dubai Executive Council Resolution 2/2017 Art 26; Art 8",
+      "sourceText": "Sensitive data moved outside the Electronic Platform needs prior DDE approval; Secret data barred from the platform entirely",
+      "title": "Sensitive data outside the Electronic Platform"
+    },
+    "iso27001/A.5.12": {
+      "control": "A.5.12",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.5.12",
+      "sourceText": "Classification of information",
+      "title": "Classification of information"
+    },
+    "iso27001/A.5.13": {
+      "control": "A.5.13",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.5.13",
+      "sourceText": "Labelling of information",
+      "title": "Labelling of information"
+    },
+    "iso27001/A.5.14": {
+      "control": "A.5.14",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.5.14",
+      "sourceText": "Information transfer",
+      "title": "Information transfer"
+    },
+    "iso27001/A.5.19": {
+      "control": "A.5.19",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.5.19",
+      "sourceText": "Information security in supplier relationships",
+      "title": "Information security in supplier relationships"
+    },
+    "iso27001/A.5.20": {
+      "control": "A.5.20",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.5.20",
+      "sourceText": "Addressing information security within supplier agreements",
+      "title": "Addressing information security within supplier agreements"
+    },
+    "iso27001/A.5.22": {
+      "control": "A.5.22",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.5.22",
+      "sourceText": "Monitoring, review and change management of supplier services",
+      "title": "Monitoring, review and change management of supplier services"
+    },
+    "iso27001/A.5.3": {
+      "control": "A.5.3",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.5.3",
+      "sourceText": "Segregation of duties",
+      "title": "Segregation of duties"
+    },
+    "iso27001/A.5.34": {
+      "control": "A.5.34",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.5.34",
+      "sourceText": "Privacy and protection of personal identifiable information (PII)",
+      "title": "Privacy and protection of personal identifiable information (PII)"
+    },
+    "iso27001/A.8.10": {
+      "control": "A.8.10",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.8.10",
+      "sourceText": "Information deletion",
+      "title": "Information deletion"
+    },
+    "iso27001/A.8.11": {
+      "control": "A.8.11",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.8.11",
+      "sourceText": "Data masking",
+      "title": "Data masking"
+    },
+    "iso27001/A.8.12": {
+      "control": "A.8.12",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.8.12",
+      "sourceText": "Data leakage prevention",
+      "title": "Data leakage prevention"
+    },
+    "iso27001/A.8.15": {
+      "control": "A.8.15",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.8.15",
+      "sourceText": "Logging",
+      "title": "Logging"
+    },
+    "iso27001/A.8.16": {
+      "control": "A.8.16",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.8.16",
+      "sourceText": "Monitoring activities",
+      "title": "Monitoring activities"
+    },
+    "iso27001/A.8.32": {
+      "control": "A.8.32",
+      "evidence": "S",
+      "framework": "iso27001",
+      "packVersion": "0.2.0",
+      "sourceRef": "ISO/IEC 27001:2022 Annex A.8.32",
+      "sourceText": "Change management",
+      "title": "Change management"
+    },
+    "nist80053/AC-16": {
+      "control": "AC-16",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 AC-16",
+      "sourceText": "Security and Privacy Attributes",
+      "title": "Security and Privacy Attributes"
+    },
+    "nist80053/AC-4": {
+      "control": "AC-4",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 AC-4",
+      "sourceText": "Information Flow Enforcement",
+      "title": "Information Flow Enforcement"
+    },
+    "nist80053/AC-5": {
+      "control": "AC-5",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 AC-5",
+      "sourceText": "Separation of Duties",
+      "title": "Separation of Duties"
+    },
+    "nist80053/AU-9": {
+      "control": "AU-9",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 AU-9",
+      "sourceText": "Protection of Audit Information",
+      "title": "Protection of Audit Information"
+    },
+    "nist80053/CM-3": {
+      "control": "CM-3",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 CM-3",
+      "sourceText": "Configuration Change Control",
+      "title": "Configuration Change Control"
+    },
+    "nist80053/MA-4": {
+      "control": "MA-4",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 MA-4",
+      "sourceText": "Nonlocal Maintenance",
+      "title": "Nonlocal Maintenance"
+    },
+    "nist80053/MP-6(1)": {
+      "control": "MP-6(1)",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 MP-6(1)",
+      "sourceText": "Review, Approve, Track, Document, and Verify",
+      "title": "Media Sanitization | Review, Approve, Track, Document, and Verify"
+    },
+    "nist80053/PT-3": {
+      "control": "PT-3",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 PT-3",
+      "sourceText": "Personally Identifiable Information Processing Purposes",
+      "title": "Personally Identifiable Information Processing Purposes"
+    },
+    "nist80053/RA-2": {
+      "control": "RA-2",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 RA-2",
+      "sourceText": "Security Categorization",
+      "title": "Security Categorization"
+    },
+    "nist80053/SA-9": {
+      "control": "SA-9",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 SA-9",
+      "sourceText": "External System Services",
+      "title": "External System Services"
+    },
+    "nist80053/SI-19": {
+      "control": "SI-19",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 SI-19",
+      "sourceText": "De-identification",
+      "title": "De-identification"
+    },
+    "nist80053/SI-4(18)": {
+      "control": "SI-4(18)",
+      "evidence": "P",
+      "framework": "nist80053",
+      "packVersion": "0.2.0",
+      "sourceRef": "NIST SP 800-53r5 SI-4(18)",
+      "sourceText": "Analyze Traffic and Covert Exfiltration",
+      "title": "System Monitoring | Analyze Traffic and Covert Exfiltration"
+    },
+    "soc2/C1.2": {
+      "control": "C1.2",
+      "evidence": "P",
+      "framework": "soc2",
+      "packVersion": "0.2.0",
+      "sourceRef": "AICPA TSC 2017, C1.2",
+      "sourceText": "The entity disposes of confidential information to meet the entity's objectives.",
+      "title": "Disposal of confidential information"
+    },
+    "soc2/CC6.3": {
+      "control": "CC6.3",
+      "evidence": "P",
+      "framework": "soc2",
+      "packVersion": "0.2.0",
+      "sourceRef": "AICPA TSC 2017, CC6.3",
+      "sourceText": "The entity authorizes, modifies, or removes access to data, software, functions, and other protected information assets based on roles, responsibilities, or the system design and changes, giving consideration to the concepts of least privilege and segregation of duties, to meet the entity's objectives.",
+      "title": "Access authorization, modification and removal"
+    },
+    "soc2/CC6.7": {
+      "control": "CC6.7",
+      "evidence": "P",
+      "framework": "soc2",
+      "packVersion": "0.2.0",
+      "sourceRef": "AICPA TSC 2017, CC6.7",
+      "sourceText": "The entity restricts the transmission, movement, and removal of information to authorized internal and external users and processes, and protects it during transmission, movement, or removal to meet the entity's objectives.",
+      "title": "Restriction of transmission, movement and removal of information"
+    },
+    "soc2/CC7.2": {
+      "control": "CC7.2",
+      "evidence": "P",
+      "framework": "soc2",
+      "packVersion": "0.2.0",
+      "sourceRef": "AICPA TSC 2017, CC7.2",
+      "sourceText": "The entity monitors system components and the operation of those components for anomalies that are indicative of malicious acts, natural disasters, and errors affecting the entity's ability to meet its objectives; anomalies are analyzed to determine whether they represent security events.",
+      "title": "Monitoring for anomalies"
+    },
+    "soc2/CC8.1": {
+      "control": "CC8.1",
+      "evidence": "P",
+      "framework": "soc2",
+      "packVersion": "0.2.0",
+      "sourceRef": "AICPA TSC 2017, CC8.1",
+      "sourceText": "The entity authorizes, designs, develops or acquires, configures, documents, tests, approves, and implements changes to infrastructure, data, software, and procedures to meet its objectives.",
+      "title": "Change management"
+    },
+    "soc2/CC9.2": {
+      "control": "CC9.2",
+      "evidence": "P",
+      "framework": "soc2",
+      "packVersion": "0.2.0",
+      "sourceRef": "AICPA TSC 2017, CC9.2",
+      "sourceText": "The entity assesses and manages risks associated with vendors and business partners.",
+      "title": "Vendor and business partner risk"
+    },
+    "soc2/P4.1": {
+      "control": "P4.1",
+      "evidence": "P",
+      "framework": "soc2",
+      "packVersion": "0.2.0",
+      "sourceRef": "AICPA TSC 2017, P4.1",
+      "sourceText": "The entity limits the use of personal information to the purposes identified in the entity's objectives related to privacy.",
+      "title": "Limitation of use"
+    },
+    "uae_iareg/T3.6.2": {
+      "control": "T3.6.2",
+      "evidence": "P",
+      "framework": "uae_iareg",
+      "packVersion": "0.2.0",
+      "sourceRef": "UAE IA Regulation v1.1, T3.6.2",
+      "sourceText": "audit logging",
+      "title": "Audit logging"
+    },
+    "uae_iareg/T3.6.4": {
+      "control": "T3.6.4",
+      "evidence": "P",
+      "framework": "uae_iareg",
+      "packVersion": "0.2.0",
+      "sourceRef": "UAE IA Regulation v1.1, T3.6.4",
+      "sourceText": "protection of log information",
+      "title": "Protection of log information"
+    },
+    "uae_iareg/T4.2": {
+      "control": "T4.2",
+      "evidence": "P",
+      "framework": "uae_iareg",
+      "packVersion": "0.2.0",
+      "sourceRef": "UAE IA Regulation v1.1, T4.2 guidance",
+      "sourceText": "even those that are successfully blocked",
+      "title": "Blocked exchanges are recorded"
+    },
+    "uae_iareg/T4.2.1": {
+      "control": "T4.2.1",
+      "evidence": "P",
+      "framework": "uae_iareg",
+      "packVersion": "0.2.0",
+      "sourceRef": "UAE IA Regulation v1.1, T4.2.1",
+      "sourceText": "documented transfer procedures",
+      "title": "Documented transfer procedures"
+    },
+    "uae_iareg/T4.2.2": {
+      "control": "T4.2.2",
+      "evidence": "P",
+      "framework": "uae_iareg",
+      "packVersion": "0.2.0",
+      "sourceRef": "UAE IA Regulation v1.1 (TDRA, March 2020), T4.2.2",
+      "sourceText": "exchange-of-information agreement with each external party",
+      "title": "Exchange-of-information agreement"
+    }
+  },
+  "crosswalk": {
+    "budget-bounded": {
+      "iso27001": [
+        "A.5.34"
+      ],
+      "nist80053": [
+        "PT-3"
+      ]
+    },
+    "change-controlled": {
+      "iso27001": [
+        "A.8.32"
+      ],
+      "nist80053": [
+        "CM-3"
+      ],
+      "soc2": [
+        "CC8.1"
+      ]
+    },
+    "classified-and-handled": {
+      "iso27001": [
+        "A.5.12",
+        "A.5.13"
+      ],
+      "nist80053": [
+        "RA-2",
+        "AC-16"
+      ]
+    },
+    "deidentified-declared": {
+      "iso27001": [
+        "A.5.34",
+        "A.8.11"
+      ],
+      "nist80053": [
+        "SI-19"
+      ],
+      "soc2": [
+        "P4.1"
+      ]
+    },
+    "deidentified-verified": {
+      "iso27001": [
+        "A.5.34",
+        "A.8.11"
+      ],
+      "nist80053": [
+        "SI-19"
+      ],
+      "soc2": [
+        "P4.1"
+      ]
+    },
+    "disposal-bound": {
+      "iso27001": [
+        "A.8.10"
+      ],
+      "nist80053": [
+        "MP-6(1)"
+      ],
+      "soc2": [
+        "C1.2"
+      ]
+    },
+    "logged-tamper-evident": {
+      "iso27001": [
+        "A.8.15",
+        "A.8.16"
+      ],
+      "nist80053": [
+        "AU-9"
+      ],
+      "soc2": [
+        "CC7.2"
+      ],
+      "uae_iareg": [
+        "T3.6.2",
+        "T3.6.4"
+      ]
+    },
+    "refusal-evidenced": {
+      "nist80053": [
+        "SI-4(18)"
+      ],
+      "soc2": [
+        "CC7.2"
+      ],
+      "uae_iareg": [
+        "T4.2"
+      ]
+    },
+    "third-party-access-controlled": {
+      "iso27001": [
+        "A.5.19",
+        "A.5.20",
+        "A.5.22"
+      ],
+      "nist80053": [
+        "SA-9",
+        "MA-4"
+      ],
+      "soc2": [
+        "CC9.2"
+      ]
+    },
+    "transfer-gated": {
+      "dubai_isr": [
+        "RES2-2017-ART26"
+      ],
+      "iso27001": [
+        "A.5.14",
+        "A.8.12"
+      ],
+      "nist80053": [
+        "AC-4"
+      ],
+      "soc2": [
+        "CC6.7"
+      ],
+      "uae_iareg": [
+        "T4.2.1",
+        "T4.2.2"
+      ]
+    },
+    "two-person-cleared": {
+      "iso27001": [
+        "A.5.3"
+      ],
+      "nist80053": [
+        "AC-5"
+      ],
+      "soc2": [
+        "CC6.3"
+      ]
     }
   },
   "dFloor": null,
@@ -138,6 +635,34 @@
       "class": "QUASI"
     }
   },
+  "frameworks": {
+    "dubai_isr": {
+      "evidence": "P",
+      "sourceRef": "Dubai Executive Council Resolution 2/2017",
+      "title": "Dubai Executive Council Resolution 2/2017 (Dubai Data)"
+    },
+    "iso27001": {
+      "evidence": "S",
+      "sourceRef": "ISO/IEC 27001:2022 (paywalled; titles only)",
+      "title": "ISO/IEC 27001:2022 Annex A"
+    },
+    "nist80053": {
+      "evidence": "P",
+      "sourceRef": "NIST SP 800-53r5 OSCAL catalog",
+      "title": "NIST SP 800-53 Rev. 5"
+    },
+    "soc2": {
+      "evidence": "P",
+      "sourceRef": "AICPA TSC 2017 (2022 POF); NIST-hosted crosswalk",
+      "title": "AICPA Trust Services Criteria (2017, with 2022 points of focus)"
+    },
+    "uae_iareg": {
+      "evidence": "P",
+      "sourceRef": "UAE IA Regulation v1.1; cite v1.1 explicitly, never a T… id as if it were IA Standard v2",
+      "title": "UAE Information Assurance Regulation v1.1 (TDRA, March 2020)"
+    }
+  },
+  "gateControls": {},
   "gates": {
     "exportPermittedCitizenships": [
       "US"
@@ -145,6 +670,18 @@
   },
   "id": "uae-gov",
   "jurisdiction": "AE",
+  "locality": {
+    "instrument": {
+      "evidence": "P",
+      "id": "AE-DOH-RAI-remote-access",
+      "sourceRef": "Abu Dhabi Department of Health, remote access requirement (cited in BAYAN-PRD-ADDENDUM-COMPLIANCE-REVENUE.md §8.4–8.5)",
+      "sourceText": "exclusively from within the UAE"
+    },
+    "nationalityRestrictions": [],
+    "permittedJurisdictions": [
+      "AE"
+    ]
+  },
   "name": "UAE federal and emirate government",
   "name_ar": "الحكومة الاتحادية والمحلية في الإمارات",
   "retention": {
@@ -177,7 +714,7 @@
       "evidence": "P",
       "id": "AE-T4.2.2",
       "note": "the gating artefact for any export from a UAE government entity; cite v1.1 explicitly, never a 'T…' ID as if it were IA Standard v2",
-      "packVersion": "0.1.0",
+      "packVersion": "0.2.0",
       "quote": "exchange-of-information agreement with each external party"
     },
     {
@@ -185,7 +722,7 @@
       "citation": "UAE IA Regulation v1.1, T4.2.1",
       "evidence": "P",
       "id": "AE-T4.2.1",
-      "packVersion": "0.1.0",
+      "packVersion": "0.2.0",
       "quote": "documented transfer procedures"
     },
     {
@@ -194,7 +731,7 @@
       "evidence": "P",
       "id": "AE-T4.2-BLOCKED",
       "note": "refused requests enter the ledger",
-      "packVersion": "0.1.0",
+      "packVersion": "0.2.0",
       "quote": "even those that are successfully blocked"
     },
     {
@@ -202,7 +739,7 @@
       "citation": "UAE IA Regulation v1.1, T3.6.2 (audit logging) and T3.6.4 (protection of log information)",
       "evidence": "P",
       "id": "AE-T3.6.2",
-      "packVersion": "0.1.0",
+      "packVersion": "0.2.0",
       "quote": "audit logging; protection of log information"
     },
     {
@@ -210,7 +747,7 @@
       "citation": "UAE IA Regulation v1.1, T1.4.1",
       "evidence": "P",
       "id": "AE-T1.4.1",
-      "packVersion": "0.1.0",
+      "packVersion": "0.2.0",
       "quote": "removable media justified, registered, encrypted, or inhibited"
     },
     {
@@ -219,7 +756,7 @@
       "evidence": "P",
       "id": "AE-PDPL-EXCL",
       "note": "whether logs generated inside a government system are themselves government data is an inference [I]; treat as yes but advisory",
-      "packVersion": "0.1.0",
+      "packVersion": "0.2.0",
       "quote": "government data, government authorities, and data held with security and judicial authorities are excluded"
     },
     {
@@ -227,7 +764,7 @@
       "citation": "Dubai Executive Council Resolution 2/2017 Art 26; Art 8",
       "evidence": "P",
       "id": "DXB-RES2-2017-ART26",
-      "packVersion": "0.1.0",
+      "packVersion": "0.2.0",
       "quote": "Sensitive data moved outside the Electronic Platform needs prior DDE approval; Secret data barred from the platform entirely"
     },
     {
@@ -235,7 +772,7 @@
       "citation": "bayan-prd.md R-F6; NIST SP 800-53 AC-4(19)",
       "evidence": "I",
       "id": "GUARDRAIL-NONEXPORT",
-      "packVersion": "0.1.0",
+      "packVersion": "0.2.0",
       "quote": "guardrail categories are their own tier, non-exportable by default, releasable only as counts over a cohort with a k-floor"
     }
   ],
@@ -261,5 +798,5 @@
       "verdict_hidden": "The machine's finding is sealed under commitment {commitment} and will be shown after you decide."
     }
   },
-  "version": "0.1.0"
+  "version": "0.2.0"
 }
