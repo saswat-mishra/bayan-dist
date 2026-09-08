@@ -1,5 +1,6 @@
 import type { HeadlineJson } from '../wz0g';
 import { Key, Lang, pick, t } from '../gna';
+import { Runs } from '../d7t';
 const KIND: Record<HeadlineJson["kind"], {
     cls: string;
     icon: string;
@@ -12,6 +13,8 @@ const KIND: Record<HeadlineJson["kind"], {
     "blocked-roster": { cls: "hl-roster", icon: "▤", label: "kindBlockedRoster" },
     "blocked-budget": { cls: "hl-budget", icon: "▮", label: "kindBlockedBudget" },
     "quarantined": { cls: "hl-quarantine", icon: "⊘", label: "kindQuarantined" },
+    released: { cls: "hl-ok", icon: "✓", label: "tReleased" },
+    refused: { cls: "hl-refused", icon: "⊘", label: "tRefused" },
 };
 export function Headline({ h, lang, compact }: {
     h: HeadlineJson | null | undefined;
@@ -24,6 +27,6 @@ export function Headline({ h, lang, compact }: {
     return (<div className={`headline ${k.cls}${compact ? " compact" : ""}`} data-testid="headline" data-kind={h.kind} role="status">
       <span className="hl-icon" aria-hidden="true">{k.icon}</span>
       <span className="hl-kind">{t(lang, k.label)}</span>
-      <span className="hl-text" data-gate-text="true">{pick(lang, h)}</span>
+      <span className="hl-text" data-gate-text="true"><Runs text={pick(lang, h)}/></span>
     </div>);
 }

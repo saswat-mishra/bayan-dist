@@ -20,7 +20,7 @@ export interface Deployment {
     version?: string;
 }
 export interface HeadlineJson {
-    kind: "releases-now" | "needs-review" | "blocked-fixable" | "blocked-recipient" | "blocked-roster" | "blocked-budget" | "quarantined";
+    kind: "releases-now" | "needs-review" | "blocked-fixable" | "blocked-recipient" | "blocked-roster" | "blocked-budget" | "quarantined" | "released" | "refused";
     en: string;
     ar: string;
 }
@@ -82,6 +82,17 @@ export interface ManifestField {
     ratified?: boolean;
     loadBearing?: boolean;
 }
+export interface Recommendation {
+    describe: string;
+    changes: {
+        field: string;
+        transform: string;
+        params: Record<string, unknown>;
+    }[];
+    d: string;
+    requiredR: string;
+    reachesTarget: boolean;
+}
 export interface Run {
     id: string;
     skill: string;
@@ -109,6 +120,7 @@ export interface Run {
     };
     derivedFrom?: string | null;
     transformDigest?: string | null;
+    recommendation?: Recommendation | null;
 }
 export interface UpliftOption {
     describe: string;
@@ -132,6 +144,7 @@ export interface UpliftMenu {
     unreachableReason: string | null;
     options: UpliftOption[];
     recommended: string | null;
+    recommendation?: Recommendation | null;
 }
 export interface ReleaseRequest {
     id: string;
@@ -163,6 +176,7 @@ export interface WaitingOn {
     ar: string;
     left?: number;
 }
+export type OutstandingKind = "eligible" | "waiting";
 export interface RequestListItem {
     id: string;
     deployment: string;
@@ -180,6 +194,7 @@ export interface RequestListItem {
     headline: HeadlineJson | null;
     waitingOn: WaitingOn;
     outstandingReviewers?: Outstanding[];
+    outstandingKind?: OutstandingKind;
     stuck?: boolean;
     stuckAfterSeconds?: number;
     lastReminderAt?: string | null;
@@ -211,6 +226,7 @@ export interface Timeline {
     } | null;
     suspended: boolean;
     outstandingReviewers?: Outstanding[];
+    outstandingKind?: OutstandingKind;
     nextActions?: NextAction[];
 }
 export interface FeasRow {
@@ -219,6 +235,10 @@ export interface FeasRow {
     text_ar: string;
     minClass: string;
     minClass_ar?: string;
+    minClassWords?: {
+        en: string;
+        ar: string;
+    };
     achievableD: number | null;
     approvalPath: string;
     realTime: boolean | null;
@@ -457,6 +477,14 @@ export interface Brief {
         entryDigest?: string;
     } | null;
     outstandingReviewers?: Outstanding[];
+    outstandingKind?: OutstandingKind;
+    question?: {
+        id: string;
+        en: string;
+        ar: string;
+    } | null;
+    createdAt?: string;
+    ageSeconds?: number;
     lookup?: Lookup | null;
     certificateDpe?: string;
 }
@@ -483,6 +511,7 @@ export interface Reveal {
     agreement: boolean;
     otherReviews?: {
         reviewer: string;
+        name?: string;
         verdict: string;
         reason: string;
     }[];
@@ -630,6 +659,10 @@ export interface ControlsIndex {
         digest: string;
     };
     primaryFramework?: string | null;
+    frameworkTitles?: Record<string, {
+        en: string;
+        ar: string;
+    }>;
     sensorHours: number;
     sensorPresent?: boolean;
     frameworks: Record<string, ControlRow[]>;
@@ -722,6 +755,7 @@ export interface FieldClass {
     class: string;
     proposedBy: string;
     ratifiedBy: string | null;
+    ratifiedByName?: string | null;
     ratifiedAt: string | null;
     ratified: boolean;
     signature: string | null;

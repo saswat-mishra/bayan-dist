@@ -4,14 +4,16 @@ import type { Ctx } from '../../App';
 import { ago, useGuard, useLive, useTicker } from '../../q1n';
 import { Lang, pick, t } from '../../gna';
 import type { ReleaseRequest, RegisterRow, RequestListItem, Run, Skill, SkillRequest, Summary } from '../../wz0g';
-import { Headline } from '../../components/uoj';
+import { StateChip } from '../../components/drm';
+import { AgreementStrip } from '../../components/c89n';
+import { go } from '../../q1n';
 import { EmptyState } from '../../components/qg9b';
 import { LiveStatus } from '../../components/poy';
 import { CertificateDetails } from '../../components/xsd';
 import { Progress } from '../../components/nv8';
 import { RowsPreview } from '../../components/hnm';
 import { Technical } from '../../components/n4x';
-import { Bi, formatDate } from '../../d7t';
+import { Iso, Name, Sentence, formatDate } from '../../d7t';
 export const POV_PURPOSE = "Weekly usage and quality summary as acceptance evidence for the deployment milestone.";
 const POV_SKILL = "weekly-usage-summary";
 export function isoWeek(iso: string): number {
@@ -52,7 +54,6 @@ function Tiles({ s, pending, lang }: {
       <div className="tile" data-testid="tile-releases"><div className="num">{s?.released ?? "—"}</div><div className="sub">{t(lang, "releasesThisPeriod")}</div></div>
       <div className="tile" data-testid="tile-pending"><div className="num">{s?.pending ?? pending.length}</div><div className="sub">{t(lang, "pendingTile")}{pending.length > 0 && ` · ${t(lang, "oldest")} ${ago(oldest, lang)}`}</div></div>
       <div className="tile" data-testid="tile-refusals"><div className="num">{s?.refused ?? "—"}</div><div className="sub">{t(lang, "refusalsTile")}</div></div>
-      <div className="tile" data-testid="tile-agreement"><div className="num small-num" data-gate-text="true">{s ? (s.agreementText ? <Bi x={s.agreementText} lang={lang}/> : s.agreementRate) : "—"}</div><div className="sub">{t(lang, "agreementTile")}</div></div>
     </div>);
 }
 export function ChaseList({ ctx, pending, onChanged, updatedAt, refresh }: {
@@ -70,20 +71,21 @@ export function ChaseList({ ctx, pending, onChanged, updatedAt, refresh }: {
     async function remind(id: string) { if (await guard(api(`/v1/requests/${id}/remind`, user, { method: "POST" })))
         onChanged(); }
     return (<div className="card tables" data-testid="stuck">
-      <h2>{t(lang, "chaseList")} <span className="muted">— {t(lang, "stuckHint")}</span> <LiveStatus updatedAt={updatedAt} lang={lang} onRefresh={refresh}/></h2>
+      <h2 data-testid="chase-heading">{t(lang, "chaseList")}</h2>
+      <LiveStatus updatedAt={updatedAt} lang={lang} onRefresh={refresh}/>
       {error && <div className="error" role="alert">{error}</div>}
-      {pending.length === 0 && <EmptyState text={t(lang, "noStuck")}/>}
+      {pending.length === 0 && <EmptyState text={t(lang, "noPending")}/>}
       {pending.length > 0 && <div className="table-wrap"><table>
-        <thead><tr><th scope="col">{t(lang, "colHeadline")}</th><th scope="col">{t(lang, "colPurpose")}</th><th scope="col">{t(lang, "colOutstanding")}</th><th scope="col">{t(lang, "colAge")}</th><th scope="col"><span className="sr-only">{t(lang, "remind")}</span></th></tr></thead>
+        <thead><tr><th scope="col">{t(lang, "colHeadline")}</th><th scope="col">{t(lang, "colPurpose")}</th><th scope="col" data-testid="chase-waits-header">{t(lang, "waitingFor")}</th><th scope="col">{t(lang, "colAge")}</th><th scope="col"><span className="sr-only">{t(lang, "remind")}</span></th></tr></thead>
         <tbody>{pending.map((p) => {
                 const names = (p.outstandingReviewers ?? []).map((o) => o.displayName);
                 const last = p.lastReminderAt ? Math.max(0, Math.round((now - new Date(p.lastReminderAt).getTime()) / 1000)) : null;
                 return (<tr key={p.id} className={isStuck(p) ? "bad" : ""} data-testid={`pending-${p.id}`} data-stuck={isStuck(p)}>
-              <td><Headline h={p.headline} lang={lang} compact/><div className="muted">{t(lang, "requestedBy")} {p.requesterName ?? p.requester}</div></td>
-              <td className="purpose-cell">{p.purpose}</td>
-              <td data-testid={`outstanding-${p.id}`}>{names.length ? <strong>{names.join(", ")}</strong> : null}<div className="muted small">{pick(lang, p.waitingOn)}</div></td>
-              <td>{ago(p.ageSeconds, lang)}{isStuck(p) && <> · <span className="bad">{t(lang, "stuckWord")}</span></>}</td>
-              <td><button onClick={() => remind(p.id)} data-testid={`remind-${p.id}`}>{t(lang, "remind")}</button>
+              <td>{p.headline && <StateChip kind={p.headline.kind} lang={lang} testid={`chip-${p.id}`}/>}<div className="muted">{t(lang, "requestedBy")} <Name name={p.requesterName ?? p.requester} lang={lang}/></div></td>
+              <td className="purpose-cell"><Iso>{p.purpose}</Iso></td>
+              <td data-testid={`outstanding-${p.id}`}>{names.length ? <strong>{names.map((n, i) => <span key={n}>{i > 0 && ", "}<Name name={n} lang={lang}/></span>)}</strong> : null}<div className="muted small"><Iso>{pick(lang, p.waitingOn)}</Iso></div></td>
+              <td>{ago(p.ageSeconds, lang)}{isStuck(p) && <> <span className="badge bad" data-testid={`stuck-${p.id}`}>{t(lang, "stuckFor").replace("{duration}", ago(p.ageSeconds, lang))}</span></>}</td>
+              <td><button className="ghost" onClick={() => remind(p.id)} data-testid={`remind-${p.id}`}>{t(lang, "remind")}</button>
                 {last !== null && <div className="muted small" data-testid={`reminder-${p.id}`}>{t(lang, "reminderRecorded").replace("{ago}", ago(last, lang))}</div>}</td>
             </tr>);
             })}</tbody>
@@ -140,7 +142,7 @@ export function PovPreview({ ctx, onRequested }: {
           <label>{t(lang, "povPurpose")}<textarea rows={2} value={purpose} onChange={(e) => setPurpose(e.target.value)} data-testid="pov-purpose"/></label>
           <div className="vote"><button className="primary" onClick={request} disabled={busy || purpose.trim().length < 20 || run.status !== "complete"} data-testid="pov-request">{t(lang, "povRequest")}</button></div>
         </div>)}
-      {req && <div className="ok" role="status" data-testid="pov-requested"><Headline h={req.certificate.headline} lang={lang} compact/> <span className="pill">{req.status}</span></div>}
+      {req && <div className="ok" role="status" data-testid="pov-requested">{req.certificate.headline && <StateChip kind={req.certificate.headline.kind} lang={lang}/>} <span className="pill">{req.status}</span></div>}
     </div>);
 }
 export function SkillRequests({ ctx }: {
@@ -162,7 +164,7 @@ export function SkillRequests({ ctx }: {
       {open.map((r) => (<div key={r.id} className="block" data-testid={`skill-request-${r.id}`}>
           <div><strong>{lang === "ar" ? r.questionText_ar : r.questionText}</strong> · <span className="muted">{t(lang, "requestedBy")} {r.requester} · {formatDate(r.createdAt, lang)}</span></div>
           <div className="muted">{t(lang, "skillRequestFields")}: {r.fieldsNeeded.join(", ") || "—"}</div>
-          <blockquote className="purpose-quote">{r.why}</blockquote>
+          <blockquote className="purpose-quote" dir="auto">{r.why}</blockquote>
           <div className="vote">
             <label className="grow">{t(lang, "closeNote")} <input value={note[r.id] ?? ""} onChange={(e) => setNote({ ...note, [r.id]: e.target.value })} data-testid={`close-note-${r.id}`}/></label>
             <button onClick={() => close(r.id, "planned")} data-testid={`accept-${r.id}`}>{t(lang, "closeRequest")} ✓</button>
@@ -185,8 +187,8 @@ export function SponsorPrint({ ctx, s, reg }: {
       <h1>{t(lang, "sponsorTitle")}</h1>
       <p>{name} · {status?.pack.id}@{status?.pack.version}{s?.from && ` · ${formatDate(s.from, lang)} — ${s?.to ? formatDate(s.to, lang) : ""}`}</p>
       <Tiles s={s} pending={[]} lang={lang}/>
+      <AgreementStrip s={s} lang={lang}/>
       {lines.length === 0 ? <p className="muted">{t(lang, "noPeriodReleases")}</p> : <ul data-testid="week-lines">{lines.map((l) => <li key={l}>{l}</li>)}</ul>}
-      <p><strong>{t(lang, "agreementTile")}:</strong> <span data-gate-text="true">{s ? (s.agreementText ? <Bi x={s.agreementText} lang={lang}/> : s.agreementRate) : "—"}</span></p>
       <Technical lang={lang}>{reg.filter((r) => r.outcome === "release").map((r) => `${r.leafIndex}\t${r.createdAt}\t${r.certificate}\t${r.outbox ?? ""}`).join("\n")}</Technical>
     </div>);
 }
@@ -209,21 +211,24 @@ export function LeadHome({ ctx }: {
     const releases = reg.filter((r) => r.outcome === "release").reverse();
     return (<div data-testid="lead-home">
       {error && <div className="error" role="alert">{error}</div>}
-      <div className="vote no-print"><a href="#/home/print" data-testid="export-sponsor">{t(lang, "exportSponsor")}</a></div>
       <Tiles s={s} pending={pending} lang={lang}/>
+      <AgreementStrip s={s} lang={lang}/>
       <ChaseList ctx={ctx} pending={pending} onChanged={refresh} updatedAt={updatedAt} refresh={refresh}/>
       <div className="grid">
         <PovPreview ctx={ctx} onRequested={refresh}/>
         <SkillRequests ctx={ctx}/>
       </div>
-      {s && s.budget.length > 0 && <div className="card" data-testid="budget-bars"><h3>{t(lang, "budgetBars")}</h3>{s.budget.map((b) => (<div key={b.cohort}><div className="muted">{b.cohort.split(":")[1] ?? b.cohort} · {t(lang, "ofLimit").replace("{n}", String(b.consumed + b.reserved)).replace("{limit}", String(b.limit)).replace("{period}", b.period)}</div><div className="bar" role="img" aria-label={`${b.consumed} of ${b.limit}`}><span style={{ width: `${Math.min(100, Math.round(100 * (b.consumed + b.reserved) / Math.max(b.limit, 1)))}%` }}/></div></div>))}</div>}
+      {s && s.budget.length > 0 && <div className="card" data-testid="budget-bars"><h3>{t(lang, "budgetBars")}</h3>{s.budget.map((b) => (<div key={b.cohort}><div className="muted"><Iso>{b.cohort.split(":")[1] ?? b.cohort}</Iso> · <Sentence tpl={t(lang, "ofLimit")} vars={{ n: String(b.consumed + b.reserved), limit: String(b.limit), period: b.period }}/></div><div className="bar" role="img" aria-label={`${b.consumed} of ${b.limit}`}><span style={{ width: `${Math.min(100, Math.round(100 * (b.consumed + b.reserved) / Math.max(b.limit, 1)))}%` }}/></div></div>))}</div>}
       <div className="card" data-testid="acceptance-timeline">
-        <h2>{t(lang, "acceptanceTimeline")}</h2>
+        <div className="card-head">
+          <h2>{t(lang, "acceptanceTimeline")}</h2>
+          <button className="no-print" onClick={() => go("home/print")} data-testid="export-sponsor">{t(lang, "exportSponsor")}</button>
+        </div>
         {releases.length === 0 && <EmptyState text={t(lang, "noReleases")}/>}
         <div className="cards">{releases.map((r) => (<div key={r.id} className="block" data-testid={`release-${r.id}`}>
-            <Headline h={r.headline} lang={lang} compact/>
-            <div>{r.skill ?? r.mechanism} · {formatDate(r.createdAt, lang)}{r.header && <span className="muted"> · {r.header.requester.displayName}</span>}</div>
-            {r.purpose && <div className="muted small">“{r.purpose}”</div>}
+            {r.headline && <StateChip kind={r.headline.kind} lang={lang}/>}
+            <div><Iso>{r.skill ?? r.mechanism}</Iso> · {formatDate(r.createdAt, lang)}{r.header && <span className="muted"> · <Name name={r.header.requester.displayName} lang={lang}/></span>}</div>
+            {r.purpose && <div className="muted small">“<Iso>{r.purpose}</Iso>”</div>}
             <Technical lang={lang}>{r.certificate} · {t(lang, "bundlePath")}: {r.outbox} · {t(lang, "leaf")} {r.leafIndex}</Technical>
           </div>))}</div>
       </div>

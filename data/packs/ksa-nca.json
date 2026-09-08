@@ -30,7 +30,7 @@
       "control": "A.5.12",
       "evidence": "S",
       "framework": "iso27001",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "ISO/IEC 27001:2022 Annex A.5.12",
       "sourceText": "Classification of information",
       "title": "Classification of information"
@@ -39,7 +39,7 @@
       "control": "A.5.13",
       "evidence": "S",
       "framework": "iso27001",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "ISO/IEC 27001:2022 Annex A.5.13",
       "sourceText": "Labelling of information",
       "title": "Labelling of information"
@@ -48,7 +48,7 @@
       "control": "A.5.14",
       "evidence": "S",
       "framework": "iso27001",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "ISO/IEC 27001:2022 Annex A.5.14",
       "sourceText": "Information transfer",
       "title": "Information transfer"
@@ -57,7 +57,7 @@
       "control": "A.5.19",
       "evidence": "S",
       "framework": "iso27001",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "ISO/IEC 27001:2022 Annex A.5.19",
       "sourceText": "Information security in supplier relationships",
       "title": "Information security in supplier relationships"
@@ -66,7 +66,7 @@
       "control": "A.5.20",
       "evidence": "S",
       "framework": "iso27001",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "ISO/IEC 27001:2022 Annex A.5.20",
       "sourceText": "Addressing information security within supplier agreements",
       "title": "Addressing information security within supplier agreements"
@@ -75,7 +75,7 @@
       "control": "A.5.22",
       "evidence": "S",
       "framework": "iso27001",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "ISO/IEC 27001:2022 Annex A.5.22",
       "sourceText": "Monitoring, review and change management of supplier services",
       "title": "Monitoring, review and change management of supplier services"
@@ -84,7 +84,7 @@
       "control": "A.5.3",
       "evidence": "S",
       "framework": "iso27001",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "ISO/IEC 27001:2022 Annex A.5.3",
       "sourceText": "Segregation of duties",
       "title": "Segregation of duties"
@@ -93,7 +93,7 @@
       "control": "A.5.34",
       "evidence": "S",
       "framework": "iso27001",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "ISO/IEC 27001:2022 Annex A.5.34",
       "sourceText": "Privacy and protection of personal identifiable information (PII)",
       "title": "Privacy and protection of personal identifiable information (PII)"
@@ -102,7 +102,7 @@
       "control": "A.8.10",
       "evidence": "S",
       "framework": "iso27001",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "ISO/IEC 27001:2022 Annex A.8.10",
       "sourceText": "Information deletion",
       "title": "Information deletion"
@@ -111,7 +111,7 @@
       "control": "A.8.11",
       "evidence": "S",
       "framework": "iso27001",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "ISO/IEC 27001:2022 Annex A.8.11",
       "sourceText": "Data masking",
       "title": "Data masking"
@@ -120,7 +120,7 @@
       "control": "A.8.12",
       "evidence": "S",
       "framework": "iso27001",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "ISO/IEC 27001:2022 Annex A.8.12",
       "sourceText": "Data leakage prevention",
       "title": "Data leakage prevention"
@@ -129,7 +129,7 @@
       "control": "A.8.15",
       "evidence": "S",
       "framework": "iso27001",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "ISO/IEC 27001:2022 Annex A.8.15",
       "sourceText": "Logging",
       "title": "Logging"
@@ -138,7 +138,7 @@
       "control": "A.8.16",
       "evidence": "S",
       "framework": "iso27001",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "ISO/IEC 27001:2022 Annex A.8.16",
       "sourceText": "Monitoring activities",
       "title": "Monitoring activities"
@@ -147,7 +147,7 @@
       "control": "A.8.32",
       "evidence": "S",
       "framework": "iso27001",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "ISO/IEC 27001:2022 Annex A.8.32",
       "sourceText": "Change management",
       "title": "Change management"
@@ -156,7 +156,7 @@
       "control": "2-2-1-1",
       "evidence": "P",
       "framework": "nca_cscc",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "NCA CSCC-1:2019, control 2-2-1-1",
       "sourceText": "Prohibiting remote access from outside the Kingdom of Saudi Arabia",
       "title": "No remote access from outside the Kingdom"
@@ -165,7 +165,7 @@
       "control": "3-1-1-3",
       "evidence": "P",
       "framework": "nca_dcc",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "NCA DCC-1:2022, control 3-1-1-3",
       "sourceText": "document all data sharing operations including the sharing justification",
       "title": "Documenting data sharing with justification"
@@ -174,7 +174,7 @@
       "control": "3-1-1-4",
       "evidence": "P",
       "framework": "nca_dcc",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "NCA DCC-1:2022, control 3-1-1-4",
       "sourceText": "Authorizing Official approval before transfer outside the Kingdom",
       "title": "Authorizing Official approval"
@@ -183,7 +183,7 @@
       "control": "3-1-1-6",
       "evidence": "P",
       "framework": "nca_dcc",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "NCA DCC-1:2022, control 3-1-1-6",
       "sourceText": "Reclassifying data to the least level to achieve the objective before sharing it with third parties",
       "title": "Reclassification to the least level before sharing"
@@ -192,7 +192,7 @@
       "control": "2-12-3-5",
       "evidence": "P",
       "framework": "nca_ecc",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "NCA ECC 2-12-3-5; CSCC 2-11-2",
       "sourceText": "log retention ≥ 12 months; ≥ 18 months for critical systems",
       "title": "Log retention"
@@ -201,7 +201,7 @@
       "control": "4-1-2",
       "evidence": "S",
       "framework": "nca_ecc",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "NCA ECC-1:2018, control 4-1-2-1",
       "sourceText": "Non-disclosure clauses and secure removal of organization's data by third-parties upon end of service",
       "title": "Third-party contract requirements"
@@ -210,7 +210,7 @@
       "control": "4-1-3-2",
       "evidence": "P",
       "framework": "nca_ecc",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "NCA ECC-2:2024, control 4-1-3-2",
       "sourceText": "shall be fully located in the Kingdom of Saudi Arabia",
       "title": "In-Kingdom hosting and operations"
@@ -219,7 +219,7 @@
       "control": "C1.2",
       "evidence": "P",
       "framework": "soc2",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "AICPA TSC 2017, C1.2",
       "sourceText": "The entity disposes of confidential information to meet the entity's objectives.",
       "title": "Disposal of confidential information"
@@ -228,7 +228,7 @@
       "control": "CC6.3",
       "evidence": "P",
       "framework": "soc2",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "AICPA TSC 2017, CC6.3",
       "sourceText": "The entity authorizes, modifies, or removes access to data, software, functions, and other protected information assets based on roles, responsibilities, or the system design and changes, giving consideration to the concepts of least privilege and segregation of duties, to meet the entity's objectives.",
       "title": "Access authorization, modification and removal"
@@ -237,7 +237,7 @@
       "control": "CC6.7",
       "evidence": "P",
       "framework": "soc2",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "AICPA TSC 2017, CC6.7",
       "sourceText": "The entity restricts the transmission, movement, and removal of information to authorized internal and external users and processes, and protects it during transmission, movement, or removal to meet the entity's objectives.",
       "title": "Restriction of transmission, movement and removal of information"
@@ -246,7 +246,7 @@
       "control": "CC7.2",
       "evidence": "P",
       "framework": "soc2",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "AICPA TSC 2017, CC7.2",
       "sourceText": "The entity monitors system components and the operation of those components for anomalies that are indicative of malicious acts, natural disasters, and errors affecting the entity's ability to meet its objectives; anomalies are analyzed to determine whether they represent security events.",
       "title": "Monitoring for anomalies"
@@ -255,7 +255,7 @@
       "control": "CC8.1",
       "evidence": "P",
       "framework": "soc2",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "AICPA TSC 2017, CC8.1",
       "sourceText": "The entity authorizes, designs, develops or acquires, configures, documents, tests, approves, and implements changes to infrastructure, data, software, and procedures to meet its objectives.",
       "title": "Change management"
@@ -264,7 +264,7 @@
       "control": "CC9.2",
       "evidence": "P",
       "framework": "soc2",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "AICPA TSC 2017, CC9.2",
       "sourceText": "The entity assesses and manages risks associated with vendors and business partners.",
       "title": "Vendor and business partner risk"
@@ -273,7 +273,7 @@
       "control": "P4.1",
       "evidence": "P",
       "framework": "soc2",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "sourceRef": "AICPA TSC 2017, P4.1",
       "sourceText": "The entity limits the use of personal information to the purposes identified in the entity's objectives related to privacy.",
       "title": "Limitation of use"
@@ -521,27 +521,32 @@
     "iso27001": {
       "evidence": "S",
       "sourceRef": "ISO/IEC 27001:2022 (paywalled; titles only)",
-      "title": "ISO/IEC 27001:2022 Annex A"
+      "title": "ISO/IEC 27001:2022 Annex A",
+      "title_ar": "ISO/IEC 27001:2022 — الملحق A"
     },
     "nca_cscc": {
       "evidence": "P",
       "sourceRef": "NCA CSCC-1:2019",
-      "title": "NCA Critical Systems Cybersecurity Controls (CSCC-1:2019)"
+      "title": "NCA Critical Systems Cybersecurity Controls (CSCC-1:2019)",
+      "title_ar": "ضوابط الأمن السيبراني للأنظمة الحساسة (CSCC-1:2019) — الهيئة الوطنية للأمن السيبراني"
     },
     "nca_dcc": {
       "evidence": "P",
       "sourceRef": "NCA DCC-1:2022 (Arabic original binding)",
-      "title": "NCA Data Cybersecurity Controls (DCC-1:2022)"
+      "title": "NCA Data Cybersecurity Controls (DCC-1:2022)",
+      "title_ar": "ضوابط الأمن السيبراني للبيانات (DCC-1:2022) — الهيئة الوطنية للأمن السيبراني"
     },
     "nca_ecc": {
       "evidence": "P",
       "sourceRef": "NCA ECC-2:2024 / ECC-1:2018",
-      "title": "NCA Essential Cybersecurity Controls (ECC-2:2024; ECC-1:2018 numbering cross-referenced)"
+      "title": "NCA Essential Cybersecurity Controls (ECC-2:2024; ECC-1:2018 numbering cross-referenced)",
+      "title_ar": "الضوابط الأساسية للأمن السيبراني (ECC-2:2024، مع الإحالة إلى ترقيم ECC-1:2018) — الهيئة الوطنية للأمن السيبراني"
     },
     "soc2": {
       "evidence": "P",
       "sourceRef": "AICPA TSC 2017 (2022 POF); NIST-hosted crosswalk",
-      "title": "AICPA Trust Services Criteria (2017, with 2022 points of focus)"
+      "title": "AICPA Trust Services Criteria (2017, with 2022 points of focus)",
+      "title_ar": "معايير خدمات الثقة الأمريكية (AICPA، 2017 مع نقاط التركيز 2022)"
     }
   },
   "gateControls": {},
@@ -604,7 +609,7 @@
       "evidence": "P",
       "id": "SA-DCC-3-1-1-6",
       "note": "downgrade-then-release is mandated; tier applicability columns are OCR-derived — confirm against the Arabic original",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "quote": "Reclassifying data to the least level to achieve the objective before sharing it with third-parties using data masking or data scrambling techniques"
     },
     {
@@ -612,7 +617,7 @@
       "citation": "NCA DCC-1:2022, control 2-4-1-3",
       "evidence": "P",
       "id": "SA-DCC-2-4-1-3",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "quote": "Prohibiting the use of data in any environment other than the production environment, except after conducting a risk assessment and applying controls… such as data masking"
     },
     {
@@ -620,7 +625,7 @@
       "citation": "NCA DCC-1:2022, control 3-1-1-3",
       "evidence": "P",
       "id": "SA-DCC-3-1-1-3",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "quote": "document all data sharing operations including the sharing justification"
     },
     {
@@ -628,7 +633,7 @@
       "citation": "NCA DCC-1:2022, control 3-1-1-4",
       "evidence": "P",
       "id": "SA-DCC-3-1-1-4",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "quote": "Authorizing Official approval before transfer outside the Kingdom"
     },
     {
@@ -636,7 +641,7 @@
       "citation": "NCA CSCC-1:2019, control 2-2-1-1",
       "evidence": "P",
       "id": "SA-CSCC-2-2-1-1",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "quote": "Prohibiting remote access from outside the Kingdom of Saudi Arabia"
     },
     {
@@ -644,7 +649,7 @@
       "citation": "NCA ECC-2:2024, control 4-1-3-2 (ECC-1:2018 numbering cross-referenced by DCC/CSCC)",
       "evidence": "P",
       "id": "SA-ECC-4-1-3-2",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "quote": "shall be fully located in the Kingdom of Saudi Arabia"
     },
     {
@@ -652,7 +657,7 @@
       "citation": "NDMO National Data Governance Interim Regulations (2020)",
       "evidence": "P",
       "id": "SA-NDMO-HIGHEST",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "quote": "unclassified data is treated as Confidential until correctly classified; a set of mixed levels takes the highest level present"
     },
     {
@@ -660,7 +665,7 @@
       "citation": "NCA ECC 2-12-3-5; CSCC 2-11-2",
       "evidence": "P",
       "id": "SA-ECC-2-12-3-5",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "quote": "log retention ≥ 12 months; ≥ 18 months for critical systems"
     },
     {
@@ -669,7 +674,7 @@
       "evidence": "unverified",
       "id": "SA-NDMO-16-CONFLICT",
       "note": "PRD OQ-8: flagged, not resolved silently",
-      "packVersion": "0.3.0",
+      "packVersion": "0.4.0",
       "quote": "personal data stored in-Kingdom; transfer needs written regulatory approval (unresolved against the later instruments)"
     }
   ],
@@ -695,7 +700,7 @@
       "purpose_line": "لماذا يقولون إنهم يحتاجونه: “{purpose}”",
       "reject_hint": "الرفض لا يحتاج إلى سبب. الموافقة فوق المستوى الأساسي تحتاج إلى سبب مكتوب بكلماتك.",
       "retention_days": "{days} يوماً",
-      "verdict_hidden": "حكم الآلة مختوم تحت الالتزام {commitment} وسيُعرض بعد أن تقرّر.",
+      "verdict_hidden": "حكم الآلة مختوم — تعرض التفاصيل التقنية الختم — وسيُعرض بعد أن تقرّر.",
       "what_lookup": "هوية {n} قيمة/قيم مستعارة للحقل {field} من الإفراج رقم {leaf}"
     },
     "en": {
@@ -719,7 +724,7 @@
       "purpose_line": "Why they say they need it: “{purpose}”",
       "reject_hint": "Rejecting needs no reason. Approving above the baseline tier needs your own typed reason.",
       "retention_days": "{days} days",
-      "verdict_hidden": "The machine's finding is sealed under commitment {commitment} and will be shown after you decide.",
+      "verdict_hidden": "The machine's finding is sealed — Technical shows the seal — and will be shown after you decide.",
       "what_lookup": "the identity of {n} pseudonymised {field} value(s) from release #{leaf}"
     }
   },
@@ -976,6 +981,42 @@
       "mask": {
         "label": "مخفيّ جزئياً",
         "line": "تُستبدل كل الأحرف عدا الأخيرة القليلة بنجوم."
+      },
+      "minclass:adoption": {
+        "label": "أعداد حسب سير العمل والأسبوع",
+        "line": "أعداد الاستخدام لكل سير عمل على زمن خشن الدقة — لا شيء عن شخص بعينه."
+      },
+      "minclass:bad-documents": {
+        "label": "أسماء المستندات — قد تحدد شخصاً بالتركيب",
+        "line": "تخرج أسماء المستندات الحقيقية؛ وقد يحدد المستند شخصاً بالتركيب، لذا يوقّع مراجعان."
+      },
+      "minclass:department-correlation": {
+        "label": "أسماء الإدارات — قد تحدد شخصاً بالتركيب",
+        "line": "تُسمّى الإدارات؛ والإدارة الصغيرة تحدد أفرادها بالتركيب."
+      },
+      "minclass:failing-stage": {
+        "label": "مراحل المسار وأسباب الانتهاء، كأعداد",
+        "line": "أي مرحلة أخفقت وكيف انتهت، معدودةً — دون محتوى."
+      },
+      "minclass:index-regression": {
+        "label": "أسماء مستندات مستعارة، مع حذف المجموعات الصغيرة",
+        "line": "تُسمّى المستندات باسم مستعار من الجيب الآمن وتُحذف أي مجموعة دون الحد الأدنى."
+      },
+      "minclass:named-user": {
+        "label": "شخص مسمّى",
+        "line": "يسمّي السؤال شخصاً؛ لا تُفرج أي درجة عن ذلك."
+      },
+      "minclass:quality-regression": {
+        "label": "درجات لمجموعات، لا لشخص واحد",
+        "line": "درجات الجودة ملخّصة على مجموعة لا تقل عن الحد الأدنى؛ لا تخرج إجابة واحدة."
+      },
+      "minclass:service-health": {
+        "label": "أعداد فقط",
+        "line": "لا يخرج إلا أعداد التفاعلات حسب النتيجة — لا سجل ولا شخص."
+      },
+      "minclass:single-response": {
+        "label": "سجل واحد بكلمات المستخدم نفسه",
+        "line": "سجل محادثة واحد، نص حر مع حجب المعرّفات — كلمات شخص واحد."
       },
       "needs-review": {
         "label": "يحتاج إلى مراجعة",
@@ -1307,6 +1348,42 @@
         "label": "Partly hidden",
         "line": "All but the last few characters are replaced with stars."
       },
+      "minclass:adoption": {
+        "label": "counts by workflow and week",
+        "line": "Counts of use per workflow over coarse time — nothing about one person."
+      },
+      "minclass:bad-documents": {
+        "label": "document names — could identify in combination",
+        "line": "The real document names leave; a document can identify a person in combination, so two reviewers sign."
+      },
+      "minclass:department-correlation": {
+        "label": "department names — could identify in combination",
+        "line": "Departments are named; a small department identifies its people in combination."
+      },
+      "minclass:failing-stage": {
+        "label": "pipeline stages and finish reasons, as counts",
+        "line": "Which stage failed and how it ended, counted — no content."
+      },
+      "minclass:index-regression": {
+        "label": "pseudonymised document names, small groups suppressed",
+        "line": "Documents are named by an enclave pseudonym and any group under the threshold is dropped."
+      },
+      "minclass:named-user": {
+        "label": "a named person",
+        "line": "The question names a person; no grade releases that."
+      },
+      "minclass:quality-regression": {
+        "label": "scores for groups, never one person",
+        "line": "Quality scores summarised over a cohort of at least the threshold; no single answer leaves."
+      },
+      "minclass:service-health": {
+        "label": "counts only",
+        "line": "Only counts of interactions by outcome leave — no record, no person."
+      },
+      "minclass:single-response": {
+        "label": "one record, in the user's own words",
+        "line": "A single conversation record, free text with identifiers masked — one person's own words."
+      },
       "needs-review": {
         "label": "Needs review",
         "line": "A person must approve it; the headline says how many and why."
@@ -1385,5 +1462,5 @@
       }
     }
   },
-  "version": "0.3.0"
+  "version": "0.4.0"
 }

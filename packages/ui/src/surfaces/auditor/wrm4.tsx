@@ -5,6 +5,7 @@ import { useGuard } from '../../q1n';
 import { t } from '../../gna';
 import type { Ledger } from '../../wz0g';
 import { EmptyState } from '../../components/qg9b';
+import { Iso, Term } from '../../d7t';
 export function LedgerView({ ctx }: {
     ctx: Ctx;
 }) {
@@ -22,8 +23,8 @@ export function LedgerView({ ctx }: {
         {led.entries.length === 0 && <EmptyState text={t(lang, "noLedger")}/>}
         <table><thead><tr><th scope="col">#</th><th scope="col">type</th><th scope="col">detail</th><th scope="col">leaf hash</th></tr></thead>
           <tbody>{led.entries.map((e) => <tr key={e.index} data-testid={`leaf-${e.index}`}><td>{e.index}</td><td>{e.type}</td>
-            <td>{e.type === "clearance" ? <span className={e.outcome === "release" ? "ok" : "bad"}>{e.outcome} · {e.rrsaClass} · {(e.humanReviews ?? []).map((h) => h.split("@")[0]).join(", ") || "gate"}</span> : <span className="muted">{e.principal ?? e.pack ?? e.hour ?? e.reason ?? ""} {e.keyName ?? ""} {e.by ?? ""}</span>}</td>
-            <td><code>{e.leafHash.slice(0, 16)}…</code></td></tr>)}</tbody></table>
+            <td>{e.type === "clearance" ? <span className={e.outcome === "release" ? "ok" : "bad"}><Iso>{e.outcome}</Iso> · {e.rrsaClass && <Term code={e.rrsaClass}/>} · <Iso>{(e.humanReviews ?? []).map((h) => h.split("@")[0]).join(", ") || "gate"}</Iso></span> : <span className="muted"><Iso>{e.principal ?? e.pack ?? e.hour ?? e.reason ?? ""}</Iso> <Iso>{e.keyName ?? ""}</Iso> <Iso>{e.by ?? ""}</Iso></span>}</td>
+            <td><code><Iso>{e.leafHash.slice(0, 16)}…</Iso></code></td></tr>)}</tbody></table>
       </>}
     </div>);
 }

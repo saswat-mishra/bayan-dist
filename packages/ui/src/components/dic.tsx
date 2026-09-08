@@ -3,7 +3,8 @@ import { api, ApiError, Principal } from '../vhq7';
 import { useLive } from '../q1n';
 import { Lang, t } from '../gna';
 import { browserPublicKey, ed25519Available } from '../ck2';
-import { Codes } from '../d7t';
+import { StateChip } from './drm';
+import type { ChipKind } from './drm';
 export type CustodyState = {
     kind: "loading";
 } | {
@@ -19,13 +20,14 @@ export type CustodyState = {
 } | {
     kind: "unenrolled";
 };
-export function useCustody(user: string, me: Principal, onEnrolled?: () => void): {
+export interface CustodyHandle {
     state: CustodyState;
     error: string | null;
     enrol: () => Promise<void>;
     refresh: () => void;
     updatedAt: number | null;
-} {
+}
+export function useCustody(user: string, me: Principal | null, onEnrolled?: () => void): CustodyHandle {
     const [state, setState] = useState<CustodyState>({ kind: "loading" });
     const [error, setError] = useState<string | null>(null);
     const previous = useRef<CustodyState["kind"]>("loading");
@@ -35,8 +37,11 @@ export function useCustody(user: string, me: Principal, onEnrolled?: () => void)
             onEnrolled?.();
         previous.current = next.kind;
     }, [onEnrolled]);
+    const role = me?.role ?? null;
     const check = useCallback(async () => {
-        if (me.role !== "reviewer") {
+        if (role === null)
+            return;
+        if (role !== "reviewer") {
             settle({ kind: "gate" });
             return;
         }
@@ -62,7 +67,7 @@ export function useCustody(user: string, me: Principal, onEnrolled?: () => void)
         catch (e) {
             setError(String(e));
         }
-    }, [user, me.role, settle]);
+    }, [user, role, settle]);
     const polling = state.kind === "pending" || state.kind === "unenrolled";
     const { updatedAt, refresh } = useLive(check, 30000, polling);
     const enrol = useCallback(async () => {
@@ -72,27 +77,25 @@ export function useCustody(user: string, me: Principal, onEnrolled?: () => void)
                 keyName: string;
             }>("/v1/keys/enrol", user, { method: "POST", body: { publicKey: await browserPublicKey(user) } });
             settle({ kind: "pending", keyName: r.keyName });
+            refresh();
         }
         catch (e) {
             setError(e instanceof ApiError ? `${e.status}: ${e.message}` : String(e));
         }
-    }, [user, settle]);
+    }, [user, settle, refresh]);
     return { state, error, enrol, refresh, updatedAt };
 }
-export function KeyCustody({ user, me, lang, onEnrolled }: {
-    user: string;
-    me: Principal;
+const CHIP: Record<CustodyState["kind"], ChipKind | null> = { loading: null, gate: "gate", unsupported: "unsupported", enrolled: "enrolled", pending: "key-pending", unenrolled: "unenrolled" };
+export function KeyCustody({ custody, lang }: {
+    custody: CustodyHandle;
     lang: Lang;
-    onEnrolled?: () => void;
 }) {
-    const { state, error, enrol } = useCustody(user, me, onEnrolled);
-    return (<span className="custody" data-testid="key-custody" data-state={state.kind}>
-      {state.kind === "gate" && <span className="muted"><Codes text={t(lang, "gateKey")}/></span>}
-      {state.kind === "unsupported" && <span className="bad">{t(lang, "keyUnsupported")}</span>}
-      {state.kind === "enrolled" && <span className="ok">{t(lang, "browserKey")} · {state.keyName}</span>}
-      {state.kind === "pending" && <span className="warn">{t(lang, "keyPending")} · {state.keyName}</span>}
-      
-      {state.kind === "unenrolled" && <span><span className="warn">{t(lang, "keyUnenrolled")}</span> <button data-testid="enrol-key" onClick={enrol}>{t(lang, "enrolKey")}</button></span>}
+    const { state, error } = custody;
+    const kind = CHIP[state.kind];
+    const title = state.kind === "enrolled" ? `${t(lang, "browserKey")} · ${state.keyName}` : state.kind === "pending" ? `${t(lang, "keyPending")} · ${state.keyName}`
+        : state.kind === "unenrolled" ? t(lang, "keyUnenrolled") : state.kind === "gate" ? t(lang, "gateKey") : state.kind === "unsupported" ? t(lang, "keyUnsupported") : "";
+    return (<span className="custody" data-testid="key-custody" data-state={state.kind} data-key={state.kind === "enrolled" || state.kind === "pending" ? state.keyName : undefined}>
+      {kind && <StateChip kind={kind} lang={lang} title={title} testid="custody-chip"/>}
       {error && <span className="error">{error}</span>}
     </span>);
 }

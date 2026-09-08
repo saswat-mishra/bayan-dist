@@ -5,11 +5,14 @@ import { useGuard } from '../../q1n';
 import { Key, Lang, t } from '../../gna';
 import type { ControlEvidence, ControlsIndex, EvidenceHit, Gap, LedgerRange } from '../../wz0g';
 import { EmptyState } from '../../components/qg9b';
-import { Headline } from '../../components/uoj';
-import { formatDate } from '../../d7t';
+import { StateChip } from '../../components/drm';
+import { Iso, Name, formatDate } from '../../d7t';
 import { ReceiptDrilldown } from './rd7t';
 import { currentPeriod } from '../lead/rjb';
 const WHY: Record<Gap["why"], Key> = { "no-refusal": "gapNoRefusal", "no-release": "gapNoRelease", "sensor-absent": "gapSensorAbsent", "no-sensor-hour": "gapNoSensorHour" };
+export function needsAction(g: Gap): boolean {
+    return g.why === "no-sensor-hour";
+}
 export function GapList({ gaps, lang }: {
     gaps: Gap[];
     lang: Lang;
@@ -17,8 +20,12 @@ export function GapList({ gaps, lang }: {
     if (gaps.length === 0)
         return <div className="ok" data-testid="no-gaps">{t(lang, "noGaps")}</div>;
     return (<ul className="gaps" data-testid="gaps" aria-label={t(lang, "gapsFirst")}>
-      {gaps.map((g) => <li key={g.control} className="gap" data-testid={`gap-${g.control}`}><strong>{g.control}</strong> — {t(lang, WHY[g.why])} <span className="muted">({g.sensorPresent ? t(lang, "withSensor") : t(lang, "withoutSensor")})</span></li>)}
+      {gaps.map((g) => <li key={g.control} className={"gap " + (needsAction(g) ? "action" : "info")} data-testid={`gap-${g.control}`}><strong><Iso>{g.control}</Iso></strong> — {t(lang, WHY[g.why])} <span className="muted">({g.sensorPresent ? t(lang, "withSensor") : t(lang, "withoutSensor")})</span></li>)}
     </ul>);
+}
+export function frameworkTitle(idx: ControlsIndex | null, fw: string, lang: Lang): string {
+    const tt = idx?.frameworkTitles?.[fw];
+    return (lang === "ar" ? tt?.ar : tt?.en) || tt?.en || fw;
 }
 export function Coverage({ ctx, readOnly, testid }: {
     ctx: Ctx;
@@ -59,19 +66,23 @@ export function Coverage({ ctx, readOnly, testid }: {
     return (<div data-testid={testid ?? "coverage"}>
       {error && <div className="error" role="alert">{error}</div>}
       <div className="card" data-testid="controls-explorer">
-        <h2>{t(lang, "coverage")}{" "}
-          <label className="muted">{t(lang, "periodPicker")}{" "}
-            <select value={period} onChange={(e) => setPeriod(e.target.value)} data-testid="period" aria-label={t(lang, "periodPicker")}>
+        <h2 className="title-inline" data-testid="coverage-title">{t(lang, "coverage")}
+          <span className="inline-control"><label className="sr-only" htmlFor="coverage-period">{t(lang, "periodPicker")}</label>
+            <select id="coverage-period" dir="ltr" value={period} onChange={(e) => setPeriod(e.target.value)} data-testid="period" aria-label={t(lang, "periodPicker")}>
               <option value="">{t(lang, "allTime")}</option>
               {(range?.periods.length ? range.periods : [currentPeriod()]).map((p) => <option key={p} value={p}>{p}</option>)}
-            </select></label>
+            </select></span>
         </h2>
         {range?.from && <div className="muted small">{formatDate(range.from, lang)} — {range.to ? formatDate(range.to, lang) : ""} · {t(lang, "ledgerEntries").replace("{n}", String(range.leaves))}</div>}
-        {idx && <div className="tabs" role="tablist" aria-label={t(lang, "framework")}>{Object.keys(idx.frameworks).map((f) => <button key={f} role="tab" aria-selected={fw === f} onClick={() => { setFw(f); setControl(null); setHit(null); }} data-testid={`fw-${f}`}>{f}{f === (idx.primaryFramework ?? pack?.primaryFramework) && <span className="muted"> ★</span>}</button>)}</div>}
-        {idx && fw && <section data-testid="gaps-section"><h3>{t(lang, "gapsFirst")} <span className="muted">({idx.sensorPresent ? t(lang, "withSensor") : t(lang, "withoutSensor")})</span></h3><GapList gaps={gaps} lang={lang}/></section>}
+        {idx && <div className="tabs fused" role="tablist" aria-label={t(lang, "framework")}>{Object.keys(idx.frameworks).sort((a, b) => Number(b === (idx.primaryFramework ?? pack?.primaryFramework)) - Number(a === (idx.primaryFramework ?? pack?.primaryFramework))).map((f) => {
+                const primary = f === (idx.primaryFramework ?? pack?.primaryFramework);
+                return <button key={f} role="tab" aria-selected={fw === f} aria-label={f} title={f} onClick={() => { setFw(f); setControl(null); setHit(null); }} data-testid={`fw-${f}`}><Iso>{frameworkTitle(idx, f, lang)}</Iso>{primary && <span className="muted small"> — {t(lang, "yourPackFramework")}</span>}</button>;
+            })}</div>}
+        {lang === "ar" && <p className="muted small" data-testid="control-titles-note">{t(lang, "controlTitlesEnglish")}</p>}
+        {idx && fw && <section data-testid="gaps-section" className="gaps-region"><h3>{t(lang, "gapsFirst")} <span className="muted">({idx.sensorPresent ? t(lang, "withSensor") : t(lang, "withoutSensor")})</span></h3><GapList gaps={gaps} lang={lang}/></section>}
         {idx && fw && <ControlList rows={rows} lang={lang} onPick={open} selected={control?.control ?? null}/>}
       </div>
-      {control && <EvidenceTable c={control} lang={lang} onPick={setHit} selected={hit}/>}
+      {control && <EvidenceTable c={control} lang={lang} title={idx && fw ? frameworkTitle(idx, fw, lang) : undefined} onPick={setHit} selected={hit}/>}
       {hit && control && <ReceiptDrilldown ctx={ctx} hit={hit} control={control} readOnly={readOnly}/>}
     </div>);
 }
@@ -86,25 +97,26 @@ export function ControlList({ rows, lang, onPick, selected }: {
     return (<div className="table-wrap"><table data-testid="control-list">
       <thead><tr><th scope="col">{t(lang, "control")}</th><th scope="col"><span className="sr-only">title</span></th><th scope="col">{t(lang, "releasesCol")}</th><th scope="col">{t(lang, "refusalsCol")}</th><th scope="col">{t(lang, "sensorHoursCol")}</th><th scope="col">{t(lang, "lastEvidence")}</th></tr></thead>
       <tbody>{rows.map((r) => (<tr key={r.control} className={"clickable" + (selected === r.control ? " selected" : "")} onClick={() => onPick(r.control)} data-testid={`control-${r.control}`}>
-          <td><strong>{r.control}</strong></td><td className="muted">{r.title}</td><td>{r.releases}</td><td>{r.refusals}</td><td>{r.sensorHours}</td><td className="muted">{r.lastEvidenceAt ? formatDate(r.lastEvidenceAt, lang) : "—"}</td>
+          <td><strong><Iso>{r.control}</Iso></strong></td><td className="muted"><Iso>{r.title}</Iso></td><td>{r.releases}</td><td>{r.refusals}</td><td>{r.sensorHours}</td><td className="muted">{r.lastEvidenceAt ? formatDate(r.lastEvidenceAt, lang) : "—"}</td>
         </tr>))}</tbody>
     </table></div>);
 }
-export function EvidenceTable({ c, lang, onPick, selected }: {
+export function EvidenceTable({ c, lang, onPick, selected, title }: {
     c: ControlEvidence;
     lang: Lang;
     onPick: (h: EvidenceHit) => void;
     selected: EvidenceHit | null;
+    title?: string;
 }) {
     return (<div className="card" data-testid="evidence-table">
-      <h2>{t(lang, "evidenceFor")} {c.framework} / {c.control}</h2>
-      {c.provenance && <div className="muted"><strong>{t(lang, "provenance")}:</strong> {c.provenance.title} — “{c.provenance.sourceText}” <em>({c.provenance.sourceRef})</em></div>}
+      <h2>{t(lang, "evidenceFor")} <Iso>{title ?? c.framework}</Iso> · <Iso>{c.control}</Iso></h2>
+      {c.provenance && <div className="muted"><strong>{t(lang, "provenance")}:</strong> <Iso>{c.provenance.title}</Iso> — “<Iso>{c.provenance.sourceText}</Iso>” <em>(<Iso>{c.provenance.sourceRef}</Iso>)</em></div>}
       {c.evidence.length === 0 && <EmptyState text={t(lang, "noEvidence")}/>}
       {c.evidence.length > 0 && <div className="table-wrap"><table>
         <thead><tr><th scope="col">{t(lang, "leaf")}</th><th scope="col">{t(lang, "colHeadline")}</th><th scope="col">{t(lang, "receiptRequester")}</th><th scope="col"><span className="sr-only">{t(lang, "drillDown")}</span></th></tr></thead>
         <tbody>{c.evidence.map((h) => (<tr key={h.leaf} className={"clickable" + (selected?.leaf === h.leaf ? " selected" : "")} onClick={() => onPick(h)} data-testid={`evidence-${h.leaf}`}>
             <td>#{h.leaf} <span className={h.outcome === "release" ? "ok" : "bad"}>{h.outcome === "release" ? t(lang, "tReleased") : t(lang, "tRefused")}</span><div className="muted small">{formatDate(h.decidedAt, lang)}</div></td>
-            <td><Headline h={h.headline} lang={lang} compact/></td><td className="muted">{h.header?.requester.displayName ?? "—"}</td><td>{t(lang, "drillDown")} →</td>
+            <td><StateChip kind={h.headline.kind} lang={lang}/></td><td className="muted">{h.header ? <Name name={h.header.requester.displayName} lang={lang}/> : "—"}</td><td>{t(lang, "drillDown")}</td>
           </tr>))}</tbody>
       </table></div>}
     </div>);

@@ -6,11 +6,10 @@ import { Key, Lang, t } from '../../gna';
 import type { Principal, QueueItem } from '../../wz0g';
 import { browserSigner } from '../../ck2';
 import { EmptyState } from '../../components/qg9b';
-import { Headline } from '../../components/uoj';
+import { StateChip } from '../../components/drm';
 import { LiveStatus } from '../../components/poy';
 import { OnboardingChecklist } from '../../components/z3w4';
-import { useCustody } from '../../components/dic';
-import { Bi } from '../../d7t';
+import { Bi, Iso, Name } from '../../d7t';
 import { Brief } from './u3r';
 export const GROUPS: [
     string,
@@ -26,12 +25,12 @@ export function InboxRow({ q, lang, selected, onOpen }: {
     const purpose = (q.purpose ?? "").length > 90 ? (q.purpose ?? "").slice(0, 88) + "…" : q.purpose ?? "";
     return (<li className={"inbox-row clickable" + (selected ? " selected" : "")} data-testid={`queue-${q.id}`} aria-current={selected ? "true" : undefined}>
       <button type="button" className="row-button" onClick={onOpen} aria-label={q.headline ? (lang === "ar" ? q.headline.ar : q.headline.en) : q.id}>
-        <Headline h={q.headline} lang={lang} compact/>
+        {q.headline && <StateChip kind={q.headline.kind} lang={lang} testid={`chip-${q.id}`}/>}
         <div className="inbox-line">
-          <span>{t(lang, "requestedBy")} <strong>{q.requesterName ?? q.requester}</strong></span> · <span>{t(lang, "fromDeployment")} <Bi x={{ en: q.deploymentName ?? q.deployment, ar: q.deploymentName_ar }} lang={lang}/></span>
+          <span>{t(lang, "requestedBy")} <strong><Name name={q.requesterName ?? q.requester} lang={lang}/></strong></span> · <span>{t(lang, "fromDeployment")} <Bi x={{ en: q.deploymentName ?? q.deployment, ar: q.deploymentName_ar }} lang={lang}/></span>
           {q.lookup && <> · <span>{t(lang, "lookupTitle")}</span></>}
         </div>
-        {purpose && <div className="muted inbox-purpose">“{purpose}”</div>}
+        {purpose && <div className="muted inbox-purpose" dir="auto">“<Iso>{purpose}</Iso>”</div>}
         <div className="muted small">{ago(q.ageSeconds ?? 0, lang)} · {t(lang, "votesIn").replace("{n}", String(q.votes)).replace("{m}", String(q.requiredReviews))}
           {q.yours && <> · <span className="bad">{t(lang, "yoursCannot")}</span></>}{q.youVoted && <> · {t(lang, "youVoted")}</>}</div>
       </button>
@@ -49,7 +48,7 @@ export function Queue({ ctx }: {
     const { updatedAt, refresh } = useLive(load, QUEUE_POLL_MS);
     const loadApprovers = useCallback(() => api<Principal[]>("/v1/principals", user).then((ps) => setApprovers(ps.filter((p) => p.authority && p.id !== user).map((p) => p.displayName))).catch(() => setApprovers([])), [user]);
     useLive(loadApprovers, 60000, false);
-    const custody = useCustody(user, me);
+    const custody = ctx.custody;
     const needsOnboarding = me.role === "reviewer" && (custody.state.kind === "unenrolled" || custody.state.kind === "pending");
     const selected = sub[0] ?? null;
     const items = (queue ?? []).filter((q) => filter === "all" || q.deployment === filter);
@@ -60,8 +59,8 @@ export function Queue({ ctx }: {
       <div>
         {needsOnboarding && <OnboardingChecklist state={custody.state} approvers={approvers} lang={lang} onEnrol={custody.enrol}/>}
         <div className="card" data-testid="inbox">
-          <h2>{t(lang, "inbox")} <LiveStatus updatedAt={updatedAt} lang={lang} onRefresh={refresh}/></h2>
-          <p className="muted">{t(lang, "inboxIntro")}</p>
+          <h2>{t(lang, "inbox")}</h2>
+          <p className="muted">{t(lang, "inboxIntro")} <LiveStatus updatedAt={updatedAt} lang={lang} onRefresh={refresh}/></p>
           {error && <div className="error" role="alert">{error}</div>}
           {deployments.length > 1 && <label>{t(lang, "filterDeployment")}{" "}
             <select value={filter} onChange={(e) => setFilter(e.target.value)} aria-label="deployment-filter"><option value="all">{t(lang, "all")}</option>{deployments.map((d) => <option key={d} value={d}>{depName(d)}</option>)}</select></label>}

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { api } from '../../vhq7';
 import type { Ctx } from '../../App';
-import { useGuard } from '../../q1n';
+import { useGuard, useLive } from '../../q1n';
 import { Key, Lang, t } from '../../gna';
 import type { FeasRow, ReleaseRequest, Run, Skill } from '../../wz0g';
 import { QuestionStep } from './steps/zb46';
@@ -47,8 +47,9 @@ export function Ask({ ctx }: {
     const hydrated = useRef<string | null>(null);
     useEffect(() => {
         guard(api<FeasRow[]>(`/v1/feasibility?deployment=${dep}`, user)).then((r) => r && setFeas(r));
-        guard(api<Skill[]>(`/v1/skills?deployment=${dep}`, user)).then((s) => s && setSkills(s));
     }, [dep, user, guard]);
+    const loadSkills = useCallback(() => guard(api<Skill[]>(`/v1/skills?deployment=${dep}`, user)).then((s) => s && setSkills(s)), [dep, user, guard]);
+    const live = useLive(loadSkills, 15000, step === 1);
     useEffect(() => {
         if (!urlId || hydrated.current === urlId)
             return;
@@ -79,12 +80,11 @@ export function Ask({ ctx }: {
     useEffect(() => { if (skills.length && run && !skill)
         setSkill(skills.find((s) => s.name === run.skill) ?? null); }, [skills, run, skill]);
     const advance = useCallback((i: number) => { setStep(i); setReached((r) => Math.max(r, i)); }, []);
-    const reloadSkills = () => guard(api<Skill[]>(`/v1/skills?deployment=${dep}`, user)).then((s) => s && setSkills(s));
     return (<div data-testid="ask">
       <Rail step={step} reached={reached} onGo={setStep} lang={lang} busy={busy}/>
       {error && <div className="error" role="alert">{error}</div>}
       {step === 0 && <QuestionStep ctx={ctx} rows={feas} selected={question} onPick={(q) => { setQuestion(q); setSkill(null); advance(1); }}/>}
-      {step === 1 && <SkillStep skills={skills} question={question} lang={lang} user={user} dep={dep} guard={guard} onRun={(r, s) => { setSkill(s); setRun(r); setReq(null); advance(2); }} onReload={reloadSkills} onBusy={setBusy}/>}
+      {step === 1 && <SkillStep skills={skills} question={question} lang={lang} user={user} dep={dep} guard={guard} onRun={(r, s) => { setSkill(s); setRun(r); setReq(null); advance(2); }} onBusy={setBusy} live={live}/>}
       {step === 2 && run && <RunStep run={run} lang={lang} pack={ctx.pack} onImprove={() => advance(3)} onRequest={() => advance(4)}/>}
       {step === 3 && run && <ImproveStep run={run} lang={lang} user={user} guard={guard} onRun={setRun} onRequest={() => advance(4)} onBusy={setBusy}/>}
       {step === 4 && run && <RequestStep ctx={ctx} run={run} skill={skill} question={question} guard={guard} onRequested={(r) => { setReq(r); advance(5); }} onBusy={setBusy}/>}

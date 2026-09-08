@@ -55,7 +55,7 @@ export function LeadRoster({ ctx }: {
       {rows.length === 0 && <EmptyState text={t(lang, "nothingYet")}/>}
       <div className="cards">{rows.map((e) => (<div key={e.principal}>
           <RosterCard e={e} lang={lang} showCitizenship title={e.displayName ?? e.principal}/>
-          <div className="vote"><button onClick={() => fill(e)} data-testid={`renew-${e.principal}`}>{t(lang, "addEntry")}</button>{!e.rolledOffAt && <button className="danger" onClick={() => rollOff(e.principal)} data-testid={`rolloff-${e.principal}`}>{t(lang, "rollOff")}</button>}</div>
+          <div className="vote"><button onClick={() => fill(e)} data-testid={`renew-${e.principal}`}>{t(lang, "addEntry")}</button>{!e.rolledOffAt && <button onClick={() => rollOff(e.principal)} data-testid={`rolloff-${e.principal}`}>{t(lang, "rollOff")}</button>}</div>
         </div>))}</div>
     </div>);
 }

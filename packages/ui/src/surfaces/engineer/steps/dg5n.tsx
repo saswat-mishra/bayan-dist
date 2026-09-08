@@ -1,27 +1,14 @@
 import { useEffect, useState } from "react";
 import { api } from '../../../vhq7';
 import { Lang, t } from '../../../gna';
-import type { Run, UpliftMenu, UpliftOption } from '../../../wz0g';
+import type { Run, UpliftMenu } from '../../../wz0g';
+import { describeOption } from '../../../b3w';
 import { CertificateDetails } from '../../../components/xsd';
 import { Progress } from '../../../components/nv8';
 import { RowsPreview } from '../../../components/hnm';
 import { OutputPreview } from './edn5';
-import { Codes } from '../../../d7t';
-export function describeOption(o: UpliftOption, lang: Lang): string {
-    const parts = o.changes.map((c) => {
-        if (c.transform === "hmac_enclave")
-            return `${t(lang, "replaceWith")} ${c.field} ${t(lang, "withPseudonyms")} — ${t(lang, "keepsRanking")}`;
-        if (c.transform === "drop")
-            return `${t(lang, "dropField")} ${c.field}`;
-        if (c.transform === "bucket")
-            return `${t(lang, "bucketField")} ${c.field}`;
-        if (c.transform === "coarsen")
-            return `${t(lang, "coarsenField")} ${c.field}`;
-        return `${c.transform} ${c.field}`;
-    });
-    const path = o.requiredR === "R1" ? t(lang, "noReviewer") : o.requiredR === "R2" ? t(lang, "oneReviewer") : t(lang, "twoReviewers");
-    return `${parts.join("; ")} → ${t(lang, "releasesWith")} ${path} (${o.d})`;
-}
+import { Codes, Iso } from '../../../d7t';
+export { describeOption } from '../../../b3w';
 interface Props {
     run: Run;
     lang: Lang;
@@ -83,29 +70,32 @@ export function ImproveStep({ run, lang, user, guard, onRun, onRequest, onBusy }
     const d3Blocked = run.certificate.d !== 2;
     return (<div data-testid="step-improve">
       <CertificateDetails cert={run.certificate} lang={lang}/>
-      {applied && <div className="ok" role="status" data-testid="applied">{t(lang, "applied")} {parent && <button className="link" onClick={() => setCompare(!compare)} data-testid="compare-toggle" aria-pressed={compare}>{compare ? t(lang, "hideCompare") : t(lang, "compareWithBefore")}</button>}</div>}
-      {compare && parent ? (<div className="grid" data-testid="compare">
-          <div className="card"><h2>{t(lang, "beforeLabel")} · {parent.certificate.label}</h2><RowsPreview rows={parent.rows} fields={parent.manifest.fields} lang={lang} limit={8} testid="rows-before"/></div>
-          <div className="card"><h2>{t(lang, "afterLabel")} · {run.certificate.label}</h2><RowsPreview rows={run.rows} fields={run.manifest.fields} lang={lang} limit={8} testid="rows-after"/></div>
-        </div>) : <OutputPreview run={run} lang={lang}/>}
       <div className="card" data-testid="uplift-menu">
         <h2>{t(lang, "stepImprove")}</h2>
         <p className="muted">{t(lang, "improveIntro")}</p>
         {run.certificate.d >= 2 && <div className="muted"><Codes text={t(lang, "noUplift")}/></div>}
-        {menu?.unreachableReason && <div className="warn">{menu.unreachableReason}</div>}
-        {menu && <ol>{menu.options.map((o, i) => (<li key={i}>
+        {menu?.unreachableReason && <div className="warn"><Iso>{menu.unreachableReason}</Iso></div>}
+        {menu && <ol className="options">{menu.options.map((o, i) => (<li key={i} className={o.recommended ? "recommended" : undefined}>
             <span data-testid={`option-${i}`}><Codes text={describeOption(o, lang)}/></span>
-            {o.loses.length > 0 && <span className="warn"> — loses load-bearing {o.loses.join(", ")}</span>}
-            {o.recommended && <strong> ← {t(lang, "recommended")}</strong>}{" "}
-            <button onClick={() => apply(i)} disabled={!o.reachesTarget || busy} data-testid={`apply-${i}`}>{t(lang, "applyOption")}</button>
+            {o.loses.length > 0 && <span className="warn"> — {t(lang, "losesLoadBearing")} <Iso>{o.loses.join(", ")}</Iso></span>}
+            {o.recommended && <strong> {t(lang, "arrowBack")} {t(lang, "recommended")}</strong>}{" "}
+            <button className={o.recommended ? "primary" : undefined} onClick={() => apply(i)} disabled={!o.reachesTarget || busy} data-testid={`apply-${i}`}>{t(lang, "applyOption")}</button>
           </li>))}</ol>}
         {busy && <Progress label={t(lang, "progressApplying")}/>}
         <div className="vote">
           <button onClick={upgrade} disabled={d3Blocked || !!job || busy} data-testid="upgrade-d3" aria-describedby={d3Blocked ? "d3-why" : undefined}><Codes text={t(lang, "upgradeD3")} plain/></button>
           {d3Blocked && <span id="d3-why" className="muted" data-testid="d3-why"><Codes text={t(lang, "d3Unavailable")}/></span>}
-          {job && <span className="muted" data-testid="job">{job.status === "done" ? job.certificate : t(lang, "upgradeRunning")}</span>}
-          <button className="primary" onClick={onRequest} disabled={busy} data-testid="to-request">{t(lang, "stepRequest")} →</button>
+          {job && <span className="muted" data-testid="job">{job.status === "done" ? <Iso>{job.certificate ?? ""}</Iso> : t(lang, "upgradeRunning")}</span>}
+          <button className={applied || run.certificate.d >= 2 ? "primary" : undefined} onClick={onRequest} disabled={busy} data-testid="to-request">{t(lang, "stepRequest")} {t(lang, "arrow")}</button>
         </div>
       </div>
+      {applied && (<div className="vote applied-line" role="status" data-testid="applied">
+          <span className="ok">{t(lang, "applied")}</span>
+          {parent && <button className="link" onClick={() => setCompare(!compare)} data-testid="compare-toggle" aria-pressed={compare}>{compare ? t(lang, "hideCompare") : t(lang, "compareWithBefore")}</button>}
+        </div>)}
+      {compare && parent ? (<div className="grid" data-testid="compare">
+          <div className="card"><h2>{t(lang, "beforeLabel")} · <Iso>{parent.certificate.label}</Iso></h2><RowsPreview rows={parent.rows} fields={parent.manifest.fields} lang={lang} limit={8} testid="rows-before"/></div>
+          <div className="card"><h2>{t(lang, "afterLabel")} · <Iso>{run.certificate.label}</Iso></h2><RowsPreview rows={run.rows} fields={run.manifest.fields} lang={lang} limit={8} testid="rows-after"/></div>
+        </div>) : <OutputPreview run={run} lang={lang}/>}
     </div>);
 }

@@ -4,7 +4,8 @@ import type { Ctx } from '../../App';
 import { useGuard } from '../../q1n';
 import { t } from '../../gna';
 import type { RegisterRow } from '../../wz0g';
-import { Headline } from '../../components/uoj';
+import { StateChip } from '../../components/drm';
+import { Iso, Name } from '../../d7t';
 import { EmptyState } from '../../components/qg9b';
 import { ReceiptDrilldown } from './rd7t';
 export function Register({ ctx, readOnly }: {
@@ -24,9 +25,9 @@ export function Register({ ctx, readOnly }: {
         {rows && rows.length > 0 && <table>
           <thead><tr><th scope="col">when</th><th scope="col">skill</th><th scope="col">requester</th><th scope="col">{t(lang, "colHeadline")}</th><th scope="col">certificate</th><th scope="col">outcome</th><th scope="col">gates</th><th scope="col">reviews</th><th scope="col">leaf</th></tr></thead>
           <tbody>{rows.map((r) => (<tr key={r.id} className={"clickable" + (sel?.id === r.id ? " selected" : "")} onClick={() => setSel(r)} data-testid={`register-${r.id}`}>
-              <td className="muted">{r.createdAt}</td><td>{r.skill ?? r.mechanism}</td><td>{r.requester}</td><td><Headline h={r.headline} lang={lang} compact/></td><td data-technical="true"><code>{r.certificate}</code></td>
-              <td className={r.outcome === "release" ? "ok" : r.outcome === "block" ? "bad" : "muted"}>{r.outcome}</td><td className="bad">{r.failedGates.join(", ")}</td>
-              <td>{r.reviews.map((v) => `${v.reviewer.split("@")[0]}:${v.verdict}`).join(" ")}</td><td>{r.leafIndex ?? "—"}</td>
+              <td className="muted"><Iso>{r.createdAt}</Iso></td><td><Iso>{r.skill ?? r.mechanism}</Iso></td><td><Name name={r.requester} lang={lang}/></td><td>{r.headline && <StateChip kind={r.headline.kind} lang={lang}/>}</td><td data-technical="true"><code><Iso>{r.certificate}</Iso></code></td>
+              <td className={r.outcome === "release" ? "ok" : r.outcome === "block" ? "bad" : "muted"}><Iso>{r.outcome}</Iso></td><td className="bad"><Iso>{r.failedGates.join(", ")}</Iso></td>
+              <td><Iso>{r.reviews.map((v) => `${v.reviewer.split("@")[0]}:${v.verdict}`).join(" ")}</Iso></td><td>{r.leafIndex ?? "—"}</td>
             </tr>))}</tbody>
         </table>}
       </div>

@@ -27,7 +27,7 @@ def qaw(gate:b8d,dep_id:str,field:str,ratified:bool)->dict[str,Any]:
 		if C in G or C in E:D.append(f"{B[_F]}@{B[F]}")
 		if C in E and not ratified:A.append(f"{B[_F]}@{B[F]}")
 	return{'skills':D,'cappedAtD1':A,'text':f"{len(A)} skill(s) capped at D1 until ratified"if A else'no skill is capped by this field','text_ar':f"{len(A)} مهارة/مهارات مقيّدة عند D1 حتى التصديق"if A else'لا مهارة مقيّدة بهذا الحقل'}
-def qrp(gate:b8d,r:sqlite3.Row)->dict[str,Any]:C='signature';B='deployment_id';A=gate;D=A.deployment(r[B]);E=A.packs[D['pack_id']].field_default(r[_D])or{};return{_G:r[B],_D:r[_D],_B:r[_B],'proposedBy':r['proposed_by'],_H:r[_C],'ratifiedAt':x0l(r[_I]),'ratified':r[_C]is not _A,C:r[C],'guidance':E,'impact':qaw(A,r[B],r[_D],r[_C]is not _A)}
+def qrp(gate:b8d,r:sqlite3.Row)->dict[str,Any]:C='signature';B='deployment_id';A=gate;D=A.deployment(r[B]);E=A.packs[D['pack_id']].field_default(r[_D])or{};return{_G:r[B],_D:r[_D],_B:r[_B],'proposedBy':r['proposed_by'],_H:r[_C],'ratifiedByName':A.principal(r[_C])['display_name']if r[_C]else _A,'ratifiedAt':x0l(r[_I]),'ratified':r[_C]is not _A,C:r[C],'guidance':E,'impact':qaw(A,r[B],r[_D],r[_C]is not _A)}
 def d2i(gate:b8d,dep_id:str)->list[dict[str,Any]]:B=dep_id;A=gate;A.deployment(B);C=A.db.execute('SELECT * FROM field_class WHERE deployment_id=? ORDER BY (ratified_by IS NOT NULL), field',(B,)).fetchall();return[qrp(A,B)for B in C]
 def q223(*,deployment:str,field:str,cls:str,ratified_by:str,at:str,reason:str|_A=_A,previous:str|_A=_A)->bytes:
 	B=reason;A:dict[str,Any]={'schema':kz3i,_G:deployment,_D:field,_B:cls,_H:ratified_by,'at':at}

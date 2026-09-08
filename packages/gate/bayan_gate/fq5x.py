@@ -108,7 +108,7 @@ def fw1(app:FastAPI)->_A:
 			if A and A.startswith('/v1/')and(B,A)not in y2b and(B,A)not in pv7o and(B,A)not in jdc:C.append((B,A))
 	if C:raise RuntimeError(f"routes without an entry in ROUTE_ROLES: {sorted(C)}")
 def x3w2(gate:b8d)->FastAPI:
-	Q='key_type';P='keyType';O='error';N='version';M='display_name';L='displayName';K='name_ar';J='name';I='authority';H='lang';G='external';F='role';E='id';A=gate;B=FastAPI(title='bayand',version='0.3.0',docs_url=_A,redoc_url=_A,openapi_url=_A)
+	Q='key_type';P='keyType';O='error';N='version';M='display_name';L='displayName';K='name_ar';J='name';I='authority';H='lang';G='external';F='role';E='id';A=gate;B=FastAPI(title='bayand',version='0.4.0',docs_url=_A,redoc_url=_A,openapi_url=_A)
 	def C(fn:Callable[...,Any])->Callable[...,Any]:
 		@functools.wraps(fn)
 		def B(*B:Any,**C:Any)->Any:

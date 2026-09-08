@@ -2,7 +2,7 @@ import type { Timeline as TimelineJson, TimelineStep } from '../wz0g';
 import { Lang, pick, t } from '../gna';
 import { Headline } from './uoj';
 import { VerifyCommand } from './uc5j';
-import { Bi, formatDate } from '../d7t';
+import { Bi, Iso, Name, formatDate } from '../d7t';
 function label(s: TimelineStep, lang: Lang): string {
     switch (s.kind) {
         case "requested": return t(lang, "tRequested");
@@ -26,7 +26,7 @@ function Detail({ s, lang }: {
     }
     if (s.kind === "sealed" || s.kind === "released")
         return null;
-    return s.detail ? <span className="muted">{String(s.detail)}</span> : null;
+    return s.detail ? <span className="muted"><Iso>{String(s.detail)}</Iso></span> : null;
 }
 export function Timeline({ tl, lang }: {
     tl: TimelineJson;
@@ -44,10 +44,10 @@ export function Timeline({ tl, lang }: {
             <div><Detail s={s} lang={lang}/></div>
           </li>))}
       </ol>
-      {tl.status === "pending" && <div className="warn" data-testid="waiting-on"><strong>{t(lang, "waitingFor")}:</strong> {names.length ? names.join(", ") : pick(lang, tl.waitingOn)}</div>}
+      {tl.status === "pending" && <div className="warn" data-testid="waiting-on" data-kind={tl.outstandingKind ?? "eligible"}><strong>{t(lang, tl.outstandingKind === "waiting" ? "waitingFor" : "couldBeWaitingFor")}:</strong> {names.length ? names.map((n, i) => <span key={n}>{i > 0 && ", "}<Name name={n} lang={lang}/></span>) : <Iso>{pick(lang, tl.waitingOn)}</Iso>}{tl.status === "pending" && <span className="muted small"> · {t(lang, "votesCount").replace("{votes}", String(tl.steps.filter((s) => s.kind === "review" && s.done).length)).replace("{required}", String(tl.steps.filter((s) => s.kind === "review").length))}</span>}</div>}
       {tl.nextActions && tl.nextActions.length > 0 && <ul className="next-actions">{tl.nextActions.map((a) => <li key={a.kind} data-gate-text="true"><Bi x={a} lang={lang}/></li>)}</ul>}
       {tl.bundle && tl.outcome === "release" && (<div>
-          <div className="muted"><strong>{t(lang, "bundlePath")}:</strong> <code>{tl.bundle.path}</code> · {t(lang, "leaf")} {tl.bundle.leafIndex}</div>
+          <div className="muted"><strong>{t(lang, "bundlePath")}:</strong> <code><Iso>{tl.bundle.path}</Iso></code> · {t(lang, "leaf")} {tl.bundle.leafIndex}</div>
           <VerifyCommand command={tl.bundle.verify} lang={lang}/>
         </div>)}
     </div>);

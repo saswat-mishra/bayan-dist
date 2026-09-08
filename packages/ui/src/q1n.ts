@@ -42,10 +42,12 @@ export function useGuard(lang: Lang): [
     }, [lang]);
     return [error, guard, setError];
 }
+export const MIN_POLL_MS = 10000;
 export function useLive(load: () => Promise<unknown> | void, intervalMs: number, enabled = true): {
     updatedAt: number | null;
     refresh: () => void;
 } {
+    intervalMs = Math.max(intervalMs, MIN_POLL_MS);
     const [updatedAt, setUpdatedAt] = useState<number | null>(null);
     const inFlight = useRef(false);
     const refresh = useCallback(() => {
@@ -59,7 +61,7 @@ export function useLive(load: () => Promise<unknown> | void, intervalMs: number,
         refresh();
         if (!enabled)
             return;
-        const visible = () => typeof document === "undefined" || document.visibilityState !== "hidden";
+        const visible = () => typeof document === "undefined" || document.visibilityState !== "hidden" || (typeof document.hasFocus === "function" && document.hasFocus());
         const tick = () => { if (visible())
             refresh(); };
         const id = setInterval(tick, intervalMs);

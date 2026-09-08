@@ -2,6 +2,7 @@ import type { Certificate } from '../wz0g';
 import { Lang, t } from '../gna';
 import { Headline } from './uoj';
 import { ControlsTable } from './oqx';
+import { Iso, Term } from '../d7t';
 export function CertificateBody({ cert, lang, micros, mechanisms, controls }: {
     cert: Certificate;
     lang: Lang;
@@ -15,7 +16,7 @@ export function CertificateBody({ cert, lang, micros, mechanisms, controls }: {
       <h3>{t(lang, "gates")}</h3>
       <ul>
         {cert.gates.map((g) => (<li key={g.name} className={g.passed ? "ok" : "bad gate-fail"}>
-            {g.passed ? "✓" : "✗"} {g.name}
+            {g.passed ? "✓" : "✗"} <Term code={g.name} showCode/>
             {!g.passed && (<div>
                 <div>→ {g.detail}</div>
                 <div>→ {g.citation}</div>
@@ -25,19 +26,19 @@ export function CertificateBody({ cert, lang, micros, mechanisms, controls }: {
       </ul>
       <h3>{t(lang, "tracks")}</h3>
       <ul>
-        <li>D{cert.d}{cert.d_blockers.length > 0 && <span className="warn"> ← blocked from D{cert.d_blockers[0].level} by {cert.d_blockers[0].field} ({cert.d_blockers[0].field_class}): {cert.d_blockers[0].reason}</span>}</li>
-        <li>P{cert.p}</li>
-        <li>R{cert.r}{cert.r < cert.required_r && <span className="warn"> ← R{cert.required_r} required at D{cert.d} for this profile</span>}</li>
-        <li>E{cert.e} <span className="muted">(exposure, not a track)</span></li>
+        <li><Term code={`D${cert.d}`} showCode/>{cert.d_blockers.length > 0 && <span className="warn"> ← blocked from <Term code={`D${cert.d_blockers[0].level}`} inline/> by <Iso>{cert.d_blockers[0].field}</Iso> (<Term code={cert.d_blockers[0].field_class}/>): <Iso>{cert.d_blockers[0].reason}</Iso></span>}</li>
+        <li><Term code={`P${cert.p}`} showCode/></li>
+        <li><Term code={`R${cert.r}`} showCode/>{cert.r < cert.required_r && <span className="warn"> ← <Term code={`R${cert.required_r}`} inline/> required at <Term code={`D${cert.d}`} inline/> for this profile</span>}</li>
+        <li><Term code={`E${cert.e}`} showCode/> <span className="muted">(exposure, not a track)</span></li>
       </ul>
       {cert.r_notes.length > 0 && <ul className="muted">{cert.r_notes.map((n) => <li key={n}>{n}</li>)}</ul>}
       <div><strong>{t(lang, "releasable")}:</strong> {cert.releasable ? "yes" : "no"}</div>
-      {cert.nearest_releasable && (<div><strong>{t(lang, "nearest")}:</strong> D{cert.nearest_releasable.d}/P{cert.p}/R{cert.nearest_releasable.required_r}, dropping {cert.nearest_releasable.dropped.join(", ")}
-          {cert.nearest_releasable.load_bearing_lost.length > 0 && <span className="warn"> — loses load-bearing: {cert.nearest_releasable.load_bearing_lost.join(", ")}</span>}</div>)}
-      {mechanisms && mechanisms.length > 0 && <div><strong>{t(lang, "mechanisms")}:</strong> {mechanisms.join(" · ")}</div>}
+      {cert.nearest_releasable && (<div><strong>{t(lang, "nearest")}:</strong> <Iso>D{cert.nearest_releasable.d}/P{cert.p}/R{cert.nearest_releasable.required_r}</Iso>, dropping <Iso>{cert.nearest_releasable.dropped.join(", ")}</Iso>
+          {cert.nearest_releasable.load_bearing_lost.length > 0 && <span className="warn"> — loses load-bearing: <Iso>{cert.nearest_releasable.load_bearing_lost.join(", ")}</Iso></span>}</div>)}
+      {mechanisms && mechanisms.length > 0 && <div><strong>{t(lang, "mechanisms")}:</strong> {mechanisms.map((m, i) => <span key={m}>{i > 0 && " · "}<Term code={m} showCode/></span>)}</div>}
       {controls && <ControlsTable controls={controls} lang={lang}/>}
-      <div className="muted"><strong>{t(lang, "doesNotStop")}:</strong> {cert.does_not_stop[0]}</div>
-      <div className="muted">{t(lang, "expires")} {cert.expires_at} · {t(lang, "packLabel")} {cert.pack_id}@{cert.pack_version}</div>
+      <div className="muted"><strong>{t(lang, "doesNotStop")}:</strong> <Iso>{cert.does_not_stop[0]}</Iso></div>
+      <div className="muted">{t(lang, "expires")} <Iso>{cert.expires_at}</Iso> · {t(lang, "packLabel")} <Iso>{cert.pack_id}@{cert.pack_version}</Iso></div>
     </div>);
 }
 export function CertificateDetails({ cert, lang, micros, mechanisms, controls, open }: {

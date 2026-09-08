@@ -2,10 +2,19 @@ import { useState } from "react";
 import { api } from '../../../vhq7';
 import type { Ctx } from '../../../App';
 import { useGuard } from '../../../q1n';
-import { Lang, t } from '../../../gna';
+import { Key, Lang, t } from '../../../gna';
 import type { FeasRow } from '../../../wz0g';
 import { EmptyState } from '../../../components/qg9b';
-import { Codes, Term } from '../../../d7t';
+import { Codes, Iso, Term } from '../../../d7t';
+export type QuestionGroup = "readyNow" | "needsSkill" | "notPermitted";
+export const GROUPS: QuestionGroup[] = ["readyNow", "needsSkill", "notPermitted"];
+export function groupOf(r: FeasRow): QuestionGroup {
+    if (r.blocked)
+        return "notPermitted";
+    if (r.achievableD === null)
+        return "needsSkill";
+    return "readyNow";
+}
 export function pathWords(r: FeasRow, lang: Lang): string {
     if (r.blocked)
         return t(lang, "blockedQ");
@@ -17,23 +26,31 @@ export function pathWords(r: FeasRow, lang: Lang): string {
         return t(lang, "twoReviewers");
     return t(lang, "oneReviewer");
 }
-export function minClassWords(r: FeasRow, lang: Lang): string {
-    if (lang === "ar" && r.minClass_ar)
-        return r.minClass_ar;
-    return r.minClass;
+export function minClassWords(r: FeasRow, lang: Lang): {
+    words: string;
+    fromPack: boolean;
+} {
+    const w = r.minClassWords?.[lang];
+    if (w && w.trim())
+        return { words: w, fromPack: true };
+    return { words: lang === "ar" && r.minClass_ar ? r.minClass_ar : r.minClass, fromPack: false };
 }
 function Price({ r, lang }: {
     r: FeasRow;
     lang: Lang;
 }) {
     if (r.blocked)
-        return <div className="muted">{t(lang, "blockedQ")}</div>;
+        return <p className="price muted" data-testid={`price-${r.question}`}>{t(lang, "blockedQ")}</p>;
     if (r.achievableD === null)
-        return <div className="warn">{t(lang, "noSkillYet")}</div>;
+        return <p className="price" data-testid={`price-${r.question}`}>{t(lang, "noSkillYet")}</p>;
     const policy = /R1|policy-clear/.test(r.approvalPath);
-    return (<div className="price">
-      <span><Codes text={minClassWords(r, lang)}/></span> · <Term code={`D${r.achievableD}`} showCode/> · {policy ? t(lang, "releasesByPolicy") : pathWords(r, lang)} · {r.realTime === null ? "—" : r.realTime ? t(lang, "instant") : t(lang, "needsDataPass")}
-    </div>);
+    const mc = minClassWords(r, lang);
+    return (<p className="price" data-testid={`price-${r.question}`}>
+      {mc.fromPack ? <Iso>{mc.words}</Iso> : <Codes text={mc.words}/>}
+      <span className="sep"> · </span><span className="nowrap"><Term code={`D${r.achievableD}`} showCode/></span>
+      <span className="sep"> · </span>{policy ? t(lang, "releasesByPolicy") : pathWords(r, lang)}
+      <span className="sep"> · </span>{r.realTime === null ? "—" : r.realTime ? t(lang, "instant") : t(lang, "needsDataPass")}
+    </p>);
 }
 function SkillRequestForm({ ctx, q, onDone }: {
     ctx: Ctx;
@@ -73,12 +90,20 @@ export function QuestionStep({ ctx, rows, selected, onPick }: {
     return (<div className="card" data-testid="step-question">
       <h2>{t(lang, "pickQuestion")}</h2>
       {rows.length === 0 && <EmptyState text={t(lang, "loading")}/>}
-      <div className="cards">
-        {rows.map((r) => (<div key={r.question} className={"qcard" + (selected?.question === r.question ? " selected" : "")} data-testid={`qcard-${r.question}`}>
-            <button className="qcard-title" aria-pressed={selected?.question === r.question} data-testid={`question-${r.question}`} onClick={() => r.achievableD === null && !r.blocked ? setAsking(r) : onPick(r)} disabled={r.blocked}><strong>{lang === "ar" ? r.text_ar : r.text}</strong></button>
-            <Price r={r} lang={lang}/>
-          </div>))}
-      </div>
+      {GROUPS.map((g) => {
+            const xs = rows.filter((r) => groupOf(r) === g);
+            if (xs.length === 0)
+                return null;
+            return (<section key={g} className="qgroup" data-testid={`qgroup-${g}`} aria-label={t(lang, g as Key)}>
+            <h3>{t(lang, g as Key)} <span className="muted">({xs.length})</span></h3>
+            <div className="cards">
+              {xs.map((r) => (<div key={r.question} className={"qcard" + (selected?.question === r.question ? " selected" : "")} data-testid={`qcard-${r.question}`} data-group={g}>
+                  <h3 className="qcard-h"><button className="qcard-title" aria-pressed={selected?.question === r.question} data-testid={`question-${r.question}`} onClick={() => r.achievableD === null && !r.blocked ? setAsking(r) : onPick(r)} disabled={r.blocked}>{lang === "ar" ? r.text_ar : r.text}</button></h3>
+                  <Price r={r} lang={lang}/>
+                </div>))}
+            </div>
+          </section>);
+        })}
       {asking && <SkillRequestForm ctx={ctx} q={asking} onDone={() => undefined}/>}
     </div>);
 }

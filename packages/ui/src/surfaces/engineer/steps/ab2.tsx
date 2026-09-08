@@ -5,7 +5,7 @@ import { Lang, t } from '../../../gna';
 import type { Budget, FeasRow, Pack, ReleaseRequest, RosterEntry, Run, Skill } from '../../../wz0g';
 import { PersonCard } from '../../../components/c3u';
 import { Progress } from '../../../components/nv8';
-import { Codes } from '../../../d7t';
+import { Iso, Sentence } from '../../../d7t';
 interface RecordRow {
     record_id: string;
     ts_hour: string;
@@ -50,8 +50,8 @@ export function PurposeChecklist({ purpose, sensitive, lang }: {
                 string
             ]] : []),
     ];
-    return (<ul className="checklist purpose-check" data-testid="purpose-checklist" aria-label={t(lang, "purposeChecklist")}>
-      {items.map(([k, ok, label]) => <li key={k} data-check={k} data-ok={ok}><span className="tick" aria-hidden="true">{ok ? "✓" : "○"}</span> {label}</li>)}
+    return (<ul className="checklist purpose-check" id="purpose-checklist" data-testid="purpose-checklist" aria-label={t(lang, "purposeChecklist")}>
+      {items.map(([k, ok, label]) => <li key={k} data-check={k} data-ok={ok}><span className="tick" aria-hidden="true">{ok ? "✓" : "○"}</span> <span>{label}</span></li>)}
     </ul>);
 }
 export function BudgetSentence({ b, lang, period }: {
@@ -60,7 +60,7 @@ export function BudgetSentence({ b, lang, period }: {
     period?: string;
 }) {
     const word = period === "month" ? t(lang, "month") : t(lang, "quarter");
-    return <div data-testid="budget">{t(lang, "budgetSentence").replace("{period}", word).replace("{n}", String(b.consumed)).replace("{limit}", String(b.limit))}{/\d/.test(b.period) && <span className="muted"> ({b.period})</span>}</div>;
+    return <div data-testid="budget">{t(lang, "budgetSentence").replace("{period}", word).replace("{n}", String(b.consumed)).replace("{limit}", String(b.limit))}{/\d/.test(b.period) && <span className="muted"> (<Iso>{b.period}</Iso>)</span>}</div>;
 }
 export function RequestStep({ ctx, run, skill, question, guard, onRequested, onBusy }: Props) {
     const { user, lang, dep } = ctx;
@@ -116,19 +116,18 @@ export function RequestStep({ ctx, run, skill, question, guard, onRequested, onB
     const recordsUrl = `/v1/records?deployment=${dep}${topic ? `&topic=${encodeURIComponent(topic)}` : ""}&limit=5`;
     return (<div className="card" data-testid="step-request">
       <h2>{t(lang, "request")}{question && <span className="muted"> — {lang === "ar" ? question.text_ar : question.text}</span>}</h2>
-      <label>{t(lang, "purpose")}<textarea rows={3} value={purpose} onChange={(e) => setPurpose(e.target.value)} data-testid="purpose" aria-describedby="purpose-counter"/></label>
-      <div id="purpose-counter" className={"counter " + (ok ? "ok" : "warn")} data-testid="purpose-counter">{purpose.trim().length} {t(lang, "purposeCounter")}</div>
+      <label>{t(lang, "purpose")}<textarea rows={3} value={purpose} onChange={(e) => setPurpose(e.target.value)} data-testid="purpose" aria-describedby="purpose-checklist" placeholder={t(lang, "purposePlaceholder")}/></label>
       <PurposeChecklist purpose={purpose} sensitive={sensitive} lang={lang}/>
       {me ? <div className="card" data-testid="roster-card"><PersonCard testid="recipient-card" title={t(lang, "recipientYou")} lang={lang} p={{ name: me.displayName ?? user, principal: user, employer: me.employer, location: me.location, validUntil: me.validUntil, rostered: me.valid }}/></div>
             : <div className="warn">{t(lang, "notRostered")}</div>}
-      {sensitiveFields.length > 0 && <div><strong>{t(lang, "declared")}:</strong> {sensitiveFields.map((f) => (<label key={f} className="pill choice"><input type="checkbox" checked={sensitive.includes(f)} onChange={(e) => setSensitive(e.target.checked ? [...sensitive, f] : sensitive.filter((x) => x !== f))}/> {f}</label>))}</div>}
+      {sensitiveFields.length > 0 && <div><strong>{t(lang, "declared")}:</strong> {sensitiveFields.map((f) => (<label key={f} className="pill inline"><input type="checkbox" checked={sensitive.includes(f)} onChange={(e) => setSensitive(e.target.checked ? [...sensitive, f] : sensitive.filter((x) => x !== f))}/> <Iso>{f}</Iso></label>))}</div>}
       {budget && <BudgetSentence b={budget} lang={lang} period={packPeriod}/>}
       <div className="vote">
         <button className="primary" disabled={!ok || run.status !== "complete" || busy} onClick={submit} data-testid="request">{t(lang, "submitRequest")}</button>
         {busy && <Progress label={t(lang, "progressRequesting")}/>}
       </div>
       <details data-testid="exemplar-path">
-        <summary><Codes text={t(lang, "exemplarAlt")} plain/>{quota && ` · ${t(lang, "exemplarQuota")} ${quota.consumed}/${quota.limit}`}</summary>
+        <summary data-testid="exemplar-summary"><Sentence tpl={t(lang, "exemplarAltWords")} vars={{ quota: String(ctx.pack?.budget?.exemplarQuota ?? "—") }} plain/>{quota && <span className="muted"> · {t(lang, "exemplarQuota")} {quota.consumed}/{quota.limit}</span>}</summary>
         {topics && topics.length === 0 && <div className="muted" data-testid="no-topics">{t(lang, "noTopics")}</div>}
         {topics && topics.length > 0 && (<div className="vote">
             <label>{t(lang, "topicLabel")}{" "}
@@ -138,7 +137,7 @@ export function RequestStep({ ctx, run, skill, question, guard, onRequested, onB
               </select></label>
             <button onClick={() => guard(api<RecordRow[]>(recordsUrl, user)).then((rs) => rs && setRecords(rs))} data-testid="load-records">{t(lang, "records")}</button>
           </div>)}
-        <ul>{records.map((r) => <li key={r.record_id}><code>{r.record_id}</code> {r.ts_hour} {r.topic} {r.error_code} <button disabled={!ok || busy} onClick={() => exemplar(r.record_id)}>{t(lang, "exemplar")}</button></li>)}</ul>
+        <ul>{records.map((r) => <li key={r.record_id}><code><Iso>{r.record_id}</Iso></code> <Iso>{r.ts_hour}</Iso> <Iso>{r.topic}</Iso> <Iso>{r.error_code}</Iso> <button disabled={!ok || busy} onClick={() => exemplar(r.record_id)}>{t(lang, "exemplar")}</button></li>)}</ul>
       </details>
     </div>);
 }

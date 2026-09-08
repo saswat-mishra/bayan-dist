@@ -1,6 +1,7 @@
 from __future__ import annotations
-_Q='nationalityRestrictions'
-_P='permittedJurisdictions'
+_R='nationalityRestrictions'
+_Q='permittedJurisdictions'
+_P='frameworks'
 _O='locality'
 _N='activated'
 _M='classification'
@@ -65,13 +66,17 @@ class k2x:
 	def stuck_after_seconds(self)->int:return int(self.review.get('stuckAfterSeconds',86400))
 	@property
 	def lookup_max_keys(self)->int:return int((self.raw.get('lookup')or{}).get('maxKeys',10))
+	def framework_title(C,fw:str,lang:str)->str:
+		B='title_ar';A=C.raw.get(_P,{}).get(fw)or{}
+		if lang.startswith(_E)and str(A.get(B,'')).strip():return str(A[B])
+		return str(A.get('title')or fw)
 	def does_not_stop_example(B,lang:str)->str:A=B.raw.get('doesNotStopExample')or{};return str(A.get(_E if lang.startswith(_E)else _F)or A.get(_F)or'ZIP+sex+DOB')
 def q9iq(raw:dict[str,Any])->str:return gkou(mhbq(raw))
 def mfj(path:Path)->k2x:A=json.loads(Path(path).read_text());return k2x(A,q9iq(A))
 def gra9(pack:k2x)->mgyg:
 	A=pack;C=A.review;B=tuple(int(A)for A in C['byD'])
 	if len(B)!=5:raise ValueError('review.byD must list a required R for D0..D4')
-	D=A.locality;E=D.get(_H)or{};return mgyg(pack_id=A.id,pack_version=A.version,review_by_d=(B[0],B[1],B[2],B[3],B[4]),review_exemplar=int(C.get('exemplar',3)),review_red=int(C.get('red',3)),policy_clear_risk_classes=frozenset(C.get('policyClearRiskClasses',['green','amber'])),threshold=int(C.get('threshold',2)),export_permitted_citizenships=frozenset(A.raw.get('gates',{}).get('exportPermittedCitizenships',['US'])),certificate_validity_days=int(A.raw.get('certificate',{}).get('validityDays',90)),d_floor=A.raw.get('dFloor'),permitted_jurisdictions=frozenset(str(A)for A in D.get(_P,[])),prohibited_nationalities=frozenset(str(A)for A in D.get(_Q,[])),locality_instrument=str(E.get(_K)or E.get(_C)or'')or _A,d1_example=A.does_not_stop_example(_F))
+	D=A.locality;E=D.get(_H)or{};return mgyg(pack_id=A.id,pack_version=A.version,review_by_d=(B[0],B[1],B[2],B[3],B[4]),review_exemplar=int(C.get('exemplar',3)),review_red=int(C.get('red',3)),policy_clear_risk_classes=frozenset(C.get('policyClearRiskClasses',['green','amber'])),threshold=int(C.get('threshold',2)),export_permitted_citizenships=frozenset(A.raw.get('gates',{}).get('exportPermittedCitizenships',['US'])),certificate_validity_days=int(A.raw.get('certificate',{}).get('validityDays',90)),d_floor=A.raw.get('dFloor'),permitted_jurisdictions=frozenset(str(A)for A in D.get(_Q,[])),prohibited_nationalities=frozenset(str(A)for A in D.get(_R,[])),locality_instrument=str(E.get(_K)or E.get(_C)or'')or _A,d1_example=A.does_not_stop_example(_F))
 def dlk(pack:k2x)->list[str]:
 	E='?';C=pack;B:list[str]=[];F=C.raw.get('rules',[])
 	if not F:B.append('pack has no rules')
@@ -88,7 +93,7 @@ def dlk(pack:k2x)->list[str]:
 def dtnt(pack:k2x)->list[str]:
 	B=pack;A:list[str]=[];H=B.raw
 	if _N not in H:return A
-	M=H.get('frameworks',{})
+	M=H.get(_P,{})
 	for C in B.activated:
 		if C not in M:A.append(f"activated framework {C!r} has no frameworks entry")
 	I=B.controls_table
@@ -105,9 +110,9 @@ def dtnt(pack:k2x)->list[str]:
 				for L in P:
 					if f"{C}/{L}"not in I:A.append(f"{K}: {C}/{L} has no provenance row")
 	F=B.locality
-	if F.get(_Q):
+	if F.get(_R):
 		G=F.get(_H)or{}
 		if not G or G.get(_B)not in('P','S','P/S')or not str(G.get(_G,'')).strip():A.append('locality.nationalityRestrictions is populated without an instrument with evidence P or S')
-	if F.get(_P)and not(F.get(_H)or{}).get(_G):A.append('locality.permittedJurisdictions is populated without an instrument')
+	if F.get(_Q)and not(F.get(_H)or{}).get(_G):A.append('locality.permittedJurisdictions is populated without an instrument')
 	return A
 def hbn(pack:k2x)->list[str]:return dlk(pack)+dtnt(pack)

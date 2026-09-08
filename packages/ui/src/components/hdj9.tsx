@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Lang, t } from '../gna';
-export function ReadAloud({ text, lang, textLang }: {
+export function ReadAloud({ text, lang, textLang, label }: {
     text: string;
     lang: Lang;
     textLang: string;
+    label?: string;
 }) {
     const [speaking, setSpeaking] = useState(false);
     const supported = typeof window !== "undefined" && "speechSynthesis" in window && typeof SpeechSynthesisUtterance !== "undefined";
@@ -25,6 +26,6 @@ export function ReadAloud({ text, lang, textLang }: {
         window.speechSynthesis.speak(u);
     }
     return (<button type="button" onClick={toggle} data-testid="read-aloud" aria-pressed={speaking} title={t(lang, "readAloudNote")}>
-      {speaking ? t(lang, "stopReading") : t(lang, "readAloud")} <span className="muted small">({t(lang, "readAloudNote")})</span>
+      {speaking ? t(lang, "stopReading") : (label ?? t(lang, "readAloud"))}
     </button>);
 }

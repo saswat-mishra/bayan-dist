@@ -24,10 +24,12 @@ export function RoleNav({ role, page, lang, hasAuthority, external }: {
     const items = NAV[role].filter((i) => i.page !== "authority" || hasAuthority);
     const groups = Array.from(new Set(items.map((i) => i.group ?? "")));
     return (<nav aria-label="nav" className="rolenav">
-      {external && <div className="pill" data-testid="read-only-pill">{t(lang, "externalReadOnly")}</div>}
-      {groups.map((g) => (<div key={g || "main"}>
-          {g && <div className="nav-group">{t(lang, g as Key)}</div>}
-          <ul>{items.filter((i) => (i.group ?? "") === g).map((i) => <li key={i.page}><a href={`#/${i.page}`} aria-current={page === i.page ? "page" : undefined} data-testid={`nav-${i.page}`}>{t(lang, i.label)}</a></li>)}</ul>
-        </div>))}
+      <div className="rolenav-inner">
+        {external && <div className="pill" data-testid="read-only-pill">{t(lang, "externalReadOnly")}</div>}
+        {groups.map((g) => (<div key={g || "main"}>
+            {g && <div className="nav-group">{t(lang, g as Key)}</div>}
+            <ul>{items.filter((i) => (i.group ?? "") === g).map((i) => <li key={i.page}><a href={`#/${i.page}`} aria-current={page === i.page ? "page" : undefined} data-testid={`nav-${i.page}`}>{t(lang, i.label)}</a></li>)}</ul>
+          </div>))}
+      </div>
     </nav>);
 }

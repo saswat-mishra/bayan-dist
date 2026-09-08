@@ -27,11 +27,13 @@ cq2=fi7(_D,'Cannot release — the period budget for this cohort is exhausted. W
 def das(c:bre)->erx|_A:
 	for A in c.gates:
 		if not A.passed:return A
+o5a:dict[str,tuple[str,str]]={'DIRECT':('identifies a person directly','يحدد شخصاً مباشرة'),'QUASI':('could identify in combination','قد يحدد شخصاً بالتركيب'),'SENSITIVE':('is sensitive about a person','حسّاس بشأن شخص'),'STRUCTURAL':('is counts and codes only','أعداد ورموز فقط'),'VENDOR':('is vendor-internal','داخلي لدى المورّد'),'FREETEXT':('is typed text','نص حر')}
+def ak30(field_class:str,lang:str)->str:A=field_class;B,C=o5a.get(A,(f"is {A.lower().replace("_"," ")}",A));return C if lang=='ar'else B
 def k0y(c:bre)->str:
-	if c.d_blockers:A=c.d_blockers[0];return f"{A.field} is a {A.field_class.lower().replace("_"," ")} at D{c.d}"if A.field!='*'else A.reason.split(':')[0].lower()
+	if c.d_blockers:A=c.d_blockers[0];return f"{A.field} {ak30(A.field_class,"en")} at D{c.d}"if A.field!='*'else A.reason.split(':')[0].lower()
 	return f"grade D{c.d}"
 def fd92(c:bre)->str:
-	if c.d_blockers:A=c.d_blockers[0];return f"الحقل {A.field} من فئة {A.field_class} عند D{c.d}"if A.field!='*'else'المخرجات على مستوى السجل'
+	if c.d_blockers:A=c.d_blockers[0];return f"الحقل {A.field} {ak30(A.field_class,"ar")} عند D{c.d}"if A.field!='*'else'المخرجات على مستوى السجل'
 	return f"الدرجة D{c.d}"
 def flfg(c:bre,facts:etf,threshold:int)->int:
 	A=facts

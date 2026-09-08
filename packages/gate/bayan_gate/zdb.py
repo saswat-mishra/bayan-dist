@@ -87,7 +87,7 @@ def un9g(gate:b8d,dep_id:str,period:str|_A)->dict[str,Any]:
 				else:Q='no-release'
 				c.append({_N:C,'why':Q,i:bool(H)})
 		Z[A]=b;a[A]=c
-	return{_C:R,_B:L,'pack':{'id':B.id,'version':B.version,_Q:B.digest},'primaryFramework':B.primary_framework,h:D,i:bool(H),'frameworks':Z,'gaps':a}
+	return{_C:R,_B:L,'pack':{'id':B.id,'version':B.version,_Q:B.digest},'primaryFramework':B.primary_framework,h:D,i:bool(H),'frameworkTitles':{A:{'en':B.framework_title(A,'en'),'ar':B.framework_title(A,'ar')}for A in B.activated},'frameworks':Z,'gaps':a}
 def aj9(gate:b8d,dep_id:str)->dict[str,Any]:
 	M='leaves';L='periods';K='from';D=dep_id;from bayan_core.zdb.mos import j3u4 as N;from bayan_gate.xb2b import epo5 as O;P=gate.deployment(D);E=gate.ledger(P);B=[]
 	for Q in range(E.size):

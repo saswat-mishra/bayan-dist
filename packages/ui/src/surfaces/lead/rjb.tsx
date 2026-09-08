@@ -37,7 +37,7 @@ export function EvidenceBuilder({ ctx, testid }: {
     return (<div className="card" data-testid={testid}>
       <h2>{t(lang, "evidencePacks")}</h2>
       {error && <div className="error" role="alert">{error}</div>}
-      <div className="vote"><label>{t(lang, "period")} <input value={period} onChange={(e) => setPeriod(e.target.value)} data-testid="period" style={{ width: "10rem" }}/></label>
+      <div className="vote"><label>{t(lang, "period")} <input className="short" value={period} onChange={(e) => setPeriod(e.target.value)} data-testid="period"/></label>
         <button className="primary" onClick={build} data-testid="build-pack">{t(lang, "buildPack")}</button></div>
       <PackList packs={packs} lang={lang}/>
     </div>);

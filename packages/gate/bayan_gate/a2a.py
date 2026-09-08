@@ -18,4 +18,4 @@ def wynf(templates:dict[str,Any],lang:str,facts:dict[str,Any])->tuple[str,str]:
 	E='does_not_stop';A=facts;B=templates['ar'if lang.startswith('ar')else'en'];C=[str(B['brief']).format(delta=bss(B,A),counts=byp(B,A),**A)]
 	if A.get('purpose'):C.append(str(B['purpose_line']).format(**A))
 	for F in A.get('failed_gates',[]):C.append(str(B['gate_fail']).format(**F))
-	C.append(str(B[E]).format(clause=A[E]));C.append(str(B['accountability']).format(**A));C.append(str(B['reject_hint']));C.append(str(B['verdict_hidden']).format(commitment=A['commitment']));D='\n'.join(C);return D,gkou(D.encode('utf-8'))
+	C.append(str(B[E]).format(clause=A[E]));C.append(str(B['accountability']).format(**A));C.append(str(B['reject_hint']));C.append(str(B['verdict_hidden']).format(commitment=A.get('commitment','')));D='\n'.join(C);return D,gkou(D.encode('utf-8'))

@@ -8,6 +8,7 @@ import type { Acceptance, Enrolment, RosterEntry } from '../../wz0g';
 import { EmptyState } from '../../components/qg9b';
 import { LiveStatus } from '../../components/poy';
 import { daysLeft } from '../../components/xzur';
+import { Iso, Name } from '../../d7t';
 export function Authority({ ctx }: {
     ctx: Ctx;
 }) {
@@ -51,9 +52,10 @@ export function Authority({ ctx }: {
     return (<div data-testid="authority">
       {error && <div className="error" role="alert">{error}</div>}
       <div className="card" data-testid="enrolments">
-        <h2>{t(lang, "pendingEnrolments")} <LiveStatus updatedAt={updatedAt} lang={lang} onRefresh={refresh}/></h2>
+        <h2>{t(lang, "pendingEnrolments")}</h2>
+        <LiveStatus updatedAt={updatedAt} lang={lang} onRefresh={refresh}/>
         {enrolments.length === 0 && <EmptyState text={t(lang, "noEnrolments")}/>}
-        <ul>{enrolments.map((e) => <li key={e.keyName}>{e.principal} · <code>{e.keyName}</code> · {e.requestedAt} {e.principal !== user && <button onClick={() => approve(e.principal)} data-testid={`approve-${e.principal}`}>{t(lang, "approveKey")}</button>}</li>)}</ul>
+        <ul>{enrolments.map((e) => <li key={e.keyName}><Iso>{e.principal}</Iso> · <code><Iso>{e.keyName}</Iso></code> · <Iso>{e.requestedAt}</Iso> {e.principal !== user && <button onClick={() => approve(e.principal)} data-testid={`approve-${e.principal}`}>{t(lang, "approveKey")}</button>}</li>)}</ul>
       </div>
       <div className="card" data-testid="pack-upgrade">
         <h2>{t(lang, "packUpgrade")}</h2>
@@ -66,11 +68,11 @@ export function Authority({ ctx }: {
       <div className="card" data-testid="roster-expiring">
         <h2>{t(lang, "rosterExpiring")}</h2>
         {roster.length === 0 && <EmptyState text={t(lang, "nothingYet")}/>}
-        <ul>{roster.map((e) => <li key={e.principal}>{e.displayName ?? e.principal} · {e.location} · {t(lang, "validUntil")} {e.validUntil.slice(0, 10)} · <span className={e.valid ? "warn" : "bad"}>{e.locality ?? (e.valid ? "expiring" : "invalid")}</span></li>)}</ul>
+        <ul>{roster.map((e) => <li key={e.principal}><Name name={e.displayName ?? e.principal} lang={lang}/> · <Iso>{e.location}</Iso> · {t(lang, "validUntil")} <Iso>{e.validUntil.slice(0, 10)}</Iso> · <span className={e.valid ? "warn" : "bad"}><Iso>{e.locality ?? (e.valid ? "expiring" : "invalid")}</Iso></span></li>)}</ul>
       </div>
       <div className="card" data-testid="acceptance">
         <h2>{t(lang, "acceptDeployment")}</h2>
-        {accepted && <div>{t(lang, "acceptedOn")} {accepted.acceptedBy.at} {t(lang, "acceptedBy")} {accepted.acceptedBy.principal} · <code>{accepted.digest.slice(0, 16)}…</code></div>}
+        {accepted && <div>{t(lang, "acceptedOn")} <Iso>{accepted.acceptedBy.at}</Iso> {t(lang, "acceptedBy")} <Iso>{accepted.acceptedBy.principal}</Iso> · <code><Iso>{accepted.digest.slice(0, 16)}…</Iso></code></div>}
         {acc && <div><strong>{t(lang, "acceptDelta")}:</strong> {acc.delta && acc.delta.length > 0 ? acc.delta.join(", ") : <span className="muted">{t(lang, "noDelta")}</span>}</div>}
         <button className="primary" onClick={accept} disabled={me.custody !== "client"} data-testid="accept-deployment">{t(lang, "signAcceptance")}</button>
         {me.custody !== "client" && <div className="muted">{t(lang, "keyUnenrolled")}</div>}
