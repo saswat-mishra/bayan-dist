@@ -1,0 +1,9 @@
+# Line endings a checkout keeps whatever the local git is configured to do. Git for Windows defaults to
+# core.autocrlf=true, which gives run.sh CRLF endings bash cannot parse ("set: pipefail: invalid option name");
+# cmd.exe, for its part, wants CRLF in run.bat.
+* text=auto
+*.sh text eol=lf
+*.bat text eol=crlf
+*.ttf binary
+*.woff2 binary
+*.png binary

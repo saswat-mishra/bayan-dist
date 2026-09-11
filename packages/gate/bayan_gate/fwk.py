@@ -73,7 +73,7 @@ def mix(gate:b8d,dep_id:str,principal:str)->dict[str,Any]:
 	try:
 		F,G=aa0(f"{A[_C]}/v1/models",_B,d032);E=[str(A.get(_G))for A in F.get('data',[])if isinstance(A,dict)and A.get(_G)];B.update(latencyMs=G,models=E[:40])
 		if A[_A]in E:B[_F]=True
-		else:B[_D]=f"the endpoint is reachable but does not serve {A[_A]!r}"+(f"; it serves {", ".join(E[:6])}"if E else'')
+		else:B[_D]=f"the endpoint is reachable but does not serve {A[_A]!r}"+(f"; it serves {', '.join(E[:6])}"if E else'')
 	except(urllib.error.URLError,TimeoutError,ValueError,OSError)as H:B[_D]=vpmh(H)
 	with C.lock:A=cv17(C,D);A[_E]=B;fki(C,D,A)
 	C.events.emit('assistant-checked',deployment=D,by=principal,ok=B[_F],latencyMs=B[_L],error=B[_D]);return c3vw(C,D)
@@ -81,11 +81,11 @@ def g1k(gate:b8d,dep_id:str)->list[dict[str,Any]]:
 	E='achievableD';C=dep_id;B=gate
 	with B.lock:F=B.feasibility(C,_B);G=B.skills(C,_B)
 	H={A['name']:A.get('description')or''for A in G};D=[]
-	for A in F:I=[A.split('@')[0]for A in A.get(_H,[])];D.append({_G:A[_I],_M:A[_M],_N:A.get(_N,''),'needs':A.get('minClass',''),_O:_B if A.get(E)is _B else f"D{A[E]}",'path':A.get('approvalPath',''),_P:bool(A.get(_P)),_H:[f"{A}: {H.get(A,"")}".rstrip(': ')for A in I]})
+	for A in F:I=[A.split('@')[0]for A in A.get(_H,[])];D.append({_G:A[_I],_M:A[_M],_N:A.get(_N,''),'needs':A.get('minClass',''),_O:_B if A.get(E)is _B else f"D{A[E]}",'path':A.get('approvalPath',''),_P:bool(A.get(_P)),_H:[f"{A}: {H.get(A,'')}".rstrip(': ')for A in I]})
 	return D
 def kzf9(cat:list[dict[str,Any]],text:str,lang:str)->tuple[str,str]:
 	C='Arabic'if lang=='ar'else'English';D=f'/no_think\nYou route a support engineer\'s request to ONE question from a fixed catalogue. You see only the catalogue. Reply with JSON only, no prose around it: {{"question": <catalogue id or null>, "why": <one short sentence, in {C}, addressed to the engineer, saying why that question fits>, "also": [<up to two other catalogue ids worth a look>]}}. Choose null when nothing in the catalogue answers the request. Never invent an id.';B=[]
-	for A in cat:E='not permitted at any grade'if A[_P]else f"grade {A[_O]} · {A["path"]}"if A[_O]else'no certified skill yet';B.append(f"- {A[_G]} | {A[_M]} | {A[_N]} | needs: {A["needs"]} | {E}"+(f" | skills: {"; ".join(A[_H])}"if A[_H]else''))
+	for A in cat:E='not permitted at any grade'if A[_P]else f"grade {A[_O]} · {A['path']}"if A[_O]else'no certified skill yet';B.append(f"- {A[_G]} | {A[_M]} | {A[_N]} | needs: {A['needs']} | {E}"+(f" | skills: {'; '.join(A[_H])}"if A[_H]else''))
 	F='Catalogue:\n'+'\n'.join(B)+f"\n\nRequest: {text.strip()}";return D,F
 def sie(content:str,ids:set[str])->dict[str,Any]|_B:
 	G='why';F='also';D='{';A=content.strip()

@@ -43,7 +43,7 @@ def dsan(m:fil6,target_d:int,pol:mgyg,recipient:c2v,p_level:int=3)->n4y:
 	if A>=3:return n4y(A,B,(),_A,'D3 and above require a pass over the actual extract; offered as an async job with an estimate, never as an interactive suggestion.',async_required=_B)
 	if B>=A:return n4y(A,B,(),_A,_A)
 	M=[A for A in pb0s(m,recipient,pol)if not A.passed];I=[A for A in M if not A.fixable_by_transformation and A.name!='ACCESS-LOCALITY']
-	if I:G=I[0];return n4y(A,B,(),_A,f"{G.name} cannot be satisfied by transformation of the payload ({G.remedy_kind.replace("_"," ")}): {G.remedy}")
+	if I:G=I[0];return n4y(A,B,(),_A,f"{G.name} cannot be satisfied by transformation of the payload ({G.remedy_kind.replace('_',' ')}): {G.remedy}")
 	N=s9zz(m).blockers;J=sorted({A.field for A in N if m.field(A.field)is not _A});E:dict[str,list[k5yz]]={}
 	for H in J:F=m.field(H);assert F is not _A;K=gdkj.get(str(F.param('kind','')),_A);E[H]=[k5yz(H,A,tuple(sorted(B.items())))for(A,B)in ijhh[F.field_class]if A is not F.transform and(K is _A or A in K)]
 	O=[(B,)for A in E.values()for B in A];P=[(C,D)for(A,B)in combinations(J,2)for C in E[A]for D in E[B]];L=[ob2(m,B,A,pol,p_level)for B in O+P];L.sort(key=lambda o:(not o.reaches_target,o.cost,len(o.changes),o.describe()));C=tuple(L);D=next((A for A in C if A.reaches_target),_A)

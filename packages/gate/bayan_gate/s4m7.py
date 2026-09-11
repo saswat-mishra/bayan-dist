@@ -1,4 +1,5 @@
 from __future__ import annotations
+_C='replace'
 _B=True
 _A=None
 import os,platform,sqlite3,subprocess
@@ -7,7 +8,7 @@ oxya={'nfs','nfs4','smbfs','cifs','afpfs','webdav','fuse.sshfs','sshfs','9p','ce
 class v4r(SystemExit):
 	def __init__(B,cause:str)->_A:A=cause;super().__init__(f"bayand refuses to start: {A}");B.cause=A
 def io8f()->list[tuple[str,str]]:
-	C=' on ';D=subprocess.run(['mount'],capture_output=_B,text=_B,timeout=10).stdout;B:list[tuple[str,str]]=[]
+	C=' on ';D=subprocess.run(['mount'],capture_output=_B,text=_B,encoding='utf-8',errors=_C,timeout=10).stdout;B:list[tuple[str,str]]=[]
 	for A in D.splitlines():
 		if C not in A or'('not in A:continue
 		H,E=A.split(C,1);F,G=E.rsplit(' (',1);B.append((F.strip(),G.split(',')[0].strip().rstrip(')')))
@@ -15,7 +16,7 @@ def io8f()->list[tuple[str,str]]:
 def d9u1()->list[tuple[str,str]]:
 	B:list[tuple[str,str]]=[]
 	try:
-		for C in Path('/proc/mounts').read_text().splitlines():
+		for C in Path('/proc/mounts').read_text(encoding='utf-8',errors=_C).splitlines():
 			A=C.split()
 			if len(A)>=3:B.append((A[1],A[2]))
 	except OSError:0

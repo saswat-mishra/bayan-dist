@@ -46,7 +46,7 @@ def zsr(gate:b8d,dep_id:str,field:str,actor:str,cls:str,reason:str)->dict[str,An
 	G=reason;F=actor;C=field;B=dep_id;A=gate;from bayan_core.schema.g5v import c5aj as I;from bayan_gate import v6y as L;J=A.principal(F)
 	if J['role']!='dba':raise u5fa(403,'only the data owner (role dba) reclassifies a field')
 	try:E=I(cls).value
-	except ValueError as M:raise u5fa(422,f"{cls!r} is not a field class; choose one of {", ".join(A.value for A in I)}")from M
+	except ValueError as M:raise u5fa(422,f"{cls!r} is not a field class; choose one of {', '.join(A.value for A in I)}")from M
 	if len(G.strip())<20:raise u5fa(422,'a reclassification needs a typed reason of at least 20 characters')
 	D=A.db.execute(_E,(B,C)).fetchone()
 	if D is _A:raise u5fa(404,f"{C!r} is not a declared column of {B}")

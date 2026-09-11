@@ -1,4 +1,5 @@
 from __future__ import annotations
+_B='utf-8'
 _A=None
 import os,threading
 from pathlib import Path
@@ -7,7 +8,9 @@ from bayan_core.blg.u7c9 import lfq1
 from bayan_core.blg.dpd import q41
 from bayan_core.v2s.vaxs import lcw
 class tljj(Exception):0
+i0tj=os.name!='nt'
 def cha(path:Path)->_A:
+	if not i0tj:return
 	A=os.open(path,os.O_RDONLY)
 	try:os.fsync(A)
 	finally:os.close(A)
@@ -18,10 +21,10 @@ class bpsi:
 		A._log=lcw(q41(A.leaf(B))for B in range(A.size));A._lock=threading.Lock()
 	def _write_size(A,n:int)->_A:
 		C=A.root/'size.tmp'
-		with open(C,'w')as B:B.write(str(n));B.flush();os.fsync(B.fileno())
+		with open(C,'w',encoding=_B)as B:B.write(str(n));B.flush();os.fsync(B.fileno())
 		os.replace(C,A._size_file);cha(A.root)
 	@property
-	def size(self)->int:return int(self._size_file.read_text().strip()or'0')
+	def size(self)->int:return int(self._size_file.read_text(encoding=_B).strip()or'0')
 	def _leaf_path(A,i:int)->Path:return A.leaves_dir/f"{i:08d}.leaf"
 	def leaf(A,i:int)->bytes:
 		if not 0<=i<A.size:raise IndexError(i)
@@ -36,16 +39,16 @@ class bpsi:
 	def merkle(A)->lcw:return A._log
 	def checkpoint(A,signer:str,key:lfq1)->x75:
 		B=A._log.checkpoint(A.origin,signer,key);D=A.cp_dir/f"{B.size}.txt"
-		with open(D,'w')as C:C.write(B.text());C.flush();os.fsync(C.fileno())
+		with open(D,'w',encoding=_B)as C:C.write(B.text());C.flush();os.fsync(C.fileno())
 		return B
-	def stored_checkpoint(B,size:int)->x75|_A:A=B.cp_dir/f"{size}.txt";return x75.parse(A.read_text())if A.exists()else _A
+	def stored_checkpoint(B,size:int)->x75|_A:A=B.cp_dir/f"{size}.txt";return x75.parse(A.read_text(encoding=_B))if A.exists()else _A
 	def inclusion(A,index:int,size:int|_A=_A)->list[bytes]:return A._log.inclusion(index,size)
 	def consistency(A,first:int,second:int|_A=_A)->list[bytes]:return A._log.consistency(first,second)
 	def latest_checkpoint_size_before(B,size:int)->int|_A:A=sorted(int(A.stem)for A in B.cp_dir.glob('*.txt')if A.stem.isdigit()and int(A.stem)<size);return A[-1]if A else _A
 	def verify_integrity(A)->list[str]:
 		C:list[str]=[];D=lcw(q41(A.leaf(B))for B in range(A.size))
 		for F in sorted(A.cp_dir.glob('*.txt')):
-			B=x75.parse(F.read_text())
+			B=x75.parse(F.read_text(encoding=_B))
 			if B.size>D.size:C.append(f"checkpoint {B.size} exceeds ledger size {D.size}: tail lost")
 			elif D.root(B.size)!=B.root:C.append(f"checkpoint {B.size} root does not match leaves on disk: corrupted history")
 		E=[B.name for B in A.leaves_dir.glob('*.leaf')if int(B.stem)>=A.size]

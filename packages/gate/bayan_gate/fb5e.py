@@ -29,7 +29,7 @@ def d2i(gate:b8d,dep_id:str,requester:str|_A=_A)->list[dict[str,Any]]:
 	return[qrp(A)for A in gate.db.execute(C+' ORDER BY created_at DESC, id DESC',D)]
 def plc1(gate:b8d,rid:str,actor:str,status:str,note:str)->dict[str,Any]:
 	E=actor;C=status;B=gate;A=rid
-	if C not in jk1u or C==_B:raise u5fa(422,f"status must be one of {", ".join(A for A in jk1u if A!=_B)}")
+	if C not in jk1u or C==_B:raise u5fa(422,f"status must be one of {', '.join(A for A in jk1u if A!=_B)}")
 	D=B.db.execute(_D,(A,)).fetchone()
 	if D is _A:raise u5fa(404,f"unknown skill request {A!r}")
 	if D[_C]!=_B:raise u5fa(409,f"skill request {A} is already {D[_C]}")

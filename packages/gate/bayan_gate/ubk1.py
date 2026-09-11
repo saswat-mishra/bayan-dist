@@ -97,7 +97,7 @@ def uu8y(gate:b8d,dep:sqlite3.Row,pack:k2x,requester:str,lookup:dict[str,Any])->
 	if len(set(C))!=len(C):raise u5fa(422,'a lookup names each pseudonym key once')
 	if len(C)>pack.lookup_max_keys:raise u5fa(422,f"lookup too many: at most {pack.lookup_max_keys} pseudonym keys per lookup under this pack")
 	W={str(A.get(G))for A in json.loads(D['artefact'])};M=sorted(A for A in C if A not in W)
-	if M:raise u5fa(422,f"lookup key unknown: {", ".join(A[:12]+"…"for A in M)} not in release {F}")
+	if M:raise u5fa(422,f"lookup key unknown: {', '.join(A[:12]+'…'for A in M)} not in release {F}")
 	A=B.run_row(I[T]);X=B.enclave_key(E[_B]);Y=set(C);J=[A for A in json.loads(A['rows']or'[]')if U(X,A.get(G))in Y]
 	if not J:raise u5fa(409,'the pseudonyms name no row of the parent run')
 	N=vf4(json.loads(A[_L]));O=gowu(json.loads(A[_S]));P,Z=B._certify(E,N,O,H);K=nzm();Q={R:F,'ofLeaf':int(D[_U]),'field':G,S:sorted(C)}

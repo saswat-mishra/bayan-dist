@@ -72,7 +72,8 @@ class k2x:
 		return str(A.get('title')or fw)
 	def does_not_stop_example(B,lang:str)->str:A=B.raw.get('doesNotStopExample')or{};return str(A.get(_E if lang.startswith(_E)else _F)or A.get(_F)or'ZIP+sex+DOB')
 def q9iq(raw:dict[str,Any])->str:return gkou(mhbq(raw))
-def mfj(path:Path)->k2x:A=json.loads(Path(path).read_text());return k2x(A,q9iq(A))
+def rfyy(directory:Path,pattern:str='*.json')->list[Path]:return sorted(A for A in Path(directory).glob(pattern)if not A.name.startswith('.'))
+def mfj(path:Path)->k2x:A=json.loads(Path(path).read_text(encoding='utf-8'));return k2x(A,q9iq(A))
 def gra9(pack:k2x)->mgyg:
 	A=pack;C=A.review;B=tuple(int(A)for A in C['byD'])
 	if len(B)!=5:raise ValueError('review.byD must list a required R for D0..D4')

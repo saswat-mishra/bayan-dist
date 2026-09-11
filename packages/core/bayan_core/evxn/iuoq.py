@@ -42,5 +42,5 @@ def f3w(rows:Sequence[dfo],declared:t2ji|dict[str,Any])->bool:
 		if list(A)!=sorted(A,key=f001(B.columns)):raise vjs('S4_row_order','output is not in canonical order')
 	if A:
 		F=[A.name for A in B.columns if A.type in(_B,_C,_D)];G=len({tuple(A[B]for B in F)for A in A})
-		if len(A)>G:raise vjs('S5_cardinality',f"{len(A)} rows over {G} distinct key combination(s) of {F or"no keys"}")
+		if len(A)>G:raise vjs('S5_cardinality',f"{len(A)} rows over {G} distinct key combination(s) of {F or'no keys'}")
 	return True

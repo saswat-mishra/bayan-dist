@@ -56,7 +56,7 @@ def wy9z(col:xnjp,f:im5)->xnjp:
 	if B is gy0.ROUND:D=int(f.param('to',10));L=A.min//D*D if A.min is not _A else 0;M=math.ceil(A.max/D)*D if A.max is not _A else 10**9;return iww(A,f,type=_D,min=L,max=M)
 	if B is gy0.TRUNCATE:N,H,I=int(f.param('pan_digits',16)),int(f.param(_F,8)),int(f.param(_G,4));return iww(A,f,type=J,pattern=f"^[0-9]{{{H}}}\\*{{{N-H-I}}}[0-9]{{{I}}}$")
 	if B is gy0.MASK:return iww(A,f,type=J,pattern='^\\*{1,60}[0-9A-Za-z_-]{0,4}$')
-	raise vkx(A.name,f"{B.value if B else"none"} is not an applicable transformation")
+	raise vkx(A.name,f"{B.value if B else'none'} is not an applicable transformation")
 def rhtb(col:xnjp,after:xnjp,f:im5,value:Any,key:bytes)->Any:
 	B=value;A=col;C=f.transform
 	if C is gy0.HMAC_ENCLAVE:return l3rg(key,B)

@@ -46,7 +46,7 @@ bntw=_K,_F,_D,_G,_H,_B,_P,_L,_Q,_V,_I,_J
 b51=xdy/'data'/'standard-digest.txt'
 def iun()->str:
 	if a9cb.exists():return gkou(a9cb.read_bytes())
-	if b51.exists():return b51.read_text().strip()
+	if b51.exists():return b51.read_text(encoding='utf-8').strip()
 	raise FileNotFoundError(f"neither {a9cb} nor {b51} is present: the standard's digest is unknown")
 def x0l(ts:int|_A)->str|_A:return datetime.fromtimestamp(ts,timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')if ts is not _A else _A
 def sie(s:str)->int:return int(datetime.fromisoformat(s.replace('Z','+00:00')).timestamp())

@@ -71,5 +71,5 @@ class ray:
 			B.append(avg(name=A['name'],public=tamq.from_b64(A[_F]),roles=frozenset(A.get('roles',[])),key_type=A.get(_G,_D),custody=A.get(_H,_E)))
 		return C(tuple(B))
 	@classmethod
-	def load(A,path:Path)->ray:return A.from_json(json.loads(path.read_text()))
-	def save(A,path:Path)->_B:path.parent.mkdir(parents=_A,exist_ok=_A);path.write_text(json.dumps(A.to_json(),indent=2,sort_keys=_A)+'\n')
+	def load(A,path:Path)->ray:return A.from_json(json.loads(path.read_text(encoding='utf-8')))
+	def save(A,path:Path)->_B:path.parent.mkdir(parents=_A,exist_ok=_A);path.write_text(json.dumps(A.to_json(),indent=2,sort_keys=_A)+'\n',encoding='utf-8')

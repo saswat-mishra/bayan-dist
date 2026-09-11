@@ -57,7 +57,7 @@ from bayan_core.blg2.oj2 import f30
 from bayan_core.blg2.v7w import pk09,zdp0,gl5,zos5
 from bayan_core.blg2.nf3 import apgg
 from bayan_core.v2s import bpsi
-from bayan_core.s7t3 import k2x,mfj,gra9
+from bayan_core.s7t3 import k2x,rfyy,mfj,gra9
 from bayan_core.evxn import hndw,t2ji,sui,ewsp,mbf
 from bayan_core.schema.g5v import c5aj
 from bayan_core.ybvn import n4y,dsan
@@ -75,7 +75,7 @@ def oy60()->str:return datetime.now(timezone.utc).strftime(_Z)
 def wos(ts:datetime,kind:str=_i)->str:return f"{ts.year}-Q{(ts.month-1)//3+1}"if kind==_i else f"{ts.year}-{ts.month:02d}"
 class b8d:
 	def __init__(A,cfg:nwp)->_A:
-		F='reviewer';E='role';D='public_key';C=cfg;A.cfg=C;A.fs_type=lvt(C.data_dir);A.db=n6w(C.control_db);G=jbg(A.db);A.keys=k6r(C.keys_dir);A.events=fc4(C.audit_log,C.health_file);A.lock=threading.RLock();A.tx=vwy(A.db,A.lock);(A.packs):dict[str,k2x]={A.stem:mfj(A)for A in sorted(e3l.glob('*.json'))};(A.stores):dict[str,sqlite3.Connection]={};(A.ledgers):dict[str,bpsi]={};(A.jobs):dict[str,dict[str,Any]]={}
+		F='reviewer';E='role';D='public_key';C=cfg;A.cfg=C;A.fs_type=lvt(C.data_dir);A.db=n6w(C.control_db);G=jbg(A.db);A.keys=k6r(C.keys_dir);A.events=fc4(C.audit_log,C.health_file);A.lock=threading.RLock();A.tx=vwy(A.db,A.lock);(A.packs):dict[str,k2x]={A.stem:mfj(A)for A in rfyy(e3l)};(A.stores):dict[str,sqlite3.Connection]={};(A.ledgers):dict[str,bpsi]={};(A.jobs):dict[str,dict[str,Any]]={}
 		for(H,I)in((_O,{_O}),('tsa.vendor.example',{'tsa'}),('registry.vendor.example',{'registry'}),('vendor-disposal',{'vendor'})):A.keys.ensure(H,frozenset(I))
 		for B in A.db.execute('SELECT id, origin FROM deployment'):A.keys.ensure(B[_P],frozenset({'log'}))
 		for B in A.db.execute('SELECT key_name, role, public_key FROM principal'):

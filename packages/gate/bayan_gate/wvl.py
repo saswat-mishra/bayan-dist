@@ -53,7 +53,7 @@ def bnj3(conn:sqlite3.Connection,records:list[tuple[dict[str,Any],dict[str,Any]|
 		H=C[_E]if C else _A;J=int(wu9(A.get(_f,{}).get(_g,_h)));D.append((A[_F],J,A[_i].get(_j,1),mhbq(A),A['schemaVersion']));K=en7(A,H);E.append(tuple(K[A]for A in(*s6m,_E)))
 		for I in A.get(_d,{}).get(_k,[]):F.append((A[_F],I['ref'],I.get('rank')))
 		if C:G.append((H,A[_F],C['prompt_text'],C['response_text'],json.dumps(C.get('extra',{}),ensure_ascii=False)))
-	L=', '.join((*s6m,_E));B.execute('BEGIN');B.executemany('INSERT OR REPLACE INTO fingerprint VALUES (?,?,?,?,?)',D);B.executemany(f"INSERT OR REPLACE INTO fingerprint_flat ({L}) VALUES ({",".join("?"for A in range(len(s6m)+1))})",E);B.executemany('INSERT INTO doc_ref VALUES (?,?,?)',F);B.executemany('INSERT OR REPLACE INTO content VALUES (?,?,?,?,?)',G);B.execute('COMMIT');return len(D)
+	L=', '.join((*s6m,_E));B.execute('BEGIN');B.executemany('INSERT OR REPLACE INTO fingerprint VALUES (?,?,?,?,?)',D);B.executemany(f"INSERT OR REPLACE INTO fingerprint_flat ({L}) VALUES ({','.join('?'for A in range(len(s6m)+1))})",E);B.executemany('INSERT INTO doc_ref VALUES (?,?,?)',F);B.executemany('INSERT OR REPLACE INTO content VALUES (?,?,?,?,?)',G);B.execute('COMMIT');return len(D)
 def wu9(ts:str)->float:
 	from datetime import datetime as B,timezone as C;A=B.fromisoformat(ts.replace('Z',_e))
 	if A.tzinfo is _A:A=A.replace(tzinfo=C.utc)

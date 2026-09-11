@@ -88,7 +88,7 @@ def qrtm(files:Mapping[str,bytes],trust:ray,*,previous_checkpoint:str|_B=_B,now:
 		for(E,j)in K.items():
 			A0=qciu(j.statement)if isinstance(j.statement,dict)else _B
 			if A0==1:raise b947(1,jqwx,code=30)
-			if A0 is _B:raise b947(1,f"{E}: unknown predicateType {j.statement.get("predicateType")!r}",code=30)
+			if A0 is _B:raise b947(1,f"{E}: unknown predicateType {j.statement.get('predicateType')!r}",code=30)
 		A(1,'; '.join(f"{A}: {sorted(B.signers)}"for(A,B)in K.items())+'; statements v2');N,L,M=K[_G].statement,K[_E].statement,K[_F].statement;k=str(L.get(_A,{}).get(AE,{}).get(_J,''));b=f"trust/profile-{k}.json"
 		if b not in D:raise b947(2,f"{b} missing from trust material")
 		c=z9g(D[b]);AT,AU=e0ar(i,L,N,c,G);A(2,AT);B=L[_A][_T];V=L[_A][_S]
@@ -104,14 +104,14 @@ def qrtm(files:Mapping[str,bytes],trust:ray,*,previous_checkpoint:str|_B=_B,now:
 		if A3!=m:raise b947(5,f"profile {k} digest {m[:12]}… != pinned {str(A3)[:12]}…: rules changed after the decision")
 		I=L[_A][_U]
 		if I.get('pack',{}).get(U,{}).get(R)!=m:raise b947(5,'the certificate names a different pack digest than the pinned profile')
-		A(5,f"profile {k}@{c.get("version")} digest-pinned; certificate agrees");d=N[_A][_M][_J];A4=[A[_D][_J]for A in V]
+		A(5,f"profile {k}@{c.get('version')} digest-pinned; certificate agrees");d=N[_A][_M][_J];A4=[A[_D][_J]for A in V]
 		if d in A4:raise b947(6,f"requester {d!r} appears as a reviewer")
 		if not all(A.get('blinded')is Q for A in V):raise b947(6,'a review is not blinded')
 		A5=L[_A][_K]=='block'and B.get(_C)=='alien'
 		if B.get(_C)!=_V and not V and not A5:raise b947(6,'non-runner with no human review')
 		if N[_A][AF]==AG and not V and not A5:raise b947(6,'exemplar release with no human review')
 		if N[_A].get('recipient',{}).get('principal')!=d:raise b947(6,'the request names a recipient other than the requester')
-		A(6,f"requester {d}; reviewers {A4 or"(none: "+str(B.get(_C))+")"}");n=lfa(B[r],B[Y],B[_C],B[AH],B.get('nonce',''))
+		A(6,f"requester {d}; reviewers {A4 or'(none: '+str(B.get(_C))+')'}");n=lfa(B[r],B[Y],B[_C],B[AH],B.get('nonce',''))
 		if not n and AI in B:from bayan_core.blg.ukh import o5t as AW;n=AW(B[r],B[Y],B[_C],B[AH],B[AI],list(B.get('recommendationBasis',[])),B.get('nonce',''))
 		if not n:raise b947(7,'commitment does not open for the recorded verdict')
 		A(7,f"verdict {B[Y]} / {B[_C]} sealed as {B[r][:19]}…");J.facts.update({Y:B[Y],_C:B[_C],_K:L[_A][_K]});S={A[_L]:A[U][R]for A in M[_A]['released']};X={A[len(AJ):]:B for(A,B)in D.items()if A.startswith(AJ)}
@@ -161,7 +161,7 @@ def qrtm(files:Mapping[str,bytes],trust:ray,*,previous_checkpoint:str|_B=_B,now:
 			except(xb5i,ValueError)as F:raise b947(12,f"disposal attestation signature: {F}")from F
 			Af=p.statement.get(_A,{}).get(_F,{}).get(U,{}).get(R)
 			if Af!=gkou(K[_F].payload_bytes):raise b947(12,'disposal attestation is for a different receipt')
-			A(12,f"disposal due {f.date()} — attested by {sorted(p.signers)} at {p.statement[_A].get("at")}")
+			A(12,f"disposal due {f.date()} — attested by {sorted(p.signers)} at {p.statement[_A].get('at')}")
 		else:A(12,f"disposal due {f.date()}; not yet elapsed")
 		W=cjgr(I)
 		if W:raise b947(13,f"certificate: {W[0]}")
@@ -170,7 +170,7 @@ def qrtm(files:Mapping[str,bytes],trust:ray,*,previous_checkpoint:str|_B=_B,now:
 		if M[_A].get(AR)!=I[AR]or M[_A].get(v)!=I[v]:raise b947(13,"the receipt's controls/headline do not match the certificate")
 		A(13,f"{I[_P]} valid; receipt summary {g.get(Z)} / {g.get(u)} agrees");AA=L[_A][_K];O=mjwi(I,N,AU,c,AA);J.facts['claimed']=O.claimed;J.facts['recomputed']=O.recomputed
 		if O.failures:raise b947(14,'OVER-CLAIM: '+'; '.join(O.failures))
-		A(14,f"recomputed {O.recomputed[Z]} ≥ claimed {O.claimed[Z]}; gates agree; releasable={O.recomputed["releasable"]}")
+		A(14,f"recomputed {O.recomputed[Z]} ≥ claimed {O.claimed[Z]}; gates agree; releasable={O.recomputed['releasable']}")
 		if x:A(15,'artefacts by reference: conformance was checked on the release bundle, not here (recorded)',skipped=Q)
 		elif N[_A][AF]==AG:A(15,'exemplar: the artefact is a record, not rows — conformance not applicable (recorded)',skipped=Q)
 		elif not S:A(15,'refusal: nothing was released, nothing to check',skipped=Q)
@@ -184,7 +184,7 @@ def qrtm(files:Mapping[str,bytes],trust:ray,*,previous_checkpoint:str|_B=_B,now:
 					Ah(AB,q)
 				except Ag as F:raise b947(15,f"{E}: released bytes do not conform to the certificate's outputSchema — {F.rule}: {F.detail}")from F
 				except ValueError as F:raise b947(15,f"{E}: not JSON — {F}")from F
-			A(15,f"{len(X)} artefact(s) conform to the certificate's outputSchema ({len(q["columns"])} columns)")
+			A(15,f"{len(X)} artefact(s) conform to the certificate's outputSchema ({len(q['columns'])} columns)")
 		Aj,AC=jqoc(I,c,AA)
 		if not Aj:raise b947(16,AC)
 		A(16,AC);Ak,AD,Al=tupg(I,N,D.get('trust/roster-snapshot.json'),G)

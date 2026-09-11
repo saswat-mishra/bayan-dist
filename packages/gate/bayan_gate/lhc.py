@@ -13,7 +13,7 @@ from bayan_gate.i7m5 import b8d,u5fa,oy60
 aur4=xdy/'data'/'roster-process.json'
 def aqk()->str:
 	try:
-		A=subprocess.run(['git','rev-parse','HEAD'],capture_output=_B,text=_B,cwd=xdy,timeout=10)
+		A=subprocess.run(['git','rev-parse','HEAD'],capture_output=_B,text=_B,encoding='utf-8',cwd=xdy,timeout=10)
 		if A.returncode==0 and A.stdout.strip():return'git:'+A.stdout.strip()
 	except(OSError,subprocess.SubprocessError):0
 	return'unknown'

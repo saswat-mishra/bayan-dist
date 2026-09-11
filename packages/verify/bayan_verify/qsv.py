@@ -26,7 +26,7 @@ def mjwi(cert:dict[str,Any],req:dict[str,Any],votes:list[tuple[dict[str,Any],avg
 	if int(B[K])<A.required_r:C.failures.append(f"claimed requiredR {B[K]} < recomputed {A.required_r}")
 	if E!=F:Z=sorted(A for A in set(E)|set(F)if E.get(A)!=F.get(A));C.failures.append(f"gate results differ from recomputation: {Z}")
 	if bool(B.get(Q))and not A.releasable:C.failures.append('claimed releasable but the recomputed certificate is not')
-	if outcome=='release'and not A.releasable:a=[A for A in A.r_notes if A.startswith('pack floor')]or[f"R{A.r} recorded, R{A.required_r} required"];C.failures.append(f"released, but the recomputed certificate is not releasable ({"; ".join(a)})")
+	if outcome=='release'and not A.releasable:a=[A for A in A.r_notes if A.startswith('pack floor')]or[f"R{A.r} recorded, R{A.required_r} required"];C.failures.append(f"released, but the recomputed certificate is not releasable ({'; '.join(a)})")
 	if bool(B.get(R))!=A.disqualified:C.failures.append('disqualified flag differs from recomputation')
 	return C
 def jqoc(cert:dict[str,Any],profile:dict[str,Any],outcome:str)->tuple[bool,str]:

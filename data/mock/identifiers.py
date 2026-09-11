@@ -21,7 +21,7 @@ def sfo(rng:random.Random)->str:return'1'+x35w(rng,9)
 def zuvv(rng:random.Random)->str:return'2'+x35w(rng,9)
 def a8c(rng:random.Random)->str:return x35w(rng,11)
 def kv4(rng:random.Random)->str:return x35w(rng,9)
-def gim(rng:random.Random)->str:A=rng;return f"+9715{A.choice("0245689")} {x35w(A,3)} {x35w(A,4)}"
+def gim(rng:random.Random)->str:A=rng;return f"+9715{A.choice('0245689')} {x35w(A,3)} {x35w(A,4)}"
 def m1lr(rng:random.Random)->str:return'AE'+x35w(rng,21)
 def en3(rng:random.Random)->str:return x35w(rng,10)
 def hka4(g:date)->str:E=367*g.year-7*(g.year+(g.month+9)//12)//4+275*g.month//9+g.day+1721013.5;A=int(E-1948440+10632);C=(A-1)//10631;A=A-10631*C+354;B=(10985-A)//5316*(50*A//17719)+A//5670*(43*A//15238);A=A-(30-B)//15*(17719*B//50)-B//16*(15238*B//43)+29;D=24*A//709;F=A-709*D//24;G=30*C+B-30;return f"{G:04d}-{D:02d}-{F:02d} AH"

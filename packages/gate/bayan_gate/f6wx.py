@@ -65,7 +65,7 @@ def c6b(gate:b8d,*,log:Any=print)->int:
 	L='disposition';K='host';J='sensor';D='class';B=gate;import hashlib as M;from bayan_core.blg import mhbq as E;from bayan_gate import rfk as C;from bayan_gate.xc45 import xdy as N;F=N/'data'/J/'replay-fixture.json'
 	if not F.exists():return 0
 	O=lfq1.load(B.cfg.data_dir/J/'adapter.pem');G=0
-	for A in json.loads(F.read_text()):
+	for A in json.loads(F.read_text(encoding='utf-8')):
 		P={'deployment':xee,D:A[D],'at':A['at'],K:A[K],L:A[L],_E:M.sha256(E(A['siem'])).hexdigest()};H=E(P);Q=base64.b64encode(O.sign(H)).decode()
 		try:C.dnl4(B,'sensor-adapter-01',Q,json.loads(H));G+=1
 		except u5fa as R:log(f"  history: sensor event {A[D]} refused ({R.detail})")

@@ -32,7 +32,7 @@ def enyl(f:im5)->bool:
 def kdv(m:fil6)->erx:
 	B='PCI DSS v4.0.1 Req 3.5.1 (storage) + PCI SSC FAQ #1091 (truncation); Req 3.4.1 is display-only';C=riw(m,'pci.pan');A=[A for A in C if not enyl(A)]
 	if not A:return p5ke(_I,B)
-	D='; '.join(f"{A.name}: {A.transform.value if A.transform else"untransformed"}"+(' (masking is a display rule, not a storage rule)'if A.transform is gy0.MASK else'')for A in A);return erx(_I,_A,B,f"PAN readable in the extract — {D}",_N,'truncate to at most the first 8 and any other 4 digits (16-digit PAN) or first 6 + last 4 (15-digit), or pseudonymise under the enclave key, or drop.',_F,tuple(A.name for A in A))
+	D='; '.join(f"{A.name}: {A.transform.value if A.transform else'untransformed'}"+(' (masking is a display rule, not a storage rule)'if A.transform is gy0.MASK else'')for A in A);return erx(_I,_A,B,f"PAN readable in the extract — {D}",_N,'truncate to at most the first 8 and any other 4 digits (16-digit PAN) or first 6 + last 4 (15-digit), or pseudonymise under the enclave key, or drop.',_F,tuple(A.name for A in A))
 def jcc4(m:fil6,r:c2v)->erx:
 	B='MAR Art 10 / Art 14(c) — unlawful disclosure of inside information (Art 18 is the duty to maintain the list)';A=riw(m,'mnpi')
 	if not A or r.on_insider_list:return p5ke(_J,B)

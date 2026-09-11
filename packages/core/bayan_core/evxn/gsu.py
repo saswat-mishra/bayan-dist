@@ -53,7 +53,7 @@ def kmuy(spec:sui,ratified:frozenset[str]|_A=_A,sensitive_declared:frozenset[str
 		C=set(G.get(A.name,frozenset()))
 		if z2z in C or z2z in G:C=C-{z2z}|N
 		E=xd0(D[A]for A in C if A in D);L=(F or{}).get(A.name,A.field_class)
-		if E is not _A and m2xr(L)<m2xr(E):O=sorted(A for A in C if A in D and D[A]is E);K.append(z2z8('lineage_class',f"{A.name} derives from {", ".join(O)} ({E.value}) but is declared {L.value}: a column inherits the strictest class of its sources"))
+		if E is not _A and m2xr(L)<m2xr(E):O=sorted(A for A in C if A in D and D[A]is E);K.append(z2z8('lineage_class',f"{A.name} derives from {', '.join(O)} ({E.value}) but is declared {L.value}: a column inherits the strictest class of its sources"))
 		M=set(A.tags)|set(I.get(A.name,()))
 		for P in C:M|=set(I.get(P,()))
 		J[A.name]=frozenset(M)

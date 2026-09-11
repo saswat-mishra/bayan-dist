@@ -5,6 +5,8 @@ REM   run.bat --gate-only  start only the gate
 REM   run.bat --reseed     rebuild the demo dataset first
 setlocal enabledelayedexpansion
 cd /d "%~dp0"
+REM Python on Windows reads and writes text in the ANSI code page unless told otherwise; the packs carry Arabic.
+set PYTHONUTF8=1
 
 if "%GATE_PORT%"=="" set GATE_PORT=8787
 if "%UI_PORT%"==""   set UI_PORT=5173
@@ -23,25 +25,27 @@ echo  =====
 REM ---------------------------------------------------------------- prerequisites
 REM cmd does not treat ^ as an escape inside quotes, so a ">=" comparison in a
 REM -c string is unreliable. min()/== avoids angle brackets entirely.
+REM The py launcher first: "python" on a machine without Python is the Microsoft Store alias, which only prints advice.
 set "PYEXE="
-where python >nul 2>&1 && set "PYEXE=python"
-if not defined PYEXE (
-  where py >nul 2>&1 && set "PYEXE=py"
+for %%P in ("py -3" "python") do (
+  if not defined PYEXE (
+    %%~P -c "import sys;raise SystemExit(0 if min(sys.version_info[:2],(3,11))==(3,11) else 1)" >nul 2>&1 && set "PYEXE=%%~P"
+  )
 )
 if not defined PYEXE (
-  echo  ERROR: Python not found on PATH. Install Python 3.11+ and re-run.
-  exit /b 1
-)
-%PYEXE% -c "import sys;raise SystemExit(0 if min(sys.version_info[:2],(3,11))==(3,11) else 1)"
-if errorlevel 1 (
-  echo  ERROR: Python 3.11 or newer is required.
-  %PYEXE% --version
+  echo  ERROR: Python 3.11 or newer not found. Install it from python.org ^(tick "Add python.exe to PATH"^) and re-run.
   exit /b 1
 )
 if "%GATE_ONLY%"=="0" (
   where npm >nul 2>&1
   if errorlevel 1 (
-    echo  ERROR: Node.js / npm not found on PATH. Install Node 20+, or run: run.bat --gate-only
+    echo  ERROR: Node.js / npm not found on PATH. Install Node.js 18 or newer, or run: run.bat --gate-only
+    exit /b 1
+  )
+  node -e "process.exit(Math.min(Number(process.versions.node.split('.')[0]),18)===18?0:1)"
+  if errorlevel 1 (
+    echo  ERROR: Node.js 18 or newer is required.
+    node --version
     exit /b 1
   )
 )
@@ -62,10 +66,15 @@ if not errorlevel 1 (
 )
 
 REM ---------------------------------------------------------------- python deps
-if not exist ".venv" (
+if not exist ".venv\Scripts\python.exe" (
   echo  creating .venv
+  if exist ".venv" rmdir /s /q ".venv"
   %PYEXE% -m venv .venv
-  if errorlevel 1 exit /b 1
+  if errorlevel 1 (
+    if exist ".venv" rmdir /s /q ".venv"
+    echo  ERROR: could not create .venv with %PYEXE%.
+    exit /b 1
+  )
 )
 if not exist ".venv\.deps-installed" (
   echo  installing python packages
@@ -90,18 +99,32 @@ if not exist "%DATA_DIR%" (
 )
 
 REM ---------------------------------------------------------------- node deps
+REM a marker, not the directory: an interrupted npm install leaves a node_modules without vite in it
 if "%GATE_ONLY%"=="0" (
-  if not exist "packages\ui\node_modules" (
+  if not exist "packages\ui\node_modules\.bayan-installed" (
     echo  installing console dependencies ^(first run, may take a minute^)
     pushd packages\ui
     call npm install --no-audit --no-fund
+    if errorlevel 1 (
+      popd
+      echo  ERROR: npm install failed ^(above^). Check the network or the npm registry, then re-run run.bat.
+      exit /b 1
+    )
     popd
+    echo ok> "packages\ui\node_modules\.bayan-installed"
   )
 )
 
 REM ---------------------------------------------------------------- run
 echo  starting gate on http://127.0.0.1:%GATE_PORT%
 start "Bayan gate" cmd /k ""%CD%\.venv\Scripts\python.exe" -m bayan_gate.main --data-dir "%DATA_DIR%" --port %GATE_PORT%"
+
+echo  waiting for the gate to come up
+".venv\Scripts\python.exe" scripts\wait_http.py http://127.0.0.1:%GATE_PORT%/v1/health 180
+if errorlevel 1 (
+  echo  ERROR: the gate did not answer within three minutes. The "Bayan gate" window shows why.
+  exit /b 1
+)
 
 if "%GATE_ONLY%"=="1" (
   echo.
@@ -111,13 +134,14 @@ if "%GATE_ONLY%"=="1" (
   exit /b 0
 )
 
-echo  waiting for the gate to come up
-timeout /t 8 /nobreak >nul
-
 echo  starting console on http://127.0.0.1:%UI_PORT%
 start "Bayan console" cmd /k "cd /d "%CD%\packages\ui" && set "BAYAN_GATE=http://127.0.0.1:%GATE_PORT%" && npm run dev -- --port %UI_PORT%"
 
-timeout /t 5 /nobreak >nul
+".venv\Scripts\python.exe" scripts\wait_http.py http://127.0.0.1:%UI_PORT%/ 120
+if errorlevel 1 (
+  echo  ERROR: the console did not answer within two minutes. The "Bayan console" window shows why.
+  exit /b 1
+)
 start "" http://127.0.0.1:%UI_PORT%
 
 echo.

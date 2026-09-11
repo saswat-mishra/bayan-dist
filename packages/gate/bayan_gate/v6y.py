@@ -20,7 +20,7 @@ from bayan_core.blg import tamq,mhbq
 from bayan_core.evxn import xtf8,sui,l0zv,j84,hh5
 class zfhh(Exception):0
 def rs5(path:Path,registry_key:tamq)->sui:
-	A=json.loads(path.read_text());B=A[_D];C=base64.b64decode(A[_J])
+	A=json.loads(path.read_text(encoding='utf-8'));B=A[_D];C=base64.b64decode(A[_J])
 	if not registry_key.verify(C,mhbq(B)):raise zfhh(f"{path.name}: signature does not verify against the registry key")
 	return sui.from_dict(B)
 def m4w(spec:sui,key:Any)->dict[str,Any]:A=spec.to_dict();return{_D:A,_J:base64.b64encode(key.sign(mhbq(A))).decode()}
@@ -46,7 +46,7 @@ def dds(gate:Any,deployment_id:str,name:str,version:str,actor:str)->dict[str,Any
 	if H['role']!='dba':raise G(403,'only the data owner (role dba) co-signs a skill')
 	D=C.db.execute(_F,(E,A,B)).fetchone()
 	if D is _A:raise G(404,f"unknown skill {A}@{B} for {E}")
-	if D['decertified']:raise G(409,f"{A}@{B} is decertified after {D["quarantines"]} quarantines; a decertified skill cannot be co-signed")
+	if D['decertified']:raise G(409,f"{A}@{B} is decertified after {D['quarantines']} quarantines; a decertified skill cannot be co-signed")
 	if D[_G]is not _A:raise G(409,f"{A}@{B} was already co-signed by {D[_N]}")
 	I=K();J=iqq(deployment=E,skill=A,version=B,bundle_digest=D[_B],certified_by=F,at=I);L=base64.b64encode(C.keys.get(H['key_name']).sign(J)).decode()
 	with C.tx:C.db.execute('UPDATE skill SET certified_by=?, certified_at=?, certification_signature=?, certification_payload=? WHERE deployment_id=? AND name=? AND version=?',(F,int(time.time()),L,J.decode(),E,A,B))

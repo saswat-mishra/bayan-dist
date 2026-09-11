@@ -50,6 +50,7 @@ _A=None
 import base64,hashlib,hmac,json,time
 from pathlib import Path
 from typing import Any
+from bayan_core.s7t3 import rfyy
 from bayan_core.evxn import sui
 from bayan_gate import v6y as skillreg
 from bayan_gate.xc45 import tgd,nwp
@@ -73,18 +74,18 @@ def guc(gate:b8d,dep_id:str)->_A:
 	if C==_J:F.u21(E,C,_H,valid_from=B(A-2592000),valid_until=B(A+D),clearance_status=G,clearance_checked_at=B(A-2592000),**byt)
 	if C==_N:F.u21(E,C,_H,valid_from=B(A-2*D),valid_until=B(A-D),**byt)
 def khii(cfg:nwp,*,small:bool=_T,history:bool|_A=_A,log:Any=print)->b8d:
-	v='sensor-adapter-01';u='recordId';t='STRUCTURAL';s='software';b='sensor';a='vendor';L=log;K=history;F=cfg;D=small;w=time.time();from data.mock import tdl as x,op2c as y,pg9 as z,umfr as A0;from data.mock.identifiers import hrci as A1;B=b8d(F);E=B.db
-	for(M,R,N,G,A2,A3)in bf5r:E.execute('INSERT OR REPLACE INTO principal (id, display_name, role, key_name, key_type, authority, lang) VALUES (?,?,?,?,?,?,?)',(M,R,N,G,s,A2,A3));B.keys.ensure(G,frozenset({_C if N==_C else'requester'}))
+	w='sensor-adapter-01';v='utf-8';u='recordId';t='STRUCTURAL';s='software';b='sensor';a='vendor';L=log;K=history;F=cfg;D=small;x=time.time();from data.mock import tdl as y,op2c as z,pg9 as A0,umfr as A1;from data.mock.identifiers import hrci as A2;B=b8d(F);E=B.db
+	for(M,R,N,G,A3,A4)in bf5r:E.execute('INSERT OR REPLACE INTO principal (id, display_name, role, key_name, key_type, authority, lang) VALUES (?,?,?,?,?,?,?)',(M,R,N,G,s,A3,A4));B.keys.ensure(G,frozenset({_C if N==_C else'requester'}))
 	E.execute("UPDATE principal SET external=1 WHERE id='hessa.r@assessor.example'");E.execute('UPDATE principal SET switchable=0 WHERE id IN (?,?,?,?)',(_b,_e,_H,_d));c=B.keys.get('registry.vendor.example');S=0
-	for(A,R,A4,A5,T,d,A6,e,C)in u1if:
+	for(A,R,A5,A6,T,d,A7,e,C)in u1if:
 		if D and C is _A:continue
-		E.execute('INSERT OR REPLACE INTO deployment (id, name, name_ar, product, version, pack_id, origin, recipient, classification_tier, views, pack_digest) VALUES (?,?,?,?,?,?,?,?,?,?,?)',(A,R,tvmh.get(A,''),A4,A5,T,d,json.dumps(ovm),A6,json.dumps(e),B.packs[T].digest));B.keys.ensure(d,frozenset({'log'}));A7=B.packs[T]
-		for(f,A8)in A7.raw['fieldDefaults'].items():g=_A if A==_V and f=='department'else _G;E.execute('INSERT OR REPLACE INTO field_class (deployment_id, field, class, proposed_by, ratified_by, ratified_at) VALUES (?,?,?,?,?,?)',(A,f,A8['class'],a,g,int(time.time())if g else _A))
+		E.execute('INSERT OR REPLACE INTO deployment (id, name, name_ar, product, version, pack_id, origin, recipient, classification_tier, views, pack_digest) VALUES (?,?,?,?,?,?,?,?,?,?,?)',(A,R,tvmh.get(A,''),A5,A6,T,d,json.dumps(ovm),A7,json.dumps(e),B.packs[T].digest));B.keys.ensure(d,frozenset({'log'}));A8=B.packs[T]
+		for(f,A9)in A8.raw['fieldDefaults'].items():g=_A if A==_V and f=='department'else _G;E.execute('INSERT OR REPLACE INTO field_class (deployment_id, field, class, proposed_by, ratified_by, ratified_at) VALUES (?,?,?,?,?,?)',(A,f,A9['class'],a,g,int(time.time())if g else _A))
 		for h in(_K,'no_show_count','deal_count','decline_count','visit_count',_o):E.execute('INSERT OR IGNORE INTO field_class (deployment_id, field, class, proposed_by, ratified_by, ratified_at) VALUES (?,?,?,?,?,?)',(A,h,'QUASI'if h==_K else t,a,_G,int(time.time())))
 		if A==_N:E.execute('INSERT OR IGNORE INTO field_class (deployment_id, field, class, proposed_by) VALUES (?,?,?,?)',(A,'error_count',t,a))
 		guc(B,A);H=B.store(A)
 		if C==_X or C in q7e3:
-			if C==_X:U=2000 if D else 50000;i,j=A0(n=U,deployment_id=A),A1
+			if C==_X:U=2000 if D else 50000;i,j=A1(n=U,deployment_id=A),A2
 			else:U=2000 if D else 12000;i,j=p2wr(C,U,deployment_id=A),q7e3[C]['docs']
 			O=F.data_dir/'wal'/f"{A}.jsonl"
 			if O.exists():O.unlink()
@@ -92,25 +93,25 @@ def khii(cfg:nwp,*,small:bool=_T,history:bool|_A=_A,log:Any=print)->b8d:
 			for(l,m)in i:
 				V.emit(l)
 				if m:k[l[u]]=m
-			V.close();W=V.stats();L(f"  sdk: emitted={W.emitted} dropped={W.dropped} written={W.written}");A9=su4(O);S+=bnj3(H,[(A,k.get(A[u]))for A in A9]);G=hashlib.sha256(f"enclave-key:{A}".encode()).digest();B.keys.write_secret(f"enclave-{A}",G);assert B.enclave_key(A)==G;g742(H,_f,[{_U:hmac.new(G,A.encode(),hashlib.sha256).hexdigest(),_K:A}for A in j])
+			V.close();W=V.stats();L(f"  sdk: emitted={W.emitted} dropped={W.dropped} written={W.written}");AA=su4(O);S+=bnj3(H,[(A,k.get(A[u]))for A in AA]);G=hashlib.sha256(f"enclave-key:{A}".encode()).digest();B.keys.write_secret(f"enclave-{A}",G);assert B.enclave_key(A)==G;g742(H,_f,[{_U:hmac.new(G,A.encode(),hashlib.sha256).hexdigest(),_K:A}for A in j])
 		elif C==_u:g742(H,_g,xm3(1500 if D else 3000))
 		elif C=='hotel':g742(H,'stays',m2us(1500 if D else 2000))
-		elif C=='dha':g742(H,_n,y(600 if D else 3000))
-		elif C=='difc':g742(H,_p,z(400 if D else 1200))
-		elif C=='bank':g742(H,_r,x(500 if D else 2500))
+		elif C=='dha':g742(H,_n,z(600 if D else 3000))
+		elif C=='difc':g742(H,_p,A0(400 if D else 1200))
+		elif C=='bank':g742(H,_r,y(500 if D else 2500))
 		if C:
-			for AA in sorted((tgd/C).glob('*.json')):I=sui.from_dict(json.loads(AA.read_text()));AB=skillreg.m4w(I,c);X=F.data_dir/'inbox'/'skills'/f"{I.name}-{I.version}.bundle";X.parent.mkdir(parents=_D,exist_ok=_D);X.write_text(json.dumps(AB));AC=skillreg.rs5(X,c.public);n=_A if(A,I.name)in wli3 else _G;o=skillreg.ondp(E,A,AC,B.ratified(A),n,e,B.field_classes(A),B.source_classes(A),B.field_tags(A));L(f"  {A}: {I.name}@{I.version} {o.risk_class} max D{o.max_grade_d}"+(''if n else' (uncertified: awaiting co-signature)'))
+			for AB in rfyy(tgd/C):I=sui.from_dict(json.loads(AB.read_text(encoding=v)));AC=skillreg.m4w(I,c);X=F.data_dir/'inbox'/'skills'/f"{I.name}-{I.version}.bundle";X.parent.mkdir(parents=_D,exist_ok=_D);X.write_text(json.dumps(AC),encoding=v);AD=skillreg.rs5(X,c.public);n=_A if(A,I.name)in wli3 else _G;o=skillreg.ondp(E,A,AD,B.ratified(A),n,e,B.field_classes(A),B.source_classes(A),B.field_tags(A));L(f"  {A}: {I.name}@{I.version} {o.risk_class} max D{o.max_grade_d}"+(''if n else' (uncertified: awaiting co-signature)'))
 	from bayan_core.blg import lfq1 as J;P=F.data_dir/b/'adapter.pem';Y=J.load(P)if P.exists()else J.generate()
 	if not P.exists():Y.save(P)
-	E.execute('INSERT OR REPLACE INTO principal (id, display_name, role, key_name, key_type, authority, lang, public_key) VALUES (?,?,?,?,?,?,?,?)',('sensor-adapter@client.example','client EDR adapter',b,v,s,_A,_B,Y.public.b64));B.keys.register_public(v,Y.public.b64,frozenset({b}));from bayan_gate.gji2 import mtre as AD;p=F.data_dir/'client-keys'
-	for(M,AI,N,G,AJ,AK)in bf5r:
+	E.execute('INSERT OR REPLACE INTO principal (id, display_name, role, key_name, key_type, authority, lang, public_key) VALUES (?,?,?,?,?,?,?,?)',('sensor-adapter@client.example','client EDR adapter',b,w,s,_A,_B,Y.public.b64));B.keys.register_public(w,Y.public.b64,frozenset({b}));from bayan_gate.gji2 import mtre as AE;p=F.data_dir/'client-keys'
+	for(M,AJ,N,G,AK,AL)in bf5r:
 		if N!=_C:continue
 		Q=p/f"{M}.pem";q=J.load(Q)if Q.exists()else J.generate()
 		if not Q.exists():q.save(Q)
-		AD(B,M,q.public.b64)
-	B.keys.trust_root().save(F.data_dir/'trust'/'keys.json');from bayan_gate import lhc as Z;AE=J.load(p/'layla.a@moi.gov.example.pem')
+		AE(B,M,q.public.b64)
+	B.keys.trust_root().save(F.data_dir/'trust'/'keys.json');from bayan_gate import lhc as Z;AF=J.load(p/'layla.a@moi.gov.example.pem')
 	for(A,*_)in u1if:
-		if B.db.execute('SELECT 1 FROM deployment WHERE id=?',(A,)).fetchone():r=time.strftime(_v,time.gmtime());AF=Z.ofc(B,A);AG=base64.b64encode(AE.sign(Z.qwt(AF,A,_F,r))).decode();Z.w6cn(B,A,_F,AG,B.principal(_F)['key_name'],r)
+		if B.db.execute('SELECT 1 FROM deployment WHERE id=?',(A,)).fetchone():r=time.strftime(_v,time.gmtime());AG=Z.ofc(B,A);AH=base64.b64encode(AF.sign(Z.qwt(AG,A,_F,r))).decode();Z.w6cn(B,A,_F,AH,B.principal(_F)['key_name'],r)
 	if K is _A:K=not D
-	if K:from bayan_gate.f6wx import qc9j as AH;AH(B,log=L)
-	B.events.emit('seed',fingerprints=S,small=D,history=K);L(f"seeded {S} fingerprints in {time.time()-w:.1f}s at {F.data_dir}");return B
+	if K:from bayan_gate.f6wx import qc9j as AI;AI(B,log=L)
+	B.events.emit('seed',fingerprints=S,small=D,history=K);L(f"seeded {S} fingerprints in {time.time()-x:.1f}s at {F.data_dir}");return B

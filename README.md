@@ -1,6 +1,6 @@
 # Bayan — بيان
 
-**A signed, recomputable Compliance Certificate for every diagnostic data release from an air-gapped AI deployment. Distribution build v0.5.1.**
+**A signed, recomputable Compliance Certificate for every diagnostic data release from an air-gapped AI deployment. Distribution build v0.5.2.**
 
 A vendor's AI product runs inside a client's air-gapped data centre. When it misbehaves the engineer cannot see a trace, cannot reproduce the failure, and cannot legally carry the evidence out. Bayan replaces the site visit and the phone photograph with a declaration: a signed request, a policy evaluation that grades the release, a blinded clearance by the people the policy names, a receipt, and an append-only ledger that survives the air gap. Every release carries a certificate that is signed, bound to the released bytes, mapped to the client's control frameworks — and **recomputed** by an offline verifier that treats the certificate as a claim, never as a fact.
 
@@ -17,7 +17,24 @@ A vendor's AI product runs inside a client's air-gapped data centre. When it mis
 GATE_PORT=9787 UI_PORT=5174 ./run.sh
 ```
 
-Windows: `run.bat`. Requires Python 3.11+ and Node 20+; the console needs a browser with WebCrypto Ed25519 (Chromium ≥ 137, Firefox, Safari) because reviewers sign their votes in the browser. The world opens with transactions already in it — releases across nine weeks, two refusals, pending reviews (one past the stuck threshold), sealed sensor hours, an evidence pack — so every page has something to show on arrival.
+**Requirements:** Python 3.11 or newer and Node.js 18 or newer, and nothing else — no curl, no git, no compiler. On Debian and Ubuntu the venv module is a separate package: `sudo apt install python3 python3-venv nodejs npm`. On Alpine add `bash`. Windows: `run.bat` (see *Where this build has been run*). The console needs a browser with WebCrypto Ed25519 (Chromium ≥ 137, Firefox, Safari) because reviewers sign their votes in the browser. The world opens with transactions already in it — releases across nine weeks, two refusals, pending reviews (one past the stuck threshold), sealed sensor hours, an evidence pack — so every page has something to show on arrival.
+
+## Where this build has been run
+
+Each row is a clean machine given only what *Requirements* lists, then `./run.sh` as an ordinary user, then three checks: the gate's API (nine deployments, five people, the approval path on skill cards, a policy-cleared release verified offline by `bayan-verify`); the 31-step smoke over HTTP; and the console driven in headless Chromium (the *Acting as* picker, the skill card, a reviewer's brief with its decision on screen, no console errors).
+
+| System | Python | Node.js | CPU |
+|---|---|---|---|
+| macOS 26 (the build machine) | 3.11 | 22 | Apple silicon |
+| Debian 12 | 3.11 | 18 | arm64 |
+| Debian 13 | 3.13 | 20 | arm64 |
+| Debian 13 under a Windows code page (`LC_ALL=en_US.CP1252`) | 3.13 | 20 | arm64 |
+| Ubuntu 24.04 | 3.12 | 18 | arm64 and x86-64 |
+| Fedora 44 | 3.14 | 22 | arm64 |
+| Alpine Linux (musl) | 3.14 | 24 | arm64 |
+| `python:3.14-slim` (Debian 13) | 3.14 | 20 | arm64 |
+
+**Windows has not been run.** `run.bat` is written for cmd.exe on Windows 10 and 11, and the code avoids what differs there — every text file is read and written as UTF-8 (Windows' default is a legacy code page, which the `CP1252` row exercises), output a legacy code page cannot encode prints as `?` instead of stopping the tool, the directory fsync Windows refuses is skipped, and free space is measured without POSIX-only calls — but no Windows machine has started this build. Under WSL2, follow the Ubuntu row.
 
 ## What's new in v0.5
 
@@ -28,6 +45,7 @@ Windows: `run.bat`. Requires Python 3.11+ and Node 20+; the console needs a brow
 - **The data owner has two pages**, *Decisions* and *Fields*.
 - **Nine deployments across seven policy packs**, including two deliberately lighter regimes; see *The width* below.
 - A viewport-tall navigation rail, a centred page, and glass that blurs only where content scrolls behind it.
+- **v0.5.2 runs beyond the machine that built it.** v0.5.1 could not start on Python 3.11 (the minifier wrote 3.12-only f-strings), crashed under a non-UTF-8 code page (reading its packs, and printing its reports), needed `curl` without saying so, lost `run.sh` to CRLF on a Windows checkout, and could not start from a folder archived on a Mac. Each is fixed, and the build is now run on the systems listed above before it is published.
 
 ## The five identities
 
@@ -168,7 +186,7 @@ data/mock         the demo data generators, heavy and light     data/sensor   an
 
 ## About this distribution build
 
-This is a packaged, runnable build of the private repository: identifiers are name-mangled and sources minified; comments, docstrings, design documents and the development test suite are removed. The JSON Schemas are the exception — they are the open specification and ship as written. The full suite (property tests, golden certificates, mutation testing at the grader and verifier layers, the role × route matrix, the 31-step smoke narrative, the Playwright journeys) lives in the private repository and produced this build at commit `037452a` on 11 September 2026.
+This is a packaged, runnable build of the private repository: identifiers are name-mangled and sources minified; comments, docstrings, design documents and the development test suite are removed. The JSON Schemas are the exception — they are the open specification and ship as written. The full suite (property tests, golden certificates, mutation testing at the grader and verifier layers, the role × route matrix, the 31-step smoke narrative, the Playwright journeys) lives in the private repository and produced this build at commit `ad56120` on 11 September 2026.
 
 ## Licence
 

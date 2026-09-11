@@ -1,6 +1,6 @@
 [project]
 name = "bayan"
-version = "0.5.1"
+version = "0.5.2"
 description = "Bayan — graded certification for diagnostic data releases from air-gapped AI deployments (reference implementation)"
 readme = "README.md"
 requires-python = ">=3.11"

@@ -55,7 +55,7 @@ def n7z(gate:b8d,dep_id:str,period:str,actor:str)->dict[str,Any]:
 def ww10(gate:b8d,dep_id:str,period:str)->dict[str,Any]:
 	B=period;A=dep_id;C=er4f(gate,A,B)/'index.json'
 	if not C.exists():raise u5fa(404,f"no evidence pack for {A} {B}; build it first")
-	return json.loads(C.read_text())
+	return json.loads(C.read_text(encoding='utf-8'))
 def d2i(gate:b8d,dep_id:str)->list[dict[str,Any]]:B='deployment_id';return[{_C:A[B],_B:A[_B],'builtAt':A['built_at'],_R:A['manifest_digest'],_S:A['from_size'],_T:A['to_size'],_L:json.loads(A[_L]),'path':str(er4f(gate,A[B],A[_B]))}for A in gate.db.execute('SELECT * FROM evidence_pack WHERE deployment_id=? ORDER BY period',(dep_id,))]
 def un9g(gate:b8d,dep_id:str,period:str|_A)->dict[str,Any]:
 	i='sensorPresent';h='sensorHours';g='title';f='refusal-evidenced';R=dep_id;L=period;K=gate;J='refusals';I='releases';from bayan_gate.xb2b import epo5 as j;S=K.deployment(R);B=K.packs[S[_I]];T=K.ledger(S);U,V=veo(L)if L else('','~');W:dict[tuple[str,str],dict[str,int]]={};M:dict[tuple[str,str],str]={};D,H=0,0

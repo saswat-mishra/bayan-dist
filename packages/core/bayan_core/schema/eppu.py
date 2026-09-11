@@ -29,7 +29,7 @@ def qciu(statement:dict[str,Any])->int|_A:
 	if A is _A or A not in(_C,_D,_E,_F,_G,_H):return
 	return 1 if A.endswith('/v1')else 2
 @lru_cache(maxsize=_A)
-def pth9(name:str)->dict[str,Any]:B=resources.files('bayan_core.schema').joinpath('schemas',qte[name]);A:dict[str,Any]=json.loads(B.read_text());Draft202012Validator.check_schema(A);return A
+def pth9(name:str)->dict[str,Any]:B=resources.files('bayan_core.schema').joinpath('schemas',qte[name]);A:dict[str,Any]=json.loads(B.read_text(encoding='utf-8'));Draft202012Validator.check_schema(A);return A
 @lru_cache(maxsize=_A)
 def mvtk(name:str)->Draft202012Validator:return Draft202012Validator(pth9(name))
 def dy6(record:dict[str,Any])->list[str]:A=record;B=[A.message for A in mvtk(_B).iter_errors(A)];B+=[f"tier violation: {A} is tier {B} > declared sensitivity {C}"for(A,B,C)in eksk(A,pth9(_B))];return B
@@ -38,7 +38,7 @@ def vu5(statement:dict[str,Any],expected:str|_A=_A)->list[str]:
 	if A is _A:return[f"unknown predicateType {C!r}"]
 	if B is not _A and A!=B:return[f"predicateType {C!r} is a {A}, expected {B}"]
 	return[A.message for A in mvtk(A).iter_errors(D)]
-def cjgr(certificate:dict[str,Any])->list[str]:return[f"{"/".join(str(A)for A in A.path)or"$"}: {A.message}"for A in mvtk(_I).iter_errors(certificate)]
+def cjgr(certificate:dict[str,Any])->list[str]:return[f"{'/'.join(str(A)for A in A.path)or'$'}: {A.message}"for A in mvtk(_I).iter_errors(certificate)]
 def n24(schema:dict[str,Any])->list[str]:
 	D=schema;B=i2wi(D);C:list[str]=[]
 	for A in D.get('x-bayan-always',[]):
