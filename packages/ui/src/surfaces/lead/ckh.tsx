@@ -105,7 +105,13 @@ export function PovPreview({ ctx, onRequested }: {
     const [busy, setBusy] = useState(false);
     const [error, guard] = useGuard(lang);
     const floor = pack?.review?.roleFloors?.lead ?? 0;
-    useEffect(() => { api<Skill[]>(`/v1/skills?deployment=${dep}`, user).then((s) => setSkills(s.filter((x) => x.certified && !x.decertified && x.maxGradeD >= floor))).catch(() => setSkills([])); }, [dep, user, floor]);
+    useEffect(() => {
+        api<Skill[]>(`/v1/skills?deployment=${dep}`, user).then((s) => {
+            const ok = s.filter((x) => x.certified && !x.decertified && x.maxGradeD >= floor);
+            setSkills(ok);
+            setSkill((cur) => ok.some((x) => x.name === cur) ? cur : (ok[0]?.name ?? cur));
+        }).catch(() => setSkills([]));
+    }, [dep, user, floor]);
     async function preview() {
         setBusy(true);
         setReq(null);

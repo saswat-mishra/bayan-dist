@@ -24,20 +24,20 @@ def rs5(path:Path,registry_key:tamq)->sui:
 	if not registry_key.verify(C,mhbq(B)):raise zfhh(f"{path.name}: signature does not verify against the registry key")
 	return sui.from_dict(B)
 def m4w(spec:sui,key:Any)->dict[str,Any]:A=spec.to_dict();return{_D:A,_J:base64.b64encode(key.sign(mhbq(A))).decode()}
-def ondp(conn:sqlite3.Connection,deployment_id:str,spec:sui,ratified:frozenset[str],certified_by:str|_A,views:dict[str,list[str]]|_A=_A,classes:dict[str,Any]|_A=_A)->xtf8:
+def ondp(conn:sqlite3.Connection,deployment_id:str,spec:sui,ratified:frozenset[str],certified_by:str|_A,views:dict[str,list[str]]|_A=_A,classes:dict[str,Any]|_A=_A,source_classes:dict[str,Any]|_A=_A,tags:dict[str,frozenset[str]]|_A=_A)->xtf8:
 	F=certified_by;E=views;D=deployment_id;A=spec
 	if E is not _A:
 		for C in A.inputs:
 			if C.store not in E:raise zfhh(f"{A.name}@{A.version}: input {C.store!r} is not a declared view of {D}")
 			G=sorted(set(C.fields)-set(E[C.store]))
 			if G:raise zfhh(f"{A.name}@{A.version}: fields {G} are outside the declared view {C.store!r}")
-	B=l0zv(A,ratified,classes=classes);H=conn.execute('SELECT bundle_digest FROM skill WHERE deployment_id=? AND name=? AND version=?',(D,A.name,A.version)).fetchone()
+	B=l0zv(A,ratified,classes=classes,source_classes=source_classes,tags=tags);H=conn.execute('SELECT bundle_digest FROM skill WHERE deployment_id=? AND name=? AND version=?',(D,A.name,A.version)).fetchone()
 	if H and H[_B]!=B.bundle_digest:raise zfhh(f"{A.name}@{A.version} already registered with a different digest: a schema change needs a new version (Toolkit §9.5)")
 	if not B.certified:I=[A.detail for A in B.static_violations]+list(B.schema_errors);raise zfhh(f"{A.name}@{A.version} refused at certification: {I}")
 	conn.execute('INSERT OR IGNORE INTO skill (deployment_id, name, version, bundle_digest, spec, output_schema, risk_class, max_grade_d, certified_by, certified_at) VALUES (?,?,?,?,?,?,?,?,?,?)',(D,A.name,A.version,B.bundle_digest,json.dumps(A.to_dict()),json.dumps(A.output_schema.to_dict()),B.risk_class,B.max_grade_d,F,int(time.time())if F else _A));return B
-def x3n(conn:sqlite3.Connection,deployment_id:str,ratified:frozenset[str],classes:dict[str,Any]|_A=_A)->list[dict[str,Any]]:
+def x3n(conn:sqlite3.Connection,deployment_id:str,ratified:frozenset[str],classes:dict[str,Any]|_A=_A,source_classes:dict[str,Any]|_A=_A,tags:dict[str,frozenset[str]]|_A=_A)->list[dict[str,Any]]:
 	C=deployment_id;D=[]
-	for A in conn.execute('SELECT * FROM skill WHERE deployment_id=? ORDER BY name, version',(C,)).fetchall():E=sui.from_dict(json.loads(A[_D]));B=l0zv(E,ratified,classes=classes);conn.execute('UPDATE skill SET max_grade_d=?, risk_class=? WHERE deployment_id=? AND name=? AND version=?',(B.max_grade_d,B.risk_class,C,A[_E],A[_C]));D.append({_H:f"{A[_E]}@{A[_C]}",'before':A[_K],'after':B.max_grade_d})
+	for A in conn.execute('SELECT * FROM skill WHERE deployment_id=? ORDER BY name, version',(C,)).fetchall():E=sui.from_dict(json.loads(A[_D]));B=l0zv(E,ratified,classes=classes,source_classes=source_classes,tags=tags);conn.execute('UPDATE skill SET max_grade_d=?, risk_class=? WHERE deployment_id=? AND name=? AND version=?',(B.max_grade_d,B.risk_class,C,A[_E],A[_C]));D.append({_H:f"{A[_E]}@{A[_C]}",'before':A[_K],'after':B.max_grade_d})
 	return D
 fs7='bayan.skill-certification.v1'
 def iqq(*,deployment:str,skill:str,version:str,bundle_digest:str,certified_by:str,at:str)->bytes:return mhbq({'schema':fs7,_I:deployment,_H:skill,_C:version,_L:bundle_digest,_M:certified_by,'at':at})

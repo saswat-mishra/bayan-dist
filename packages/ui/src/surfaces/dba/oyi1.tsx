@@ -88,7 +88,7 @@ function FieldRow({ f, ctx, open, onOpen, onDone }: {
     return (<>
       <tr data-testid={`field-${f.field}`} data-ratified={f.ratified}>
         <td><strong><Iso>{f.field}</Iso></strong></td>
-        <td><Term code={f.class} showCode/></td>
+        <td><Term code={f.class} showCode/>{Array.isArray(f.guidance.tags) && (f.guidance.tags as string[]).length > 0 && <> <span className="tags" data-technical="true" data-testid={`tags-${f.field}`} title={t(lang, "colTags")}>{(f.guidance.tags as string[]).map((g) => <code key={g}>{g}</code>)}</span></>}</td>
         <td>{f.ratifiedBy ? <Name name={f.ratifiedByName ?? f.ratifiedBy} lang={lang} title={f.ratifiedBy}/> : "—"}</td>
         <td>{f.ratifiedAt ? formatDate(f.ratifiedAt, lang) : "—"}</td>
         <td className="muted small" data-testid={`impact-${f.field}`}>{f.impact.skills.length ? <Iso>{f.impact.skills.join(", ")}</Iso> : "—"}</td>

@@ -82,7 +82,7 @@ if "%RESEED%"=="1" (
   if exist "%DATA_DIR%" rmdir /s /q "%DATA_DIR%"
 )
 if not exist "%DATA_DIR%" (
-  echo  seeding the demo dataset ^(50,000 fingerprints, 10-20s^)
+  echo  seeding the demo world ^(nine deployments, 86,000 fingerprints, a history of releases - about 10 s^)
   ".venv\Scripts\python.exe" scripts\seed.py --data-dir "%DATA_DIR%"
   if errorlevel 1 exit /b 1
 ) else (
@@ -124,7 +124,8 @@ echo.
 echo   Console   http://127.0.0.1:%UI_PORT%
 echo   Gate      http://127.0.0.1:%GATE_PORT%
 echo.
-echo  Switch "Acting as" between Omar (engineer), Layla and Faisal (reviewers),
-echo  Priya (delivery lead) and Khalid (auditor).
+echo  Switch "Acting as" between Omar (engineer), Layla (reviewer), Priya (delivery lead),
+echo  Khalid (auditor) and Noura (data owner). To let Ask understand sentences, connect a
+echo  model under Omar's Integrations page (e.g. Ollama at http://127.0.0.1:11434).
 echo  Each service runs in its own window; close a window to stop it.
 exit /b 0

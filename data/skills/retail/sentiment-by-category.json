@@ -1,0 +1,75 @@
+{
+ "skill": "sentiment-by-category",
+ "version": "1.0.0",
+ "author": "omar.h@vendor.example",
+ "runtime": "sql",
+ "inputs": [
+  {
+   "store": "orders",
+   "fields": [
+    "order_id",
+    "district",
+    "age_band",
+    "city",
+    "category",
+    "channel",
+    "week",
+    "refund",
+    "sentiment",
+    "topic",
+    "error_code"
+   ]
+  }
+ ],
+ "sql": "SELECT category, sentiment, COUNT(*) AS order_count FROM orders GROUP BY category, sentiment HAVING COUNT(*) >= 10",
+ "params": [],
+ "output_schema": {
+  "columns": [
+   {
+    "name": "category",
+    "class": "STRUCTURAL",
+    "type": "enum",
+    "domain": [
+     "electronics",
+     "fashion",
+     "grocery",
+     "home",
+     "beauty",
+     "toys"
+    ]
+   },
+   {
+    "name": "sentiment",
+    "class": "SENSITIVE",
+    "type": "enum",
+    "domain": [
+     "negative",
+     "neutral",
+     "positive"
+    ]
+   },
+   {
+    "name": "order_count",
+    "class": "STRUCTURAL",
+    "type": "integer",
+    "min": 10,
+    "max": 1000000,
+    "transform": "aggregate",
+    "params": {
+     "min_cell": 10
+    },
+    "load_bearing": true
+   }
+  ],
+  "max_rows": 100
+ },
+ "answers": [
+  "quality-regression"
+ ],
+ "declares": {
+  "max_rows": 100,
+  "no_freetext": true
+ },
+ "description": "orders by category and the customer's SENTIMENT — a sensitive attribute the purpose must name",
+ "description_ar": "الطلبات حسب الفئة وشعور العميل — سمة حساسة يجب أن يسمّيها الغرض"
+}

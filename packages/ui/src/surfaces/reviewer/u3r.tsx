@@ -24,6 +24,12 @@ export function briefTitle(b: BriefJson, lang: Lang): string {
         return pick(lang, b.question);
     return typeof b.facts.what === "string" ? b.facts.what : b.skill ?? b.mechanism;
 }
+export function signatureWeight(b: BriefJson, lang: Lang): string {
+    const after = b.requiredReviews - b.votes - 1;
+    if (after <= 0)
+        return t(lang, "signatureLast");
+    return after === 1 ? t(lang, "signatureMoreOne") : t(lang, "signatureMore").replace("{n}", String(after));
+}
 export function Blocks({ b, lang }: {
     b: BriefJson;
     lang: Lang;
@@ -121,6 +127,8 @@ export function Brief({ id, user, lang, onChange, signer, threshold }: {
         {!signedByOthers && <section className="accountability" data-testid="accountability">
           <p className="signing-line"><strong>{t(lang, "accountability")} <span data-testid="signing-name"><Name name={brief.accountability.reviewer} lang={lang}/></span></strong></p>
           <p className="signing-terms">{t(lang, "signingRetention")} <span data-testid="signing-retention">{retentionWords(brief, lang)}</span> · {t(lang, "signingRecipient")} <span data-testid="signing-recipient"><Name name={brief.accountability.recipient} lang={lang}/>{brief.accountability.recipientOrg && <> (<Iso>{brief.accountability.recipientOrg}</Iso>)</>}</span></p>
+          
+          {canVote && <p className="signing-weight" data-testid="signing-weight">{signatureWeight(brief, lang)}</p>}
           {canVote && <Decision brief={brief} lang={lang} post={post} error={error} choice={choice} onChoose={setChoice} aside={readAloud} controlRef={controlRef}/>}
         </section>}
         {brief.yours && <div className="error">{t(lang, "yoursCannot")}</div>}

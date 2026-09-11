@@ -11,7 +11,7 @@ _B=True
 _A=None
 import sqlite3
 from collections.abc import Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass,field
 from typing import Any
 from bayan_core.blg.brgs import mhbq,gkou
 from bayan_core.blg2.oj2 import s9zz,f30
@@ -19,6 +19,7 @@ from bayan_core.blg2.dl9 import q66,fil6
 from bayan_core.schema.g5v import lhkf,c5aj
 from bayan_core.evxn.iuoq import vjs,ycf,f3w
 from bayan_core.evxn.b3xe import ptt2,hndw,i4x
+from bayan_core.evxn.aum2 import z2z,x99,r84,xd0,m2xr
 from bayan_core.evxn.schema import sui,hh5,htz
 from bayan_core.evxn.czq import z2z8,iij3
 r46c=2
@@ -43,10 +44,21 @@ def f12(dt:q66)->tuple[zn7,...]:
 	return tuple(C)
 @dataclass(frozen=_B)
 class xtf8:
-	name:str;version:str;bundle_digest:str;risk_class:str;max_grade_d:int;manifest:fil6;static_violations:tuple[z2z8,...];schema_errors:tuple[str,...];cap_reasons:tuple[zn7,...]=()
+	name:str;version:str;bundle_digest:str;risk_class:str;max_grade_d:int;manifest:fil6;static_violations:tuple[z2z8,...];schema_errors:tuple[str,...];cap_reasons:tuple[zn7,...]=();lineage:Mapping[str,tuple[str,...]]=field(default_factory=dict)
 	@property
 	def certified(self)->bool:A=self;return not A.static_violations and not A.schema_errors and A.risk_class!='black'
-def l0zv(spec:sui,ratified:frozenset[str]|_A=_A,sensitive_declared:frozenset[str]=frozenset(),classes:Mapping[str,c5aj]|_A=_A)->xtf8:A=spec;B=htz(A.output_schema,ratified,sensitive_declared,classes=classes);C=s9zz(B);return xtf8(A.name,A.version,hh5(A),f30(B),C.level,B,tuple(iij3(A)),tuple(A.output_schema.declaration_errors()),f12(C))
+def kmuy(spec:sui,ratified:frozenset[str]|_A=_A,sensitive_declared:frozenset[str]=frozenset(),classes:Mapping[str,c5aj]|_A=_A,*,source_classes:Mapping[str,c5aj]|_A=_A,tags:Mapping[str,frozenset[str]]|_A=_A)->tuple[fil6,x99,tuple[z2z8,...]]:
+	H=source_classes;F=classes;B=spec;G:x99=r84(B.sql,{A.store:A.fields for A in B.inputs})if B.runtime=='sql'else{};N=frozenset(B for A in B.inputs for B in A.fields);D:Mapping[str,c5aj]=H if H is not _A else F or{};I:Mapping[str,frozenset[str]]=tags or{};J:dict[str,frozenset[str]]={};K:list[z2z8]=[]
+	for A in B.output_schema.columns:
+		C=set(G.get(A.name,frozenset()))
+		if z2z in C or z2z in G:C=C-{z2z}|N
+		E=xd0(D[A]for A in C if A in D);L=(F or{}).get(A.name,A.field_class)
+		if E is not _A and m2xr(L)<m2xr(E):O=sorted(A for A in C if A in D and D[A]is E);K.append(z2z8('lineage_class',f"{A.name} derives from {", ".join(O)} ({E.value}) but is declared {L.value}: a column inherits the strictest class of its sources"))
+		M=set(A.tags)|set(I.get(A.name,()))
+		for P in C:M|=set(I.get(P,()))
+		J[A.name]=frozenset(M)
+	Q=htz(B.output_schema,ratified,sensitive_declared,classes=F,tags=J);return Q,G,tuple(K)
+def l0zv(spec:sui,ratified:frozenset[str]|_A=_A,sensitive_declared:frozenset[str]=frozenset(),classes:Mapping[str,c5aj]|_A=_A,*,source_classes:Mapping[str,c5aj]|_A=_A,tags:Mapping[str,frozenset[str]]|_A=_A)->xtf8:A=spec;B,D,E=kmuy(A,ratified,sensitive_declared,classes,source_classes=source_classes,tags=tags);C=s9zz(B);return xtf8(A.name,A.version,hh5(A),f30(B),C.level,B,tuple(iij3(A))+E,tuple(A.output_schema.declaration_errors()),f12(C),{A:tuple(sorted(B-{z2z}))for(A,B)in D.items()if A!=z2z})
 @dataclass(frozen=_B)
 class wxn:rule:str;detail:str
 @dataclass(frozen=_B)

@@ -1,0 +1,103 @@
+{
+ "skill": "article-attribution",
+ "version": "1.0.0",
+ "author": "omar.h@vendor.example",
+ "runtime": "sql",
+ "inputs": [
+  {
+   "store": "fingerprints",
+   "fields": [
+    "record_id",
+    "ts_hour",
+    "week",
+    "tier",
+    "operation",
+    "topic",
+    "route",
+    "finish_reason",
+    "error_code",
+    "latency_bucket",
+    "input_bucket",
+    "output_bucket",
+    "hit_count",
+    "doc_ref_count",
+    "index_generation"
+   ]
+  },
+  {
+   "store": "doc_refs",
+   "fields": [
+    "record_id",
+    "doc_ref",
+    "rank"
+   ]
+  },
+  {
+   "store": "doc_index",
+   "fields": [
+    "doc_ref",
+    "doc_id"
+   ]
+  }
+ ],
+ "sql": "SELECT x.doc_id, COUNT(*) AS failure_count FROM fingerprints f JOIN doc_refs d ON d.record_id = f.record_id JOIN doc_index x ON x.doc_ref = d.doc_ref WHERE f.error_code != 'none' GROUP BY x.doc_id HAVING COUNT(*) >= 10",
+ "params": [],
+ "output_schema": {
+  "columns": [
+   {
+    "name": "doc_id",
+    "class": "QUASI",
+    "type": "enum",
+    "domain": [
+     "KB-BILLING-INVOICES-2025-01",
+     "KB-BILLING-PRORATION-2024-09",
+     "KB-API-RATE-LIMITS-2025-02",
+     "KB-API-KEYS-ROTATION-2024-11",
+     "KB-SSO-SAML-SETUP-2025-03",
+     "KB-SSO-SCIM-PROVISIONING-2025-03",
+     "KB-SSO-TROUBLESHOOTING-2024-12",
+     "KB-OUTAGE-STATUS-PAGE-2023-06",
+     "KB-ONBOARDING-CHECKLIST-2025-01",
+     "KB-ONBOARDING-ROLES-2024-08",
+     "KB-UPGRADE-PLANS-2025-02",
+     "KB-UPGRADE-SEATS-2024-10",
+     "KB-DATA-EXPORT-CSV-2024-07",
+     "KB-DATA-EXPORT-API-2025-01",
+     "KB-SECURITY-2FA-2024-05",
+     "KB-WEBHOOKS-RETRIES-2024-11",
+     "KB-AUDIT-LOG-2025-02",
+     "KB-SLA-2023-01",
+     "KB-GDPR-DSAR-2024-03",
+     "KB-SANDBOX-ENV-2024-06"
+    ],
+    "load_bearing": true,
+    "params": {
+     "kind": "identifier"
+    }
+   },
+   {
+    "name": "failure_count",
+    "class": "STRUCTURAL",
+    "type": "integer",
+    "min": 10,
+    "max": 100000,
+    "transform": "aggregate",
+    "params": {
+     "min_cell": 10
+    },
+    "load_bearing": true
+   }
+  ],
+  "max_rows": 100
+ },
+ "answers": [
+  "bad-documents",
+  "index-regression"
+ ],
+ "declares": {
+  "max_rows": 100,
+  "no_freetext": true
+ },
+ "description": "which knowledge-base articles are retrieved in failed answers (article IDENTITY)",
+ "description_ar": "أي مقالات قاعدة المعرفة تُسترجع في الإجابات الفاشلة (هوية المقالة)"
+}

@@ -135,6 +135,7 @@ export function HandoffPanel({ ctx, tl, req, bundle, run, onLookup }: {
         <h3>{t(lang, "takeItAway")}</h3>
         <div className="vote">
           <button className="primary" onClick={download} disabled={!rel || downloading} data-testid="download-bundle">{t(lang, "downloadBundle")}</button>
+          {req && <a className="record-link" href={`#/requests/${req.id}/record`} data-testid="save-record">{t(lang, "saveRecord")}</a>}
           {downloading && <Progress label={t(lang, "downloading")}/>}
         </div>
         {error && <div className="error" role="alert">{error}</div>}

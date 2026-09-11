@@ -40,7 +40,7 @@ def e0f(gate:b8d,dep_id:str,field:str,actor:str)->dict[str,Any]:
 	if D is _A:raise u5fa(404,f"{C!r} is not a declared column of {B}")
 	if D[_C]is not _A:raise u5fa(409,f"{C!r} was already ratified by {D[_C]} on {x0l(D[_I])}")
 	G=oy60();J=base64.b64encode(A.keys.get(F[_L]).sign(q223(deployment=B,field=C,cls=D[_B],ratified_by=E,at=G))).decode()
-	with A.tx:A.db.execute('UPDATE field_class SET ratified_by=?, ratified_at=?, signature=? WHERE deployment_id=? AND field=?',(E,int(time.time()),J,B,C));H=I.x3n(A.db,B,A.ratified(B),A.field_classes(B))
+	with A.tx:A.db.execute('UPDATE field_class SET ratified_by=?, ratified_at=?, signature=? WHERE deployment_id=? AND field=?',(E,int(time.time()),J,B,C));H=I.x3n(A.db,B,A.ratified(B),A.field_classes(B),A.source_classes(B),A.field_tags(B))
 	A.events.emit('field-class-ratified',deployment=B,field=C,cls=D[_B],by=E,at=G,recertified=[A['skill']for A in H if A[_M]!=A['after']]);K=A.db.execute(_E,(B,C)).fetchone();return{**qrp(A,K),_N:H}
 def zsr(gate:b8d,dep_id:str,field:str,actor:str,cls:str,reason:str)->dict[str,Any]:
 	G=reason;F=actor;C=field;B=dep_id;A=gate;from bayan_core.schema.g5v import c5aj as I;from bayan_gate import v6y as L;J=A.principal(F)
@@ -52,5 +52,5 @@ def zsr(gate:b8d,dep_id:str,field:str,actor:str,cls:str,reason:str)->dict[str,An
 	if D is _A:raise u5fa(404,f"{C!r} is not a declared column of {B}")
 	if D[_B]==E and D[_C]is not _A:raise u5fa(409,f"{C!r} is already ratified as {E}; ratify or choose a different class")
 	H=oy60();N=base64.b64encode(A.keys.get(J[_L]).sign(q223(deployment=B,field=C,cls=E,ratified_by=F,at=H,reason=G.strip(),previous=D[_B]))).decode()
-	with A.tx:A.db.execute('UPDATE field_class SET class=?, ratified_by=?, ratified_at=?, signature=? WHERE deployment_id=? AND field=?',(E,F,int(time.time()),N,B,C));K=L.x3n(A.db,B,A.ratified(B),A.field_classes(B))
+	with A.tx:A.db.execute('UPDATE field_class SET class=?, ratified_by=?, ratified_at=?, signature=? WHERE deployment_id=? AND field=?',(E,F,int(time.time()),N,B,C));K=L.x3n(A.db,B,A.ratified(B),A.field_classes(B),A.source_classes(B),A.field_tags(B))
 	A.events.emit('field-class-reclassified',deployment=B,field=C,**{'from':D[_B],'to':E},reason=G.strip(),by=F,at=H,recertified=[A['skill']for A in K if A[_M]!=A['after']]);O=A.db.execute(_E,(B,C)).fetchone();return{**qrp(A,O),_N:K,_K:D[_B],_J:G.strip(),'at':H}

@@ -3,7 +3,7 @@ import { api } from '../../vhq7';
 import type { Ctx } from '../../App';
 import { useGuard, useLive } from '../../q1n';
 import { Key, Lang, t } from '../../gna';
-import type { FeasRow, ReleaseRequest, Run, Skill } from '../../wz0g';
+import type { AskAnswer, AssistantView, FeasRow, ReleaseRequest, Run, Skill } from '../../wz0g';
 import { QuestionStep } from './steps/zb46';
 import { SkillStep } from './steps/ry8';
 import { RunStep } from './steps/edn5';
@@ -45,11 +45,16 @@ export function Ask({ ctx }: {
     const [busy, setBusy] = useState(false);
     const [error, guard] = useGuard(lang);
     const hydrated = useRef<string | null>(null);
+    const [assistant, setAssistant] = useState<AssistantView | null>(null);
+    useEffect(() => { api<AssistantView>(`/v1/assistant?deployment=${dep}`, user).then(setAssistant).catch(() => setAssistant(null)); }, [dep, user]);
+    const askModel = useCallback((text: string, l: Lang) => api<AskAnswer>("/v1/ask", user, { method: "POST", body: { deployment: dep, text, lang: l } }), [dep, user]);
     useEffect(() => {
         guard(api<FeasRow[]>(`/v1/feasibility?deployment=${dep}`, user)).then((r) => r && setFeas(r));
     }, [dep, user, guard]);
     const loadSkills = useCallback(() => guard(api<Skill[]>(`/v1/skills?deployment=${dep}`, user)).then((s) => s && setSkills(s)), [dep, user, guard]);
     const live = useLive(loadSkills, 15000, step === 1);
+    useEffect(() => { if (skills.length === 0)
+        void loadSkills(); }, [loadSkills, skills.length]);
     useEffect(() => {
         if (!urlId || hydrated.current === urlId)
             return;
@@ -83,7 +88,7 @@ export function Ask({ ctx }: {
     return (<div data-testid="ask">
       <Rail step={step} reached={reached} onGo={setStep} lang={lang} busy={busy}/>
       {error && <div className="error" role="alert">{error}</div>}
-      {step === 0 && <QuestionStep ctx={ctx} rows={feas} selected={question} onPick={(q) => { setQuestion(q); setSkill(null); advance(1); }}/>}
+      {step === 0 && <QuestionStep ctx={ctx} rows={feas} skills={skills} selected={question} onPick={(q) => { setQuestion(q); setSkill(null); advance(1); }} assistant={assistant} askModel={askModel}/>}
       {step === 1 && <SkillStep skills={skills} question={question} lang={lang} user={user} dep={dep} guard={guard} onRun={(r, s) => { setSkill(s); setRun(r); setReq(null); advance(2); }} onBusy={setBusy} live={live}/>}
       {step === 2 && run && <RunStep run={run} lang={lang} pack={ctx.pack} onImprove={() => advance(3)} onRequest={() => advance(4)}/>}
       {step === 3 && run && <ImproveStep run={run} lang={lang} user={user} guard={guard} onRun={setRun} onRequest={() => advance(4)} onBusy={setBusy}/>}

@@ -91,8 +91,11 @@ if [ "$RESEED" -eq 1 ]; then
   rm -rf "$DATA_DIR"
 fi
 if [ ! -d "$DATA_DIR" ]; then
-  info "seeding the demo dataset (50,000 fingerprints, 10-20s)"
-  "$VENV_PY" scripts/seed.py --data-dir "$DATA_DIR"
+  info "seeding the demo world (nine deployments, 86,000 fingerprints, a history of releases — about 10 s)"
+  # BAYAN_SEED_HISTORY=0 leaves the world without its transactions: what `make dist-verify`
+  # wants, because the 31-step smoke it then runs builds and counts its own history.
+  HIST=""; [ "${BAYAN_SEED_HISTORY:-1}" = "0" ] && HIST="--no-history"
+  "$VENV_PY" scripts/seed.py --data-dir "$DATA_DIR" $HIST
 else
   info "using existing dataset in $DATA_DIR/  (--reseed to rebuild)"
 fi
@@ -143,7 +146,8 @@ bold ""
 bold "  Console   http://127.0.0.1:${UI_PORT}"
 bold "  Gate      http://127.0.0.1:${GATE_PORT}"
 bold ""
-info "Switch 'Acting as' between Omar (engineer), Layla and Faisal (reviewers),"
-info "Priya (delivery lead) and Khalid (auditor)."
+info "Switch 'Acting as' between Omar (engineer), Layla (reviewer), Priya (delivery lead),"
+info "Khalid (auditor) and Noura (data owner). To let Ask understand sentences, connect a"
+info "model under Omar's Integrations page (e.g. Ollama at http://127.0.0.1:11434)."
 info "Ctrl+C stops both."
 wait

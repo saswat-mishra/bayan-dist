@@ -59,6 +59,8 @@ export function SkillStep({ skills, question, lang, user, dep, guard, onRun, onB
           {skill?.name === s.name && s.params.length > 0 && (<div><strong>{t(lang, "paramsLabel")}</strong>{s.params.map((p) => (<label key={p}><Iso>{p}</Iso> <span className="muted">({t(lang, "example")}: <Iso>{s.paramExamples[p] ?? "—"}</Iso>)</span>
                 <input value={params[p] ?? ""} onChange={(e) => setParams({ ...params, [p]: e.target.value })} placeholder={s.paramExamples[p] ?? ""} data-testid={`param-${p}`}/></label>))}</div>)}
         </div>))}
+      {!skill && visible.length > 0 && <p className="muted small" data-testid="pick-skill-first">{t(lang, "pickSkillFirst")}</p>}
+      {skill?.decertified && <p className="muted small" data-testid="pick-skill-first">{t(lang, "decertifiedCannotRun")}</p>}
       <div className="vote">
         <button className="primary" disabled={!skill || skill.decertified || busy} onClick={() => run(false)} data-testid="run">{t(lang, "run")}</button>
         <button className="link" disabled={!skill || busy} onClick={() => run(true)} data-testid="dryrun">{t(lang, "dryrun")}</button>

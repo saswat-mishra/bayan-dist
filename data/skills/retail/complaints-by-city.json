@@ -1,0 +1,83 @@
+{
+ "skill": "complaints-by-city",
+ "version": "1.0.0",
+ "author": "omar.h@vendor.example",
+ "runtime": "sql",
+ "inputs": [
+  {
+   "store": "orders",
+   "fields": [
+    "order_id",
+    "district",
+    "age_band",
+    "city",
+    "category",
+    "channel",
+    "week",
+    "refund",
+    "sentiment",
+    "topic",
+    "error_code"
+   ]
+  }
+ ],
+ "sql": "SELECT city, topic, COUNT(*) AS complaint_count FROM orders WHERE error_code != 'none' GROUP BY city, topic HAVING COUNT(*) >= 10",
+ "params": [],
+ "output_schema": {
+  "columns": [
+   {
+    "name": "city",
+    "class": "QUASI",
+    "type": "enum",
+    "domain": [
+     "Dubai",
+     "Abu Dhabi",
+     "Sharjah",
+     "Ajman",
+     "Al Ain",
+     "Ras Al Khaimah"
+    ],
+    "load_bearing": true,
+    "params": {
+     "kind": "identifier"
+    }
+   },
+   {
+    "name": "topic",
+    "class": "STRUCTURAL",
+    "type": "enum",
+    "domain": [
+     "delivery",
+     "refund",
+     "product-question",
+     "payment",
+     "account",
+     "promo"
+    ]
+   },
+   {
+    "name": "complaint_count",
+    "class": "STRUCTURAL",
+    "type": "integer",
+    "min": 10,
+    "max": 100000,
+    "transform": "aggregate",
+    "params": {
+     "min_cell": 10
+    },
+    "load_bearing": true
+   }
+  ],
+  "max_rows": 100
+ },
+ "answers": [
+  "department-correlation",
+  "failing-stage"
+ ],
+ "declares": {
+  "max_rows": 100,
+  "no_freetext": true
+ },
+ "description": "failed conversations per city and topic (city NAMED — a place identifies in combination)",
+ "description_ar": "المحادثات الفاشلة لكل مدينة وموضوع (المدينة مُسمّاة — والمكان يحدد بالتركيب)"
+}

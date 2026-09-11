@@ -7,9 +7,10 @@ import type { EvidencePack } from '../../wz0g';
 import { EmptyState } from '../../components/qg9b';
 import { VerifyCommand } from '../../components/uc5j';
 export const currentPeriod = (): string => { const d = new Date(); return `${d.getUTCFullYear()}-Q${Math.floor(d.getUTCMonth() / 3) + 1}`; };
-export function PackList({ packs, lang }: {
+export function PackList({ packs, lang, trust }: {
     packs: EvidencePack[];
     lang: Lang;
+    trust?: string | null;
 }) {
     if (packs.length === 0)
         return <EmptyState text={t(lang, "noPacks")}/>;
@@ -19,7 +20,7 @@ export function PackList({ packs, lang }: {
         <div className="muted">manifest {p.manifestDigest.slice(0, 16)}…</div>
         <div data-testid="flags">{t(lang, "flags")}: {Object.entries(p.flags).filter(([k, v]) => k !== "attention" && v).map(([k]) => <span key={k} className="pill amber">{k}</span>)}</div>
         {p.flags.attention && <div className="warn" role="alert" data-testid="attention">{t(lang, "attention")}: {p.flags.attention}</div>}
-        <VerifyCommand command={`bayan-verify pack ${p.path} --trust <trust dir> --assert-offline`} lang={lang}/>
+        <VerifyCommand command={`bayan-verify pack ${p.path} --trust ${trust ?? "<trust dir>"} --assert-offline`} lang={lang}/>
       </div>))}</div>);
 }
 export function EvidenceBuilder({ ctx, testid }: {
@@ -39,7 +40,7 @@ export function EvidenceBuilder({ ctx, testid }: {
       {error && <div className="error" role="alert">{error}</div>}
       <div className="vote"><label>{t(lang, "period")} <input className="short" value={period} onChange={(e) => setPeriod(e.target.value)} data-testid="period"/></label>
         <button className="primary" onClick={build} data-testid="build-pack">{t(lang, "buildPack")}</button></div>
-      <PackList packs={packs} lang={lang}/>
+      <PackList packs={packs} lang={lang} trust={ctx.status?.trustDir}/>
     </div>);
 }
 export function LeadEvidence({ ctx }: {

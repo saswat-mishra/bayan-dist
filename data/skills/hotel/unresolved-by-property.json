@@ -1,0 +1,79 @@
+{
+ "skill": "unresolved-by-property",
+ "version": "1.0.0",
+ "author": "omar.h@vendor.example",
+ "runtime": "sql",
+ "inputs": [
+  {
+   "store": "stays",
+   "fields": [
+    "loyalty_tier",
+    "room_type",
+    "booking_week",
+    "property",
+    "request_topic",
+    "resolved",
+    "satisfaction",
+    "error_code"
+   ]
+  }
+ ],
+ "sql": "SELECT property, request_topic, COUNT(*) AS unresolved_count FROM stays WHERE resolved = 0 GROUP BY property, request_topic HAVING COUNT(*) >= 10",
+ "params": [],
+ "output_schema": {
+  "columns": [
+   {
+    "name": "property",
+    "class": "QUASI",
+    "type": "enum",
+    "domain": [
+     "Marhaba Dubai Marina",
+     "Marhaba Abu Dhabi Corniche",
+     "Marhaba Fujairah Beach",
+     "Marhaba Sharjah City"
+    ],
+    "load_bearing": true,
+    "params": {
+     "kind": "identifier"
+    }
+   },
+   {
+    "name": "request_topic",
+    "class": "STRUCTURAL",
+    "type": "enum",
+    "domain": [
+     "late-checkout",
+     "room-service",
+     "spa",
+     "transport",
+     "billing",
+     "housekeeping",
+     "wifi"
+    ]
+   },
+   {
+    "name": "unresolved_count",
+    "class": "STRUCTURAL",
+    "type": "integer",
+    "min": 10,
+    "max": 100000,
+    "transform": "aggregate",
+    "params": {
+     "min_cell": 10
+    },
+    "load_bearing": true
+   }
+  ],
+  "max_rows": 100
+ },
+ "answers": [
+  "department-correlation",
+  "failing-stage"
+ ],
+ "declares": {
+  "max_rows": 100,
+  "no_freetext": true
+ },
+ "description": "unresolved requests per property and topic (the property NAMED — a small property identifies in combination)",
+ "description_ar": "الطلبات غير المحلولة لكل فندق وموضوع (الفندق مُسمّى — وفندق صغير يحدد بالتركيب)"
+}

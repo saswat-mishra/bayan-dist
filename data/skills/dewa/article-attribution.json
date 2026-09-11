@@ -1,0 +1,99 @@
+{
+ "skill": "article-attribution",
+ "version": "1.0.0",
+ "author": "omar.h@vendor.example",
+ "runtime": "sql",
+ "inputs": [
+  {
+   "store": "fingerprints",
+   "fields": [
+    "record_id",
+    "ts_hour",
+    "week",
+    "tier",
+    "operation",
+    "topic",
+    "route",
+    "finish_reason",
+    "error_code",
+    "latency_bucket",
+    "input_bucket",
+    "output_bucket",
+    "hit_count",
+    "doc_ref_count",
+    "index_generation"
+   ]
+  },
+  {
+   "store": "doc_refs",
+   "fields": [
+    "record_id",
+    "doc_ref",
+    "rank"
+   ]
+  },
+  {
+   "store": "doc_index",
+   "fields": [
+    "doc_ref",
+    "doc_id"
+   ]
+  }
+ ],
+ "sql": "SELECT x.doc_id, COUNT(*) AS failure_count FROM fingerprints f JOIN doc_refs d ON d.record_id = f.record_id JOIN doc_index x ON x.doc_ref = d.doc_ref WHERE f.error_code != 'none' GROUP BY x.doc_id HAVING COUNT(*) >= 10",
+ "params": [],
+ "output_schema": {
+  "columns": [
+   {
+    "name": "doc_id",
+    "class": "QUASI",
+    "type": "enum",
+    "domain": [
+     "DEWA-BILL-EXPLAINED-2025-01",
+     "DEWA-SLAB-TARIFF-2024-01",
+     "DEWA-METER-READING-2024-06",
+     "DEWA-SMART-METER-FAQ-2025-02",
+     "DEWA-NEW-CONNECTION-2023-09",
+     "DEWA-DISCONNECTION-NOTICE-2024-03",
+     "DEWA-OUTAGE-REPORTING-2024-11",
+     "DEWA-PAYMENT-CHANNELS-2025-01",
+     "DEWA-AUTOPAY-2024-08",
+     "DEWA-SECURITY-DEPOSIT-2023-05",
+     "DEWA-GREEN-BILL-2024-02",
+     "DEWA-EJARI-LINK-2024-10",
+     "DEWA-TARIFF-CHANGE-2025-01",
+     "DEWA-METER-DISPUTE-2024-06",
+     "DEWA-MOVE-OUT-2023-12",
+     "DEWA-CONSUMPTION-HISTORY-2024-04"
+    ],
+    "load_bearing": true,
+    "params": {
+     "kind": "identifier"
+    }
+   },
+   {
+    "name": "failure_count",
+    "class": "STRUCTURAL",
+    "type": "integer",
+    "min": 10,
+    "max": 100000,
+    "transform": "aggregate",
+    "params": {
+     "min_cell": 10
+    },
+    "load_bearing": true
+   }
+  ],
+  "max_rows": 100
+ },
+ "answers": [
+  "bad-documents",
+  "index-regression"
+ ],
+ "declares": {
+  "max_rows": 100,
+  "no_freetext": true
+ },
+ "description": "which circulars are retrieved in failed answers (document IDENTITY)",
+ "description_ar": "أي التعاميم تُسترجع في الإجابات الفاشلة (هوية المستند)"
+}

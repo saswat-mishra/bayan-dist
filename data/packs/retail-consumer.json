@@ -1,0 +1,1319 @@
+{
+ "activated": [
+  "soc2",
+  "iso27001",
+  "nist_ai_rmf"
+ ],
+ "budget": {
+  "exemplarQuota": 5,
+  "perCohortLimit": 80,
+  "period": "quarter"
+ },
+ "certificate": {
+  "validityDays": 120
+ },
+ "classification": {
+  "defaultOnSilence": "Internal",
+  "mixedSet": "highest-in-set",
+  "scheme": "ae.pdpl.consumer.v1",
+  "tiers": {
+   "Internal": 1,
+   "Personal": 2,
+   "Public": 0,
+   "Sensitive personal": 3
+  }
+ },
+ "controls": {
+  "iso27001/A.5.12": {
+   "control": "A.5.12",
+   "evidence": "S",
+   "framework": "iso27001",
+   "packVersion": "0.4.0",
+   "sourceRef": "ISO/IEC 27001:2022 Annex A.5.12",
+   "sourceText": "Classification of information",
+   "title": "Classification of information"
+  },
+  "iso27001/A.5.13": {
+   "control": "A.5.13",
+   "evidence": "S",
+   "framework": "iso27001",
+   "packVersion": "0.4.0",
+   "sourceRef": "ISO/IEC 27001:2022 Annex A.5.13",
+   "sourceText": "Labelling of information",
+   "title": "Labelling of information"
+  },
+  "iso27001/A.5.14": {
+   "control": "A.5.14",
+   "evidence": "S",
+   "framework": "iso27001",
+   "packVersion": "0.4.0",
+   "sourceRef": "ISO/IEC 27001:2022 Annex A.5.14",
+   "sourceText": "Information transfer",
+   "title": "Information transfer"
+  },
+  "iso27001/A.5.19": {
+   "control": "A.5.19",
+   "evidence": "S",
+   "framework": "iso27001",
+   "packVersion": "0.4.0",
+   "sourceRef": "ISO/IEC 27001:2022 Annex A.5.19",
+   "sourceText": "Information security in supplier relationships",
+   "title": "Information security in supplier relationships"
+  },
+  "iso27001/A.5.20": {
+   "control": "A.5.20",
+   "evidence": "S",
+   "framework": "iso27001",
+   "packVersion": "0.4.0",
+   "sourceRef": "ISO/IEC 27001:2022 Annex A.5.20",
+   "sourceText": "Addressing information security within supplier agreements",
+   "title": "Addressing information security within supplier agreements"
+  },
+  "iso27001/A.5.22": {
+   "control": "A.5.22",
+   "evidence": "S",
+   "framework": "iso27001",
+   "packVersion": "0.4.0",
+   "sourceRef": "ISO/IEC 27001:2022 Annex A.5.22",
+   "sourceText": "Monitoring, review and change management of supplier services",
+   "title": "Monitoring, review and change management of supplier services"
+  },
+  "iso27001/A.5.3": {
+   "control": "A.5.3",
+   "evidence": "S",
+   "framework": "iso27001",
+   "packVersion": "0.4.0",
+   "sourceRef": "ISO/IEC 27001:2022 Annex A.5.3",
+   "sourceText": "Segregation of duties",
+   "title": "Segregation of duties"
+  },
+  "iso27001/A.5.34": {
+   "control": "A.5.34",
+   "evidence": "S",
+   "framework": "iso27001",
+   "packVersion": "0.4.0",
+   "sourceRef": "ISO/IEC 27001:2022 Annex A.5.34",
+   "sourceText": "Privacy and protection of personal identifiable information (PII)",
+   "title": "Privacy and protection of personal identifiable information (PII)"
+  },
+  "iso27001/A.8.10": {
+   "control": "A.8.10",
+   "evidence": "S",
+   "framework": "iso27001",
+   "packVersion": "0.4.0",
+   "sourceRef": "ISO/IEC 27001:2022 Annex A.8.10",
+   "sourceText": "Information deletion",
+   "title": "Information deletion"
+  },
+  "iso27001/A.8.11": {
+   "control": "A.8.11",
+   "evidence": "S",
+   "framework": "iso27001",
+   "packVersion": "0.4.0",
+   "sourceRef": "ISO/IEC 27001:2022 Annex A.8.11",
+   "sourceText": "Data masking",
+   "title": "Data masking"
+  },
+  "iso27001/A.8.12": {
+   "control": "A.8.12",
+   "evidence": "S",
+   "framework": "iso27001",
+   "packVersion": "0.4.0",
+   "sourceRef": "ISO/IEC 27001:2022 Annex A.8.12",
+   "sourceText": "Data leakage prevention",
+   "title": "Data leakage prevention"
+  },
+  "iso27001/A.8.15": {
+   "control": "A.8.15",
+   "evidence": "S",
+   "framework": "iso27001",
+   "packVersion": "0.4.0",
+   "sourceRef": "ISO/IEC 27001:2022 Annex A.8.15",
+   "sourceText": "Logging",
+   "title": "Logging"
+  },
+  "iso27001/A.8.16": {
+   "control": "A.8.16",
+   "evidence": "S",
+   "framework": "iso27001",
+   "packVersion": "0.4.0",
+   "sourceRef": "ISO/IEC 27001:2022 Annex A.8.16",
+   "sourceText": "Monitoring activities",
+   "title": "Monitoring activities"
+  },
+  "iso27001/A.8.32": {
+   "control": "A.8.32",
+   "evidence": "S",
+   "framework": "iso27001",
+   "packVersion": "0.4.0",
+   "sourceRef": "ISO/IEC 27001:2022 Annex A.8.32",
+   "sourceText": "Change management",
+   "title": "Change management"
+  },
+  "nist_ai_rmf/MEASURE-2.10": {
+   "control": "MEASURE-2.10",
+   "evidence": "P",
+   "framework": "nist_ai_rmf",
+   "packVersion": "0.4.0",
+   "sourceRef": "NIST AI 100-1, MEASURE 2.10",
+   "sourceText": "Privacy risk of the AI system – e.g., relating to AI system representational and other harms – is examined and documented.",
+   "title": "MEASURE 2.10"
+  },
+  "soc2/C1.2": {
+   "control": "C1.2",
+   "evidence": "P",
+   "framework": "soc2",
+   "packVersion": "0.4.0",
+   "sourceRef": "AICPA TSC 2017, C1.2",
+   "sourceText": "The entity disposes of confidential information to meet the entity's objectives.",
+   "title": "Disposal of confidential information"
+  },
+  "soc2/CC6.3": {
+   "control": "CC6.3",
+   "evidence": "P",
+   "framework": "soc2",
+   "packVersion": "0.4.0",
+   "sourceRef": "AICPA TSC 2017, CC6.3",
+   "sourceText": "The entity authorizes, modifies, or removes access to data, software, functions, and other protected information assets based on roles, responsibilities, or the system design and changes, giving consideration to the concepts of least privilege and segregation of duties, to meet the entity's objectives.",
+   "title": "Access authorization, modification and removal"
+  },
+  "soc2/CC6.7": {
+   "control": "CC6.7",
+   "evidence": "P",
+   "framework": "soc2",
+   "packVersion": "0.4.0",
+   "sourceRef": "AICPA TSC 2017, CC6.7",
+   "sourceText": "The entity restricts the transmission, movement, and removal of information to authorized internal and external users and processes, and protects it during transmission, movement, or removal to meet the entity's objectives.",
+   "title": "Restriction of transmission, movement and removal of information"
+  },
+  "soc2/CC7.2": {
+   "control": "CC7.2",
+   "evidence": "P",
+   "framework": "soc2",
+   "packVersion": "0.4.0",
+   "sourceRef": "AICPA TSC 2017, CC7.2",
+   "sourceText": "The entity monitors system components and the operation of those components for anomalies that are indicative of malicious acts, natural disasters, and errors affecting the entity's ability to meet its objectives; anomalies are analyzed to determine whether they represent security events.",
+   "title": "Monitoring for anomalies"
+  },
+  "soc2/CC8.1": {
+   "control": "CC8.1",
+   "evidence": "P",
+   "framework": "soc2",
+   "packVersion": "0.4.0",
+   "sourceRef": "AICPA TSC 2017, CC8.1",
+   "sourceText": "The entity authorizes, designs, develops or acquires, configures, documents, tests, approves, and implements changes to infrastructure, data, software, and procedures to meet its objectives.",
+   "title": "Change management"
+  },
+  "soc2/CC9.2": {
+   "control": "CC9.2",
+   "evidence": "P",
+   "framework": "soc2",
+   "packVersion": "0.4.0",
+   "sourceRef": "AICPA TSC 2017, CC9.2",
+   "sourceText": "The entity assesses and manages risks associated with vendors and business partners.",
+   "title": "Vendor and business partner risk"
+  },
+  "soc2/P4.1": {
+   "control": "P4.1",
+   "evidence": "P",
+   "framework": "soc2",
+   "packVersion": "0.4.0",
+   "sourceRef": "AICPA TSC 2017, P4.1",
+   "sourceText": "The entity limits the use of personal information to the purposes identified in the entity's objectives related to privacy.",
+   "title": "Limitation of use"
+  }
+ },
+ "crosswalk": {
+  "budget-bounded": {
+   "iso27001": [
+    "A.5.34"
+   ]
+  },
+  "change-controlled": {
+   "iso27001": [
+    "A.8.32"
+   ],
+   "soc2": [
+    "CC8.1"
+   ]
+  },
+  "classified-and-handled": {
+   "iso27001": [
+    "A.5.12",
+    "A.5.13"
+   ]
+  },
+  "deidentified-declared": {
+   "iso27001": [
+    "A.5.34",
+    "A.8.11"
+   ],
+   "soc2": [
+    "P4.1"
+   ]
+  },
+  "deidentified-verified": {
+   "iso27001": [
+    "A.5.34",
+    "A.8.11"
+   ],
+   "nist_ai_rmf": [
+    "MEASURE-2.10"
+   ],
+   "soc2": [
+    "P4.1"
+   ]
+  },
+  "disposal-bound": {
+   "iso27001": [
+    "A.8.10"
+   ],
+   "soc2": [
+    "C1.2"
+   ]
+  },
+  "logged-tamper-evident": {
+   "iso27001": [
+    "A.8.15",
+    "A.8.16"
+   ],
+   "soc2": [
+    "CC7.2"
+   ]
+  },
+  "refusal-evidenced": {
+   "soc2": [
+    "CC7.2"
+   ]
+  },
+  "third-party-access-controlled": {
+   "iso27001": [
+    "A.5.19",
+    "A.5.20",
+    "A.5.22"
+   ],
+   "soc2": [
+    "CC9.2"
+   ]
+  },
+  "transfer-gated": {
+   "iso27001": [
+    "A.5.14",
+    "A.8.12"
+   ],
+   "soc2": [
+    "CC6.7"
+   ]
+  },
+  "two-person-cleared": {
+   "iso27001": [
+    "A.5.3"
+   ],
+   "soc2": [
+    "CC6.3"
+   ]
+  }
+ },
+ "dFloor": null,
+ "doesNotStopExample": {
+  "ar": "الحي + الفئة العمرية + أسبوع الطلب",
+  "en": "district + age band + order week"
+ },
+ "fieldDefaults": {
+  "age_band": {
+   "class": "QUASI"
+  },
+  "booking_week": {
+   "class": "QUASI"
+  },
+  "category": {
+   "class": "STRUCTURAL"
+  },
+  "channel": {
+   "class": "STRUCTURAL"
+  },
+  "city": {
+   "class": "QUASI"
+  },
+  "complaint_count": {
+   "class": "STRUCTURAL"
+  },
+  "complaint_text": {
+   "class": "FREETEXT"
+  },
+  "customer_id": {
+   "class": "DIRECT"
+  },
+  "deployment_id": {
+   "class": "VENDOR"
+  },
+  "district": {
+   "class": "QUASI"
+  },
+  "email": {
+   "class": "DIRECT"
+  },
+  "error_code": {
+   "class": "STRUCTURAL"
+  },
+  "guardrail_category": {
+   "class": "SENSITIVE",
+   "tags": [
+    "non_exportable"
+   ]
+  },
+  "guest_id": {
+   "class": "DIRECT"
+  },
+  "loyalty_tier": {
+   "class": "QUASI"
+  },
+  "nationality": {
+   "class": "SENSITIVE"
+  },
+  "order_count": {
+   "class": "STRUCTURAL"
+  },
+  "order_id": {
+   "class": "QUASI"
+  },
+  "phone": {
+   "class": "DIRECT"
+  },
+  "product_version": {
+   "class": "VENDOR"
+  },
+  "property": {
+   "class": "QUASI"
+  },
+  "record_id": {
+   "class": "VENDOR"
+  },
+  "refund": {
+   "class": "STRUCTURAL"
+  },
+  "refund_count": {
+   "class": "STRUCTURAL"
+  },
+  "request_count": {
+   "class": "STRUCTURAL"
+  },
+  "request_topic": {
+   "class": "STRUCTURAL"
+  },
+  "resolved": {
+   "class": "STRUCTURAL"
+  },
+  "room_type": {
+   "class": "STRUCTURAL"
+  },
+  "satisfaction": {
+   "class": "SENSITIVE"
+  },
+  "sentiment": {
+   "class": "SENSITIVE"
+  },
+  "topic": {
+   "class": "STRUCTURAL"
+  },
+  "unresolved_count": {
+   "class": "STRUCTURAL"
+  },
+  "week": {
+   "class": "QUASI"
+  }
+ },
+ "frameworks": {
+  "iso27001": {
+   "evidence": "S",
+   "sourceRef": "ISO/IEC 27001:2022 (paywalled; titles only)",
+   "title": "ISO/IEC 27001:2022 Annex A",
+   "title_ar": "ISO/IEC 27001:2022 — الملحق A"
+  },
+  "nist_ai_rmf": {
+   "evidence": "P",
+   "sourceRef": "NIST AI 100-1",
+   "title": "NIST AI Risk Management Framework 1.0 (AI 100-1)",
+   "title_ar": "إطار NIST لإدارة مخاطر الذكاء الاصطناعي 1.0 (AI 100-1)"
+  },
+  "soc2": {
+   "evidence": "P",
+   "sourceRef": "AICPA TSC 2017 (2022 POF); NIST-hosted crosswalk",
+   "title": "AICPA Trust Services Criteria (2017, with 2022 points of focus)",
+   "title_ar": "معايير خدمات الثقة الأمريكية (AICPA، 2017 مع نقاط التركيز 2022)"
+  }
+ },
+ "gateControls": {},
+ "gates": {
+  "exportPermittedCitizenships": [
+   "US"
+  ]
+ },
+ "id": "retail-consumer",
+ "jurisdiction": "AE",
+ "locality": {
+  "nationalityRestrictions": [],
+  "permittedJurisdictions": []
+ },
+ "lookup": {
+  "maxKeys": 10
+ },
+ "name": "Consumer retail and hospitality (UAE PDPL)",
+ "name_ar": "التجزئة والضيافة للمستهلكين (قانون حماية البيانات الشخصية الإماراتي)",
+ "primaryFramework": "soc2",
+ "retention": {
+  "clientLogRetention": "P12M",
+  "disposalMethod": "nist-800-88-clear",
+  "vendorDisposal": "P120D"
+ },
+ "review": {
+  "baselineTier": 1,
+  "byD": [
+   3,
+   2,
+   1,
+   1,
+   1
+  ],
+  "exemplar": 3,
+  "policyClearRiskClasses": [
+   "green",
+   "amber"
+  ],
+  "reasonMinLength": 20,
+  "red": 3,
+  "roleFloors": {
+   "lead": 2
+  },
+  "stuckAfterSeconds": 86400,
+  "threshold": 2
+ },
+ "rules": [
+  {
+   "advisory": false,
+   "citation": "AICPA Trust Services Criteria (2017, with 2022 points of focus), CC6.7",
+   "evidence": "P",
+   "id": "SOC2-CC6.7",
+   "packVersion": "0.4.0",
+   "quote": "restricts the transmission, movement, and removal of information to authorized internal and external users and processes"
+  },
+  {
+   "advisory": false,
+   "citation": "ISO/IEC 27001:2022 Annex A, A.5.34 (paywalled; title only)",
+   "evidence": "S",
+   "id": "ISO-A.5.34",
+   "packVersion": "0.4.0",
+   "quote": "Privacy and protection of personally identifiable information (PII)"
+  },
+  {
+   "advisory": true,
+   "citation": "Federal Decree-Law 45/2021 (PDPL), Art 22 — cross-border transfer of personal data",
+   "evidence": "I",
+   "id": "AE-PDPL-ART22",
+   "note": "cited by article; the verbatim official text is for the client's counsel to confirm at onboarding, so it is advisory here",
+   "packVersion": "0.4.0",
+   "quote": "cross-border transfer and sharing of personal data for processing purposes"
+  },
+  {
+   "advisory": false,
+   "citation": "NIST AI 100-1 (AI RMF 1.0), MEASURE 2.10",
+   "evidence": "P",
+   "id": "NIST-AI-MEASURE-2.10",
+   "packVersion": "0.4.0",
+   "quote": "Privacy risk of the AI system – e.g., relating to AI system representational and other harms – is examined and documented."
+  },
+  {
+   "advisory": true,
+   "citation": "bayan-prd.md R-F6; NIST SP 800-53 AC-4(19)",
+   "evidence": "I",
+   "id": "GUARDRAIL-NONEXPORT",
+   "packVersion": "0.4.0",
+   "quote": "guardrail categories are their own tier, non-exportable by default, releasable only as counts over a cohort with a k-floor"
+  }
+ ],
+ "templates": {
+  "ar": {
+   "accountability": "المراجع: {reviewer}. مدة الاحتفاظ: {retention}. المستلم: {recipient} ({recipient_org}).",
+   "brief": "يطلب {requester} {what} من {deployment}. {delta} {counts} لن يخرج أي شيء آخر من {deployment}. إذا وافقت، يحتفظ به {recipient} ({recipient_org}) لمدة {retention} ويجب أن يعيد إثبات الإتلاف. أنت توقّع بصفتك {reviewer}.",
+   "count_below": "سيكشف هذا الإفراج عن {below_threshold} سجل(سجلات) دون الحد الأدنى البالغ {threshold}.",
+   "count_direct": "يحتوي على {direct_count} معرّف(ات) مباشرة، حجب النظام منها {masked_count}.",
+   "count_freetext": "يحتوي على {freetext_count} حقل(حقول) نص حر لم يحجبها النظام.",
+   "counts_none": "لا يحتوي على معرّفات مباشرة ولا نص حر، ولا يكشف عن أي سجل دون الحد الأدنى البالغ {threshold}.",
+   "delta_new": "لا يوجد إفراج سابق مماثل؛ هذا شكل جديد.",
+   "delta_same_other": "له الشكل نفسه للإفراج الذي أجازه {prior_by} في {prior_date}، مع تغيّر {changed} قيمة/قيم.",
+   "delta_same_policy": "له الشكل نفسه للإفراج الذي أُجيز بالسياسة في {prior_date}، مع تغيّر {changed} قيمة/قيم.",
+   "delta_same_you": "له الشكل نفسه للإفراج الذي أجزته في {prior_date}، مع تغيّر {changed} قيمة/قيم.",
+   "dns_d0": "كل شيء. هذا المستوى خام؛ يوجد ليكون لحالات الطوارئ والنماذج اسم.",
+   "dns_d1": "تركيب شبه المعرّفات: {example} يجتاز هذا المستوى وهو إعادة تعريف.",
+   "dns_d2": "الربط ببيانات مساعدة لم تتوقعها قائمة شبه المعرّفات المعلنة؛ هجمات التسلسل والفروق.",
+   "dns_d3": "التركيب عبر الإفراجات: لا شيء في هذا المستوى يصمد أمام التشغيل مرتين.",
+   "dns_d4": "لا شيء على مستوى الفرد، وهذا صحيح؛ لكن الفائدة كثيراً ما تكون غير مقبولة.",
+   "does_not_stop": "ما لا تمنعه هذه الدرجة: {clause}",
+   "gate_fail": "تمنع القاعدة {gate} هذا الإفراج: {detail}. {remedy}",
+   "purpose_line": "لماذا يقولون إنهم يحتاجونه: “{purpose}”",
+   "reject_hint": "الرفض لا يحتاج إلى سبب. الموافقة فوق المستوى الأساسي تحتاج إلى سبب مكتوب بكلماتك.",
+   "retention_days": "{days} يوماً",
+   "verdict_hidden": "حكم الآلة مختوم — تعرض التفاصيل التقنية الختم — وسيُعرض بعد أن تقرّر.",
+   "what_lookup": "هوية {n} قيمة/قيم مستعارة للحقل {field} من الإفراج رقم {leaf}"
+  },
+  "en": {
+   "accountability": "Reviewer: {reviewer}. Retention: {retention}. Recipient: {recipient} ({recipient_org}).",
+   "brief": "{requester} is asking for {what} from {deployment}. {delta} {counts} Nothing else from {deployment} would leave. If you approve it, {recipient} ({recipient_org}) holds it for {retention} and must return proof of destruction. You are signing as {reviewer}.",
+   "count_below": "This release would expose {below_threshold} record(s) below the threshold of {threshold}.",
+   "count_direct": "It contains {direct_count} direct identifier(s), of which {masked_count} the system has already masked.",
+   "count_freetext": "It contains {freetext_count} free-text field(s), which the system has not masked.",
+   "counts_none": "It contains no direct identifiers and no free text, and exposes no record below the threshold of {threshold}.",
+   "delta_new": "There is no comparable earlier release; this is a new shape.",
+   "delta_same_other": "It is the same shape as the release cleared by {prior_by} on {prior_date}, with {changed} value(s) changed.",
+   "delta_same_policy": "It is the same shape as the release cleared by policy on {prior_date}, with {changed} value(s) changed.",
+   "delta_same_you": "It is the same shape as the release you cleared on {prior_date}, with {changed} value(s) changed.",
+   "dns_d0": "Everything. This level is raw; it exists so that break-glass and exemplars have a name.",
+   "dns_d1": "Quasi-identifier combination: {example} passes this level and is a re-identification.",
+   "dns_d2": "Linkage against auxiliary data the declared quasi-identifier list did not anticipate; sequence and differencing attacks.",
+   "dns_d3": "Composition across releases: nothing at this level survives being run twice.",
+   "dns_d4": "Nothing at the individual level, correctly; but utility is often unacceptable.",
+   "does_not_stop": "What this grade does not stop: {clause}",
+   "gate_fail": "Rule {gate} blocks this release: {detail}. {remedy}",
+   "purpose_line": "Why they say they need it: “{purpose}”",
+   "reject_hint": "Rejecting needs no reason. Approving above the baseline tier needs your own typed reason.",
+   "retention_days": "{days} days",
+   "verdict_hidden": "The machine's finding is sealed — Technical shows the seal — and will be shown after you decide.",
+   "what_lookup": "the identity of {n} pseudonymised {field} value(s) from release #{leaf}"
+  }
+ },
+ "terms": {
+  "ar": {
+   "ACCESS-LOCALITY": {
+    "label": "المستلم في سجل التكليف وفي موقع مسموح",
+    "line": "قاعدة مطلقة: يجب أن يحمل المستلم قيداً صالحاً في سجل التكليف وأن يكون موجوداً فعلياً داخل دولة الإمارات؛ لا يصلح هذا أي تحويل للبيانات."
+   },
+   "D0": {
+    "label": "خام",
+    "line": "مستوى البيانات 0: لم يُحذف شيء؛ بيانات خام. يوجد ليكون لحالات الطوارئ والنماذج اسم."
+   },
+   "D1": {
+    "label": "أُزيلت المعرّفات المباشرة",
+    "line": "مستوى البيانات 1: أُزيلت الأسماء والأرقام التعريفية وسائر المعرّفات المباشرة أو استُبدلت؛ وقد يظل تركيب حقول أخرى كافياً لتحديد شخص."
+   },
+   "D2": {
+    "label": "أُخفيت شبه المعرّفات بقاعدة",
+    "line": "مستوى البيانات 2: أُزيلت المعرّفات المباشرة، وأُخفي كل حقل قد يحدّد شخصاً بالتركيب أو جُمّع في نطاقات أو خُفّفت دقته بقاعدة معلنة."
+   },
+   "D3": {
+    "label": "مُتحقَّق منه على المخرجات الفعلية",
+    "line": "مستوى البيانات 3: المستوى 2 مع فحص إحصائي أُجري على الصفوف الفعلية (الخلايا الصغيرة والحصص المهيمنة)."
+   },
+   "D4": {
+    "label": "مُشوَّش رياضياً",
+    "line": "مستوى البيانات 4: أُضيف تشويش بميزانية خصوصية رسمية؛ لا يمكن تعلّم شيء عن شخص بعينه."
+   },
+   "DIRECT": {
+    "label": "يحدد شخصاً مباشرة",
+    "line": "قيمة تحدد شخصاً بذاتها: اسم أو رقم تعريفي أو بريد إلكتروني."
+   },
+   "E0": {
+    "label": "مستلم غير مقيّد",
+    "line": "التعرّض 0: المستلم ليس جهة مسماة ذات غرض محدد."
+   },
+   "E1": {
+    "label": "جهة مسماة",
+    "line": "التعرّض 1: جهة مسماة ذات غرض محدد، لكن الشخص غير مسمّى أو غير متحقَّق منه أو غير ملزَم بالإعادة والإتلاف."
+   },
+   "E2": {
+    "label": "شخص مسمّى، لا نقل لاحق، تاريخ إتلاف",
+    "line": "التعرّض 2: شخص مسمّى ومتحقَّق منه في سجل التكليف، دون نقل لاحق، وبتاريخ إتلاف."
+   },
+   "E3": {
+    "label": "بيئة مقيَّمة",
+    "line": "التعرّض 3: المستوى 2 وقد قُيّمت بيئة المستلم."
+   },
+   "EXPORT-DEEMED": {
+    "label": "البيانات الخاضعة للرقابة وجنسية المستلم",
+    "line": "قاعدة مطلقة: لا تصل البيانات التقنية الخاضعة للرقابة إلى شخص مجموعة جنسياته غير مسموح بها؛ ويجب تسجيل سمات المستلم لتقييمها (ITAR 120.50(b))."
+   },
+   "FREETEXT": {
+    "label": "نص حر",
+    "line": "لغة طبيعية كتبها شخص أو تلقّاها. لا قاعدة تجعلها آمنة؛ لا تخرج إلا كنموذج واحد بمراجعَين."
+   },
+   "I": {
+    "label": "مستنتَج",
+    "line": "مستنتَج من المصدر لا مقتبس؛ استرشادي فقط."
+   },
+   "MNPI-CONTAINMENT": {
+    "label": "المعلومات الداخلية تبقى لدى المطّلعين",
+    "line": "قاعدة مطلقة: لا تصل المعلومات الداخلية عن صفقة إلا إلى شخص في قائمة المطّلعين؛ العلاج تغيير المستلم لا الإخفاء (MAR المادتان 10 و14(ج))."
+   },
+   "P": {
+    "label": "مقتبس من النص الأصلي",
+    "line": "نص الضابط مقتبس من وثيقة المصدر الأصلية."
+   },
+   "P/S": {
+    "label": "أصلي منسوخ",
+    "line": "مقتبس من نسخة منقولة عن النص الأصلي."
+   },
+   "P0": {
+    "label": "استخراج مخصص",
+    "line": "مستوى المصدر 0: استخراج مخصص دون مهارة مسماة."
+   },
+   "P1": {
+    "label": "مهارة مسماة",
+    "line": "مستوى المصدر 1: أنتجت هذا مهارة مسماة ذات إصدار، لكن توقيعها أو مدخلاتها غير مربوطة."
+   },
+   "P2": {
+    "label": "مهارة موقّعة ومدخلات مربوطة",
+    "line": "مستوى المصدر 2: مهارة موقّعة على مدخلات مربوطة ببصمة؛ لم يوقّعها العميل بعد أو لم تُستنسخ بتّاً بتّاً."
+   },
+   "P3": {
+    "label": "معتمدة مسبقاً وقابلة للاستنساخ",
+    "line": "مستوى المصدر 3: مهارة وقّعها العميل مسبقاً، فُحصت مخرجاتها مقابل شكلها المعلن واستُنسخت بتّاً بتّاً."
+   },
+   "PART2": {
+    "label": "سجلات برامج اضطراب تعاطي المواد",
+    "line": "قاعدة مطلقة: لا يُفرج أبداً عن سجل برنامج اضطراب تعاطي المواد؛ فمجرد كون الشخص مريضاً محميّ بذاته (42 CFR Part 2)."
+   },
+   "PCI-PAN": {
+    "label": "أرقام البطاقات مقتطَعة فقط",
+    "line": "قاعدة مطلقة: لا يخرج رقم بطاقة إلا مقتطَعاً إلى الأرقام المسموح بها أو باسم مستعار أو محذوفاً (PCI DSS 3.5.1)."
+   },
+   "PCI-SAD": {
+    "label": "بيانات أمان البطاقة لا تخرج أبداً",
+    "line": "قاعدة مطلقة: لا يُفرج أبداً عن رموز التحقق من البطاقة وأرقام التعريف الشخصية وبيانات الشريط بعد التفويض، ولو مشفّرة (PCI DSS 3.3.1)."
+   },
+   "PRIVILEGE": {
+    "label": "مواد محميّة بامتياز قانوني",
+    "line": "قاعدة مطلقة: لا تعبر مواد المحامي وموكّله أو نتاج العمل إلى طرف ثالث دون أداة قانونية (FRE 502(d))."
+   },
+   "QUASI": {
+    "label": "قد يحدد شخصاً بالتركيب",
+    "line": "قيمة لا تحدد أحداً بذاتها لكنها قد تفعل عند تركيبها مع غيرها: إدارة أو تاريخ أو اسم مستند."
+   },
+   "R0": {
+    "label": "لا تصريح بعد",
+    "line": "مستوى المراجعة 0: لم يصرّح به أحد بعد."
+   },
+   "R1": {
+    "label": "مُجاز بالسياسة",
+    "line": "مستوى المراجعة 1: أُفرج عنه بموجب قاعدة وافق عليها العميل مسبقاً؛ لم يوقّع شخص على هذا الإفراج بعينه."
+   },
+   "R2": {
+    "label": "شخص واحد",
+    "line": "مستوى المراجعة 2: وافق عليه شخص واحد مسمّى بسبب مسجَّل."
+   },
+   "R3": {
+    "label": "شخصان محجوبان",
+    "line": "مستوى المراجعة 3: وافق عليه شخصان مسمّيان باستقلال، دون أن يرى أحدهما تصويت الآخر."
+   },
+   "R4": {
+    "label": "صلاحية مسماة ومفتاح عتادي",
+    "line": "مستوى المراجعة 4: المستوى 3 مع موافق يحمل صلاحية مسماة ويوقّع بمفتاح عتادي؛ لا يمكن بلوغه بمفاتيح المتصفح."
+   },
+   "S": {
+    "label": "مصدر ثانوي",
+    "line": "العنوان فقط أو مصدر ثانوي؛ النص الأصلي خلف جدار دفع أو غير متوفر."
+   },
+   "SENSITIVE": {
+    "label": "حسّاس بشأن شخص",
+    "line": "سمة حسّاسة بشأن الشخص الذي تصفه: تشخيص أو فئة حاجز حماية أو درجة ثقة."
+   },
+   "STRUCTURAL": {
+    "label": "أعداد ورموز فقط",
+    "line": "شكل التفاعل دون معنى عن شخص: أعداد أو رموز أخطاء أو مسارات أو نطاقات."
+   },
+   "VENDOR": {
+    "label": "داخلي لدى المورّد",
+    "line": "أثر خاص بالمورّد غير مشتق من بيانات العميل: إصدار نموذج أو إصدار موجّه."
+   },
+   "aggregate": {
+    "label": "مجمَّع",
+    "line": "تُعدّ الصفوف أو تُجمع ضمن مجموعة؛ لا يخرج سجل مفرد، وتُحجب المجموعات دون الحد المعلن."
+   },
+   "alien": {
+    "label": "يخالف قاعدة مطلقة",
+    "line": "فشلت قاعدة أو حقل بلا فئة: حكم الآلة هو الرفض قبل أن ينظر أي شخص."
+   },
+   "amber": {
+    "label": "يحتاج إلى حكم شخصي",
+    "line": "يحمل معرّفات يمكن لقاعدة تحويلها؛ يحكم شخص هل يستحق الغرض ما يبقى."
+   },
+   "black": {
+    "label": "لا يُفرج عنه أبداً",
+    "line": "حقل بلا فئة معلنة: لا يخرج شيء حتى يصنّفه مالك البيانات."
+   },
+   "blocked-budget": {
+    "label": "محجوب بالميزانية أو بالإيقاف",
+    "line": "استُنفدت ميزانية الإفراج للفترة، أو النشر موقوف بعد حدث من المستشعر."
+   },
+   "blocked-fixable": {
+    "label": "محجوب، يمكن إصلاحه بالتحويل",
+    "line": "رفضته قاعدة، وحذف حقل أو تحويله يصلحه."
+   },
+   "blocked-recipient": {
+    "label": "محجوب، غيّر المستلم",
+    "line": "رفضته قاعدة بسبب من سيستلمه؛ لا يصلحه أي تغيير في البيانات."
+   },
+   "blocked-roster": {
+    "label": "محجوب، يلزم إجراء في سجل التكليف",
+    "line": "قيد المستلم في سجل التكليف مفقود أو منتهٍ."
+   },
+   "bucket": {
+    "label": "مجمّع في نطاقات",
+    "line": "تُجمَّع القيم في عدد ثابت من النطاقات فلا تُعرض قيمة مفردة."
+   },
+   "budget-bounded": {
+    "label": "مقيَّد بميزانية إفراج",
+    "line": "تُحتسب الإفراجات لكل مجموعة في كل فترة مقابل حدّ تضعه الحزمة."
+   },
+   "change-controlled": {
+    "label": "خاضع لضبط التغيير",
+    "line": "ثُبّتت القواعد ببصمة عند الإعداد؛ ويحتاج أي تغيير إلى ترقية موقّعة."
+   },
+   "change_recipient": {
+    "label": "غيّر المستلم",
+    "line": "البيانات سليمة لكن الشخص ليس كذلك. اختر مستلماً تسمح به القاعدة."
+   },
+   "checkpoint": {
+    "label": "لقطة الدفتر",
+    "line": "بيان موقّع بحجم الدفتر وجذره في لحظة واحدة؛ لقطتان تثبتان أن شيئاً لم يُعد كتابته بينهما."
+   },
+   "classified-and-handled": {
+    "label": "مصنَّف ومُعالَج وفق تصنيفه",
+    "line": "صُنّف الإفراج وفق مخطط العميل وعُولج بحسب فئته."
+   },
+   "coarsen": {
+    "label": "مخفَّف الدقة",
+    "line": "يُبلَّغ عن الزمن أو المكان بدقة أخشن: الأسبوع بدل الساعة، والسنة بدل اليوم."
+   },
+   "commitment": {
+    "label": "حكم الآلة المختوم",
+    "line": "بصمة لحكم الآلة نُشرت قبل أن يقرأ أي مراجع الملخّص؛ لا تنفتح إلا للحكم الذي ختمته."
+   },
+   "deidentified-declared": {
+    "label": "مُزال التعريف بالإعلان",
+    "line": "أُزيل كل معرّف مباشر أو استُبدل باسم مستعار ولم يخرج نص حر، وفق البيان المعلن."
+   },
+   "deidentified-verified": {
+    "label": "مُزال التعريف ومُتحقَّق منه على المخرجات",
+    "line": "نجح فحص إحصائي على الصفوف الفعلية قبل الإفراج."
+   },
+   "disposal-bound": {
+    "label": "مُلزَم بتاريخ إتلاف",
+    "line": "يجب أن يشهد المستلم بالإتلاف بحلول تاريخ مسجَّل."
+   },
+   "drop": {
+    "label": "محذوف",
+    "line": "يُحذف الحقل من الإفراج كلياً."
+   },
+   "drop_field": {
+    "label": "احذف الحقل",
+    "line": "أزل الحقل من المستخرج؛ لا يعالجه شيء آخر."
+   },
+   "green": {
+    "label": "يُفرج عنه بالسياسة",
+    "line": "أعداد ورموز فقط: يمكن أن تجيزه قاعدة متفق عليها مسبقاً دون مراجع."
+   },
+   "hmac_enclave": {
+    "label": "استُبدل باسم مستعار من الجيب الآمن",
+    "line": "تُستبدل كل قيمة باسم مستعار لا يستطيع عكسه إلا الجيب الآمن؛ تحصل القيمة نفسها دائماً على الاسم المستعار نفسه، فتبقى الأعداد والترتيب."
+   },
+   "leaf": {
+    "label": "قيد في الدفتر",
+    "line": "قيد واحد مرقّم في الدفتر الذي لا يقبل إلا الإضافة: قرار أو تسجيل مفتاح أو ساعة مستشعر."
+   },
+   "legal_instrument": {
+    "label": "يحتاج إلى أداة قانونية",
+    "line": "احصل على الأمر أو الاتفاق الذي تسمّيه القاعدة قبل الإفراج."
+   },
+   "locality-enforced": {
+    "label": "الموقع مُلزَم",
+    "line": "كان المستلم موجوداً فعلياً داخل دولة الإمارات عند اتخاذ قرار الإفراج."
+   },
+   "logged-tamper-evident": {
+    "label": "مسجَّل في دفتر يكشف العبث",
+    "line": "القرار قيد في دفتر لا يقبل إلا الإضافة ولا يمكن إعادة كتابة تاريخه دون أن يُلاحظ."
+   },
+   "mask": {
+    "label": "مخفيّ جزئياً",
+    "line": "تُستبدل كل الأحرف عدا الأخيرة القليلة بنجوم."
+   },
+   "minclass:adoption": {
+    "label": "أعداد حسب سير العمل والأسبوع",
+    "line": "أعداد الاستخدام لكل سير عمل على زمن خشن الدقة — لا شيء عن شخص بعينه."
+   },
+   "minclass:bad-documents": {
+    "label": "أسماء المنتجات والمقالات — قد تحدد شخصاً بالتركيب",
+    "line": "تخرج أسماء المنتجات أو المقالات الحقيقية؛ وقد يحدد أحدها عميلاً بالتركيب مع حقائق أخرى."
+   },
+   "minclass:department-correlation": {
+    "label": "أسماء المدن أو الفروع — قد تحدد شخصاً بالتركيب",
+    "line": "تُسمّى المدن والفروع؛ وفرع صغير يحدد عملاءه بالتركيب."
+   },
+   "minclass:failing-stage": {
+    "label": "مراحل المسار وأسباب الانتهاء، كأعداد",
+    "line": "أي مرحلة أخفقت وكيف انتهت، معدودةً — دون محتوى."
+   },
+   "minclass:index-regression": {
+    "label": "أسماء مستندات مستعارة، مع حذف المجموعات الصغيرة",
+    "line": "تُسمّى المستندات باسم مستعار من الجيب الآمن وتُحذف أي مجموعة دون الحد الأدنى."
+   },
+   "minclass:named-user": {
+    "label": "شخص مسمّى",
+    "line": "يسمّي السؤال شخصاً؛ لا تُفرج أي درجة عن ذلك."
+   },
+   "minclass:quality-regression": {
+    "label": "درجات لمجموعات، لا لشخص واحد",
+    "line": "درجات الجودة ملخّصة على مجموعة لا تقل عن الحد الأدنى؛ لا تخرج إجابة واحدة."
+   },
+   "minclass:service-health": {
+    "label": "أعداد فقط",
+    "line": "لا يخرج إلا أعداد التفاعلات حسب النتيجة — لا سجل ولا شخص."
+   },
+   "minclass:single-response": {
+    "label": "سجل واحد بكلمات المستخدم نفسه",
+    "line": "سجل محادثة واحد، نص حر مع حجب المعرّفات — كلمات شخص واحد."
+   },
+   "needs-review": {
+    "label": "يحتاج إلى مراجعة",
+    "line": "يجب أن يوافق عليه شخص؛ يذكر العنوان كم شخصاً ولماذا."
+   },
+   "non-runner": {
+    "label": "يحتاج إلى شخص في كل مرة",
+    "line": "لا تغطي هذا الشكل قاعدة متفق عليها مسبقاً؛ يجب أن يوافق شخص على كل إفراج منه."
+   },
+   "none": {
+    "label": "لا حاجة إلى علاج",
+    "line": "اجتيزت القاعدة."
+   },
+   "not_evaluable": {
+    "label": "لا يمكن تقييمه",
+    "line": "تحتاج القاعدة إلى حقيقة عن المستلم غير مسجَّلة؛ سجّلها أولاً."
+   },
+   "presented-digest": {
+    "label": "بصمة ما قرأته",
+    "line": "بصمة نص الملخّص كما عُرض عليك بالضبط؛ يغطيها توقيعك فلا يمكن أن يتغير النص دون أن يُلاحظ."
+   },
+   "quarantined": {
+    "label": "محجور",
+    "line": "لم تطابق المخرجات الشكل المعلن للمهارة؛ لا يخرج شيء من هذا التشغيل."
+   },
+   "red": {
+    "label": "يحتاج إلى شخصين",
+    "line": "سمات حسّاسة أو نص حر أو صفوف لكل سجل: يجب أن يوافق مراجعان محجوبان كلٌّ على حدة."
+   },
+   "refusal-evidenced": {
+    "label": "الرفض مسجَّل كدليل",
+    "line": "التبادل المحجوب نفسه قيد في الدفتر يسمّي القاعدة التي رفضته."
+   },
+   "releases-now": {
+    "label": "يُفرج عنه الآن",
+    "line": "لا حاجة إلى شيء آخر: يخرج الإفراج بموجب قاعدة متفق عليها مسبقاً أو بعد الموافقات المطلوبة."
+   },
+   "repeater": {
+    "label": "الشكل نفسه لإفراج سابق",
+    "line": "الحقول والمهارة والنشر نفسها لإفراج أُجيز من قبل."
+   },
+   "roster": {
+    "label": "يلزم إجراء في سجل التكليف",
+    "line": "قيد المستلم في سجل التكليف مفقود أو منتهٍ؛ يجب أن يجدّده قائد التسليم."
+   },
+   "round": {
+    "label": "مقرَّب",
+    "line": "يُقرَّب الرقم إلى خطوة معلنة."
+   },
+   "runner": {
+    "label": "مُجاز مسبقاً بالسياسة",
+    "line": "شكل إفراج وافق عليه العميل مسبقاً؛ يُفرج عنه دون مراجع في كل مرة."
+   },
+   "stranger": {
+    "label": "شكل جديد",
+    "line": "لم يكن لأي إفراج سابق مُجاز هذه الحقول من هذه المهارة على هذا النشر."
+   },
+   "third-party-access-controlled": {
+    "label": "وصول الطرف الثالث مضبوط",
+    "line": "المستلم شخص في سجل التكليف بإقرار موقّع وتاريخ انتهاء."
+   },
+   "transfer-gated": {
+    "label": "كل نقل مرّ عبر البوابة",
+    "line": "لم يخرج شيء إلا عبر طلب موقّع وقرار مُدرَّج."
+   },
+   "truncate": {
+    "label": "مقتطَع",
+    "line": "لا تُحفظ إلا الأحرف الأولى والأخيرة المسموح بها؛ ويُستبدل الوسط بنجوم."
+   },
+   "two-person-cleared": {
+    "label": "أجازه شخصان",
+    "line": "وافق مراجعان مسمّيان باستقلال، كلٌّ محجوب عن الآخر."
+   },
+   "unverified": {
+    "label": "غير متحقَّق منه",
+    "line": "تعذّر التحقق من المصدر؛ استرشادي فقط."
+   }
+  },
+  "en": {
+   "ACCESS-LOCALITY": {
+    "label": "Recipient on the roster, in an allowed location",
+    "line": "Absolute rule: the recipient must hold a valid roster entry and be physically inside the UAE; no transformation of the data fixes this."
+   },
+   "D0": {
+    "label": "Raw",
+    "line": "Data level 0: nothing removed; raw data. It exists so that break-glass and exemplars have a name."
+   },
+   "D1": {
+    "label": "Direct identifiers removed",
+    "line": "Data level 1: names, ID numbers and other direct identifiers are removed or replaced; a combination of other fields could still identify someone."
+   },
+   "D2": {
+    "label": "Quasi-identifiers hidden by rule",
+    "line": "Data level 2: direct identifiers removed and every field that could identify someone in combination is hidden, grouped or coarsened by a declared rule."
+   },
+   "D3": {
+    "label": "Checked over the actual output",
+    "line": "Data level 3: level 2 plus a statistical check run over the actual rows (small cells, dominant shares)."
+   },
+   "D4": {
+    "label": "Mathematically noised",
+    "line": "Data level 4: noise added under a formal privacy budget; nothing about one person can be learned."
+   },
+   "DIRECT": {
+    "label": "Identifies a person directly",
+    "line": "A value that identifies a person on its own: a name, an ID number, an email address."
+   },
+   "E0": {
+    "label": "Unbound recipient",
+    "line": "Exposure 0: the recipient is not a named organisation with a limited purpose."
+   },
+   "E1": {
+    "label": "Named organisation",
+    "line": "Exposure 1: a named organisation with a limited purpose, but the person is not named, verified or bound to return and destroy."
+   },
+   "E2": {
+    "label": "Named person, no onward transfer, disposal date",
+    "line": "Exposure 2: a named, verified person on the roster, no onward transfer, and a disposal date."
+   },
+   "E3": {
+    "label": "Assessed environment",
+    "line": "Exposure 3: level 2 and the recipient's environment has been assessed."
+   },
+   "EXPORT-DEEMED": {
+    "label": "Controlled data and the recipient's citizenship",
+    "line": "Absolute rule: controlled technical data may not reach a person whose citizenship set is not permitted; the recipient's attributes must be recorded to evaluate it (ITAR 120.50(b))."
+   },
+   "FREETEXT": {
+    "label": "Typed text",
+    "line": "Natural language a person typed or received. No rule can make it safe; it leaves only as a single exemplar with two reviewers."
+   },
+   "I": {
+    "label": "Inferred",
+    "line": "Inferred from the source, not quoted; advisory only."
+   },
+   "MNPI-CONTAINMENT": {
+    "label": "Inside information stays with insiders",
+    "line": "Absolute rule: inside information about a deal reaches only a person on the insider list; changing the recipient is the fix, not masking (MAR Art 10, 14(c))."
+   },
+   "P": {
+    "label": "Quoted from the primary text",
+    "line": "The control text is quoted from the primary source document."
+   },
+   "P/S": {
+    "label": "Primary, transcribed",
+    "line": "Quoted from a transcription of the primary text."
+   },
+   "P0": {
+    "label": "Ad hoc extraction",
+    "line": "Provenance level 0: an ad hoc extraction with no named skill."
+   },
+   "P1": {
+    "label": "Named skill",
+    "line": "Provenance level 1: a named, versioned skill produced this, but its signature or its inputs are not bound."
+   },
+   "P2": {
+    "label": "Signed skill, inputs bound",
+    "line": "Provenance level 2: a signed skill over inputs bound by digest; not yet co-signed by the client, or not reproduced bit for bit."
+   },
+   "P3": {
+    "label": "Pre-certified, reproducible",
+    "line": "Provenance level 3: a skill the client co-signed in advance, its output checked against its declared shape and reproduced bit for bit."
+   },
+   "PART2": {
+    "label": "Substance-use programme records",
+    "line": "Absolute rule: a substance-use-disorder programme record is never released; the fact of being a patient is itself protected (42 CFR Part 2)."
+   },
+   "PCI-PAN": {
+    "label": "Card numbers only truncated",
+    "line": "Absolute rule: a card number leaves only truncated to the permitted digits, pseudonymised, or dropped (PCI DSS 3.5.1)."
+   },
+   "PCI-SAD": {
+    "label": "Card security data never leaves",
+    "line": "Absolute rule: card verification codes, PINs and track data are never released after authorisation, even encrypted (PCI DSS 3.3.1)."
+   },
+   "PRIVILEGE": {
+    "label": "Legally privileged material",
+    "line": "Absolute rule: attorney–client or work-product material does not cross to a third party without a legal instrument (FRE 502(d))."
+   },
+   "QUASI": {
+    "label": "Could identify in combination",
+    "line": "A value that identifies nobody alone but can when combined with others: a department, a date, a document name."
+   },
+   "R0": {
+    "label": "No authorisation yet",
+    "line": "Review level 0: nobody has authorised this yet."
+   },
+   "R1": {
+    "label": "Cleared by policy",
+    "line": "Review level 1: released under a rule the client agreed in advance; no person signed this particular release."
+   },
+   "R2": {
+    "label": "One person",
+    "line": "Review level 2: one named person approved it with a recorded reason."
+   },
+   "R3": {
+    "label": "Two people, blinded",
+    "line": "Review level 3: two named people approved it independently, each without seeing the other's vote."
+   },
+   "R4": {
+    "label": "Named authority, hardware key",
+    "line": "Review level 4: level 3 plus an approver who holds a named authority and signs with a hardware key; not reachable with browser keys."
+   },
+   "S": {
+    "label": "Secondary source",
+    "line": "Title only or a secondary source; the primary text is paywalled or not in hand."
+   },
+   "SENSITIVE": {
+    "label": "Sensitive about a person",
+    "line": "An attribute that is sensitive about the person it describes: a diagnosis, a guardrail category, a confidence score."
+   },
+   "STRUCTURAL": {
+    "label": "Counts and codes only",
+    "line": "The shape of an interaction with no meaning about a person: counts, error codes, routes, ranges."
+   },
+   "VENDOR": {
+    "label": "Vendor-internal",
+    "line": "A vendor artefact, not derived from the client's data: a model version, a prompt version."
+   },
+   "aggregate": {
+    "label": "Summed up",
+    "line": "Rows are counted or summed over a group; no single record leaves, and groups below the declared floor are withheld."
+   },
+   "alien": {
+    "label": "Fails an absolute rule",
+    "line": "A rule failed or a field has no class: the machine's verdict is fail before any person looks."
+   },
+   "amber": {
+    "label": "Needs personal judgement",
+    "line": "Carries identifiers a rule can transform; a person judges whether the purpose warrants what remains."
+   },
+   "black": {
+    "label": "Never releasable",
+    "line": "A field with no declared class: nothing can leave until the data owner classifies it."
+   },
+   "blocked-budget": {
+    "label": "Blocked by the budget or a suspension",
+    "line": "The period's release budget is used up, or the deployment is suspended after a sensor event."
+   },
+   "blocked-fixable": {
+    "label": "Blocked, fixable by transformation",
+    "line": "A rule refused it, and dropping or transforming a field would fix it."
+   },
+   "blocked-recipient": {
+    "label": "Blocked, change the recipient",
+    "line": "A rule refused it because of who would receive it; no change to the data fixes it."
+   },
+   "blocked-roster": {
+    "label": "Blocked, roster action needed",
+    "line": "The recipient's roster entry is missing or expired."
+   },
+   "bucket": {
+    "label": "Grouped into ranges",
+    "line": "Values are grouped into a fixed number of ranges, so no single value is shown."
+   },
+   "budget-bounded": {
+    "label": "Bounded by a release budget",
+    "line": "Releases per cohort per period are counted against a limit the pack sets."
+   },
+   "change-controlled": {
+    "label": "Change-controlled",
+    "line": "The rules were pinned by digest at onboarding; a change needs a signed upgrade."
+   },
+   "change_recipient": {
+    "label": "Change the recipient",
+    "line": "The data is fine; the person is not. Choose a recipient the rule allows."
+   },
+   "checkpoint": {
+    "label": "Ledger snapshot",
+    "line": "A signed statement of the ledger's size and root at one moment; two snapshots prove nothing was rewritten between them."
+   },
+   "classified-and-handled": {
+    "label": "Classified and handled accordingly",
+    "line": "The release was classified under the client's scheme and handled by that class."
+   },
+   "coarsen": {
+    "label": "Made less precise",
+    "line": "A time or place is reported at a coarser grain: the week instead of the hour, the year instead of the day."
+   },
+   "commitment": {
+    "label": "Sealed machine finding",
+    "line": "A fingerprint of the machine's finding, published before any reviewer read the brief; it opens only for the finding it sealed."
+   },
+   "deidentified-declared": {
+    "label": "De-identified by declaration",
+    "line": "Every direct identifier was removed or pseudonymised and no free text left, by the declared manifest."
+   },
+   "deidentified-verified": {
+    "label": "De-identified, verified over the output",
+    "line": "A statistical check over the actual rows passed before release."
+   },
+   "disposal-bound": {
+    "label": "Bound to a disposal date",
+    "line": "The recipient must attest destruction by a recorded date."
+   },
+   "drop": {
+    "label": "Removed",
+    "line": "The field is removed from the release entirely."
+   },
+   "drop_field": {
+    "label": "Drop the field",
+    "line": "Remove the field from the extract; nothing else cures it."
+   },
+   "green": {
+    "label": "Releases by policy",
+    "line": "Counts and codes only: a pre-agreed rule can clear it with no reviewer."
+   },
+   "hmac_enclave": {
+    "label": "Replaced with an enclave pseudonym",
+    "line": "Each value is replaced with a pseudonym only the enclave can reverse; the same value always gets the same pseudonym, so counts and rankings survive."
+   },
+   "leaf": {
+    "label": "Ledger entry",
+    "line": "One numbered entry in the append-only ledger: a decision, a key enrolment, a sensor hour."
+   },
+   "legal_instrument": {
+    "label": "Needs a legal instrument",
+    "line": "Obtain the order or agreement the rule names before release."
+   },
+   "locality-enforced": {
+    "label": "Location enforced",
+    "line": "The recipient was physically inside the UAE when the release was decided."
+   },
+   "logged-tamper-evident": {
+    "label": "Logged, tamper-evident",
+    "line": "The decision is an entry in an append-only ledger whose history cannot be rewritten unnoticed."
+   },
+   "mask": {
+    "label": "Partly hidden",
+    "line": "All but the last few characters are replaced with stars."
+   },
+   "minclass:adoption": {
+    "label": "counts by workflow and week",
+    "line": "Counts of use per workflow over coarse time — nothing about one person."
+   },
+   "minclass:bad-documents": {
+    "label": "product and article names — could identify in combination",
+    "line": "The real product or article names leave; one can identify a customer in combination with other facts."
+   },
+   "minclass:department-correlation": {
+    "label": "city or branch names — could identify in combination",
+    "line": "Cities and branches are named; a small branch identifies its customers in combination."
+   },
+   "minclass:failing-stage": {
+    "label": "pipeline stages and finish reasons, as counts",
+    "line": "Which stage failed and how it ended, counted — no content."
+   },
+   "minclass:index-regression": {
+    "label": "pseudonymised document names, small groups suppressed",
+    "line": "Documents are named by an enclave pseudonym and any group under the threshold is dropped."
+   },
+   "minclass:named-user": {
+    "label": "a named person",
+    "line": "The question names a person; no grade releases that."
+   },
+   "minclass:quality-regression": {
+    "label": "scores for groups, never one person",
+    "line": "Quality scores summarised over a cohort of at least the threshold; no single answer leaves."
+   },
+   "minclass:service-health": {
+    "label": "counts only",
+    "line": "Only counts of interactions by outcome leave — no record, no person."
+   },
+   "minclass:single-response": {
+    "label": "one record, in the user's own words",
+    "line": "A single conversation record, free text with identifiers masked — one person's own words."
+   },
+   "needs-review": {
+    "label": "Needs review",
+    "line": "A person must approve it; the headline says how many and why."
+   },
+   "non-runner": {
+    "label": "Needs a person each time",
+    "line": "No pre-agreed rule covers this shape; a person must approve every release of it."
+   },
+   "none": {
+    "label": "No remedy needed",
+    "line": "The rule passed."
+   },
+   "not_evaluable": {
+    "label": "Cannot be evaluated",
+    "line": "The rule needs a fact about the recipient that is not recorded; record it first."
+   },
+   "presented-digest": {
+    "label": "Fingerprint of what you read",
+    "line": "The fingerprint of the exact brief text shown to you; your signature covers it, so the text cannot change unnoticed."
+   },
+   "quarantined": {
+    "label": "Quarantined",
+    "line": "The output did not match the skill's declared shape; nothing from this run can leave."
+   },
+   "red": {
+    "label": "Needs two people",
+    "line": "Sensitive attributes, free text or per-record rows: two blinded reviewers must each approve."
+   },
+   "refusal-evidenced": {
+    "label": "Refusal recorded as evidence",
+    "line": "A blocked exchange is itself a ledger entry, naming the rule that refused it."
+   },
+   "releases-now": {
+    "label": "Releases now",
+    "line": "Nothing else is needed: the release leaves under a pre-agreed rule or after the required approvals."
+   },
+   "repeater": {
+    "label": "Same shape as an earlier release",
+    "line": "The same fields, skill and deployment as a release that was cleared before."
+   },
+   "roster": {
+    "label": "Roster action needed",
+    "line": "The recipient's roster entry is missing or expired; the delivery lead must renew it."
+   },
+   "round": {
+    "label": "Rounded",
+    "line": "The number is rounded to a declared step."
+   },
+   "runner": {
+    "label": "Cleared in advance by policy",
+    "line": "A release shape the client agreed in advance; it releases with no reviewer each time."
+   },
+   "stranger": {
+    "label": "A new shape",
+    "line": "No earlier cleared release had these fields from this skill on this deployment."
+   },
+   "third-party-access-controlled": {
+    "label": "Third-party access controlled",
+    "line": "The recipient is a rostered person with a signed acknowledgement and an expiry date."
+   },
+   "transfer-gated": {
+    "label": "Every transfer passed the gate",
+    "line": "Nothing left except through a signed request and a graded decision."
+   },
+   "truncate": {
+    "label": "Shortened",
+    "line": "Only the permitted leading and trailing characters are kept; the middle is starred out."
+   },
+   "two-person-cleared": {
+    "label": "Cleared by two people",
+    "line": "Two named reviewers approved independently, each blinded to the other."
+   },
+   "unverified": {
+    "label": "Unverified",
+    "line": "The source could not be verified; advisory only."
+   }
+  }
+ },
+ "version": "0.4.0"
+}

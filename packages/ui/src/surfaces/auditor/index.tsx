@@ -1,25 +1,22 @@
 import type { Ctx } from '../../App';
+import { t } from '../../gna';
+import { Page } from '../../components/gct';
 import { Coverage } from './s6i';
-import { ControlsExplorer } from './e9gt';
 import { AuditorPacks } from './e3de';
-import { Register } from './p1x0';
-import { LedgerView } from './wrm4';
-import { SensorView } from './xsck';
-import { AuditorRoster } from './ab8d';
-import { PackView } from './w688';
+import { Records } from './vn1w';
 import { VerifyPanel } from './g5h';
 export function AuditorPages({ ctx, readOnly }: {
     ctx: Ctx;
     readOnly: boolean;
 }) {
+    const { lang } = ctx;
     switch (ctx.page) {
-        case "controls": return <ControlsExplorer ctx={ctx} readOnly={readOnly}/>;
-        case "packs": return <AuditorPacks ctx={ctx} readOnly={readOnly}/>;
-        case "register": return <Register ctx={ctx} readOnly={readOnly}/>;
-        case "ledger": return <LedgerView ctx={ctx}/>;
-        case "sensor": return <SensorView ctx={ctx}/>;
-        case "roster": return <AuditorRoster ctx={ctx}/>;
-        case "pack": return <PackView ctx={ctx}/>;
-        default: return <>{readOnly && <VerifyPanel ctx={ctx}/>}<Coverage ctx={ctx} readOnly={readOnly}/></>;
+        case "packs": return <Page title={t(lang, "evidencePacks")} intro={t(lang, "introPacks")}><AuditorPacks ctx={ctx} readOnly={readOnly}/></Page>;
+        case "records": return <Records ctx={ctx} readOnly={readOnly}/>;
+        default: return (<Page title={t(lang, "pageCoverage")} intro={readOnly ? t(lang, "introCoverageExternal") : t(lang, "introCoverage")}>
+        {readOnly && <VerifyPanel ctx={ctx} readOnly/>}
+        <Coverage ctx={ctx} readOnly={readOnly}/>
+        {!readOnly && <VerifyPanel ctx={ctx}/>}
+      </Page>);
     }
 }

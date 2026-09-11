@@ -18,6 +18,7 @@ import { AuditorPages } from './surfaces/auditor/index';
 import { DbaPages } from './surfaces/dba/index';
 const DEFAULT_USER = "omar.h@vendor.example";
 const CLIENT_ROLES = new Set(["reviewer", "auditor", "dba"]);
+const LEGACY_AUDITOR: Record<string, string> = { controls: "coverage", register: "records/register", ledger: "records/ledger", sensor: "records/sensor", pack: "records/pack" };
 export interface Ctx {
     user: string;
     lang: Lang;
@@ -40,17 +41,46 @@ export function LangToggle({ lang, onChange }: {
       <label className={lang === "ar" ? "on" : undefined} lang="ar"><input type="radio" name="lang" value="ar" checked={lang === "ar"} onChange={() => onChange("ar")} data-testid="lang-ar" aria-label="العربية"/>ع</label>
     </div>);
 }
-export function HomeLine({ me, lang }: {
+export type Theme = "system" | "light" | "dark";
+const THEMES: Theme[] = ["system", "light", "dark"];
+const THEME_KEY: Record<Theme, Key> = { system: "themeSystem", light: "themeLight", dark: "themeDark" };
+function ThemeIcon({ theme }: {
+    theme: Theme;
+}) {
+    const common = { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true, focusable: false };
+    if (theme === "light")
+        return <svg {...common}><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>;
+    if (theme === "dark")
+        return <svg {...common}><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></svg>;
+    return <svg {...common}><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17a8.5 8.5 0 0 0 0-17Z" fill="currentColor" stroke="none"/></svg>;
+}
+export function ThemeToggle({ theme, onChange, lang }: {
+    theme: Theme;
+    onChange: (x: Theme) => void;
+    lang: Lang;
+}) {
+    const next = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length];
+    const label = `${t(lang, "themeLabel")}: ${t(lang, THEME_KEY[theme])}. ${t(lang, "themeNext")} ${t(lang, THEME_KEY[next])}.`;
+    return (<button type="button" className="theme-toggle" data-testid="theme-toggle" data-theme-state={theme} onClick={() => onChange(next)} aria-label={label} title={label}>
+      <ThemeIcon theme={theme}/>
+    </button>);
+}
+export function Identity({ me, lang }: {
     me: Principal;
     lang: Lang;
 }) {
-    const key: Key = me.role === "engineer" ? "homeEngineer" : me.role === "reviewer" ? (me.authority ? "homeReviewer" : "homeReviewerNoAuthority")
-        : me.role === "lead" ? "homeLead" : me.role === "auditor" ? (me.external ? "homeExternal" : "homeAuditor") : "homeDba";
-    return <p className="home-line" data-testid="home-line">{t(lang, key)}</p>;
+    const parts = [t(lang, me.role)];
+    if (me.external)
+        parts.push(t(lang, "external"));
+    if (me.authority)
+        parts.push(t(lang, "authority"));
+    return <span className="who" data-testid="role-badge" data-name={me.displayName}><span className="pill identity-chip">{parts.join(" · ")}</span></span>;
 }
 export function App() {
     const [user, setUser] = usePersisted("bayan.user", DEFAULT_USER);
     const [langS, setLangS] = usePersisted("bayan.lang", "en");
+    const [themeS, setThemeS] = usePersisted("bayan.theme", "system");
+    const theme: Theme = themeS === "light" || themeS === "dark" ? themeS : "system";
     const lang = (langS === "ar" ? "ar" : "en") as Lang;
     const [dep, setDep] = usePersisted("bayan.dep", "");
     const [principals, setPrincipals] = useState<Principal[]>([]);
@@ -61,6 +91,10 @@ export function App() {
     const [error, setError] = useState<string | null>(null);
     const segs = useHash();
     useEffect(() => { document.documentElement.dir = lang === "ar" ? "rtl" : "ltr"; document.documentElement.lang = lang; }, [lang]);
+    useEffect(() => { const el = document.documentElement; if (theme === "system")
+        el.removeAttribute("data-theme");
+    else
+        el.dataset.theme = theme; }, [theme]);
     const loadMe = useCallback(() => api<Principal>("/v1/me", user).then((p) => { setMe(p); setError(null); }).catch((e) => setError(explain(e, lang))), [user, lang]);
     useEffect(() => {
         api<Principal[]>("/v1/principals", user).then(setPrincipals).catch((e) => setError(explain(e, lang)));
@@ -78,33 +112,40 @@ export function App() {
     const custody = useCustody(user, me, loadMe);
     const role = me?.role;
     const nav = role ? NAV[role] : [];
+    useEffect(() => { if (role === "auditor" && segs[0] && LEGACY_AUDITOR[segs[0]])
+        location.hash = `#/${LEGACY_AUDITOR[segs[0]]}`; }, [role, segs]);
     const page = segs[0] && nav.some((n) => n.page === segs[0]) ? segs[0] : (nav[0]?.page ?? "");
     const hasAuthority = !!me?.authority;
     const showsCustody = !!me && (me.role === "reviewer" || hasAuthority);
     const ctx: Ctx | null = me && dep ? { user, lang, dep, deps, me, status, pack, refreshStatus, page, sub: segs.slice(1), custody } : null;
-    const printing = page === "home" && segs[1] === "print";
+    const printing = (page === "home" && segs[1] === "print") || (page === "requests" && segs[2] === "record");
+    const offered = principals.length ? principals.filter((p) => p.canActAs !== false || p.id === user)
+        : [{ id: user, displayName: user, role: "engineer", lang: "en", keyType: "software" } as Principal];
+    const [name, tagline] = t(lang, "title").split(" — ");
     return (<TermsProvider terms={pack?.terms ?? null} lang={lang}>
       <header className={printing ? "no-print" : undefined}>
-        <h1>{t(lang, "title").split(" — ")[0]}<span className="tagline"> — {t(lang, "title").split(" — ")[1]}</span></h1>
+        <div className="brand" data-testid="brand"><span className="brand-name">{name}</span><span className="tagline"> — {tagline}</span></div>
         <div className="hdr-dep">
           {deps.length > 0 && <DeploymentPicker deps={deps} dep={dep} onChange={setDep} lang={lang} status={status} showGateKeyNote={!showsCustody}/>}
         </div>
-        <LangToggle lang={lang} onChange={setLangS}/>
+        <div className="hdr-controls">
+          <LangToggle lang={lang} onChange={setLangS}/>
+          <ThemeToggle theme={theme} onChange={setThemeS} lang={lang}/>
+        </div>
         <div className="hdr-id">
-          <label className="picker"><span className="sr-only">{t(lang, "user")}</span>
+          <label className="picker identity"><span className="sr-only">{t(lang, "user")}</span>
             <select value={user} onChange={(e) => { setUser(e.target.value); location.hash = ""; }} aria-label="acting-as">
-              {(principals.length ? principals : [{ id: user, displayName: user, role: "engineer", lang: "en", keyType: "software" } as Principal]).map((p) => (<option key={p.id} value={p.id}>{nameIn(p.displayName, lang).shown} — {t(lang, p.role)}{p.external ? ` (${t(lang, "external")})` : ""}</option>))}
+              {offered.map((p) => (<option key={p.id} value={p.id}>{nameIn(p.displayName, lang).shown} — {t(lang, p.role)}</option>))}
             </select>
           </label>
-          {me && <span className="who" data-testid="role-badge" data-name={me.displayName}><span className="pill">{t(lang, me.role)}</span>{me.external && <span className="pill">{t(lang, "external")}</span>}{hasAuthority && <span className="pill">{t(lang, "authority")}</span>}</span>}
+          {me && <Identity me={me} lang={lang}/>}
           {showsCustody && me && <KeyCustody custody={custody} lang={lang}/>}
         </div>
       </header>
       <div className="layout">
         {role && !printing && <RoleNav role={role} page={page} lang={lang} hasAuthority={hasAuthority} external={!!me?.external}/>}
-        <main className={role && CLIENT_ROLES.has(role) ? "client" : undefined}>
+        <main className={[role && CLIENT_ROLES.has(role) ? "client" : "", printing ? "printing" : ""].filter(Boolean).join(" ") || undefined}>
           {error && <div className="error" role="alert">{error}</div>}
-          {me && !printing && segs.length < 2 && <HomeLine me={me} lang={lang}/>}   
           <SuspensionBanner status={status} lang={lang} user={user} canClear={hasAuthority} onCleared={refreshStatus}/>
           
           {ctx && role === "engineer" && <EngineerPages key={dep} ctx={ctx}/>}

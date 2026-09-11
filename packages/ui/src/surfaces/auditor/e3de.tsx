@@ -16,5 +16,5 @@ export function AuditorPacks({ ctx, readOnly }: {
         guard(api<EvidencePack[]>(`/v1/evidence-packs?deployment=${dep}`, user)).then((r) => r && setPacks(r)); }, [dep, user, readOnly, guard]);
     if (!readOnly)
         return <EvidenceBuilder ctx={ctx} testid="auditor-packs"/>;
-    return <div className="card" data-testid="auditor-packs"><h2>{t(lang, "evidencePacks")}</h2>{error && <div className="error" role="alert">{error}</div>}<PackList packs={packs} lang={lang}/></div>;
+    return <div className="card" data-testid="auditor-packs"><h2>{t(lang, "evidencePacks")}</h2>{error && <div className="error" role="alert">{error}</div>}<PackList packs={packs} lang={lang} trust={ctx.status?.trustDir}/></div>;
 }

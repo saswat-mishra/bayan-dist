@@ -14,7 +14,7 @@ export function VerifyCommand({ command, lang }: {
         setTimeout(() => setCopied(false), 2500);
     }
     return (<div className="verify" data-testid="verify-command">
-      <div className="muted">{t(lang, "verifyOffline")} — {t(lang, "verifyExplain")}</div>
+      <div className="verify-status"><span className="pill ok">{t(lang, "verifiable")}</span><span className="muted small">{t(lang, "verifyExplain")}</span></div>
       <div className="verify-row">
         <code>{command}</code>
         <button onClick={copy} data-testid="copy-verify" aria-live="polite">{copied ? t(lang, "copied") : t(lang, "copy")}</button>

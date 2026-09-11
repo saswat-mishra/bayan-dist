@@ -19,14 +19,15 @@ from bayan_core.s7t3 import k2x,q9iq,gra9
 class m2rg:claimed:dict[str,Any];recomputed:dict[str,Any];failures:list[str]=field(default_factory=list)
 def j3a(requester:str,votes:list[tuple[dict[str,Any],avg]],policy_cleared:bool)->pkj1:A=tuple(mwx(str(A['reviewer']['id']),str(A['verdict']),bool(str(A.get('reason','')).strip()),bool(A.get('blinded')),B.key_type,A.get('authority'),bool(A.get('attributesVerified',_A)))for(A,B)in votes);return pkj1(requester,A,policy_cleared=policy_cleared)
 def mjwi(cert:dict[str,Any],req:dict[str,Any],votes:list[tuple[dict[str,Any],avg]],profile:dict[str,Any],outcome:str)->m2rg:
-	Q='disqualified';P='releasable';J=profile;I='requiredR';H='gates';D=cert;K=vf4(D['manifest']);L=gowu(D['provenance']);R=vrf3(D[_D]);M=gra9(k2x(J,q9iq(J)));S=f30(K)in M.policy_clear_risk_classes and L.certified;T=j3a(str(req[_E]['requester']['id']),votes,S);A=v5e(K,L,T,R,M,issued_at=str(D['issuedAt']));B:dict[str,Any]=dict(D['grade']);E:dict[str,bool]={str(A['name']):bool(A['passed'])for A in D[H]};B[H]=E;F:dict[str,bool]={A.name:A.passed for A in A.gates};N={'d':A.d,'p':A.p,'r':A.r,'e':A.e};U:dict[str,Any]={**N,I:A.required_r,'riskClass':A.risk_class,'label':A.label,P:A.releasable,Q:A.disqualified,H:F};C=m2rg(B,U)
+	R='disqualified';Q='releasable';P='tags';K='requiredR';J='gates';H=profile;D=cert;I=vf4(D['manifest']);L=gowu(D['provenance']);S=vrf3(D[_D]);M=gra9(k2x(H,q9iq(H)));T=[(A.name,sorted(set(B.get(P,[]))-A.tags))for A in I.fields for B in[H.get('fieldDefaults',{}).get(A.name,{})]if set(B.get(P,[]))-A.tags];U=f30(I)in M.policy_clear_risk_classes and L.certified;V=j3a(str(req[_E]['requester']['id']),votes,U);A=v5e(I,L,V,S,M,issued_at=str(D['issuedAt']));B:dict[str,Any]=dict(D['grade']);E:dict[str,bool]={str(A['name']):bool(A['passed'])for A in D[J]};B[J]=E;F:dict[str,bool]={A.name:A.passed for A in A.gates};N={'d':A.d,'p':A.p,'r':A.r,'e':A.e};W:dict[str,Any]={**N,K:A.required_r,'riskClass':A.risk_class,'label':A.label,Q:A.releasable,R:A.disqualified,J:F};C=m2rg(B,W)
+	for(X,Y)in T:C.failures.append(f"manifest field {X!r} lost the pack's tag(s) {Y}: the gates were evaluated on a declaration the pinned pack contradicts")
 	for(G,O)in N.items():
 		if int(B[G])>O:C.failures.append(f"claimed {G.upper()}{B[G]} > recomputed {G.upper()}{O}")
-	if int(B[I])<A.required_r:C.failures.append(f"claimed requiredR {B[I]} < recomputed {A.required_r}")
-	if E!=F:V=sorted(A for A in set(E)|set(F)if E.get(A)!=F.get(A));C.failures.append(f"gate results differ from recomputation: {V}")
-	if bool(B.get(P))and not A.releasable:C.failures.append('claimed releasable but the recomputed certificate is not')
-	if outcome=='release'and not A.releasable:W=[A for A in A.r_notes if A.startswith('pack floor')]or[f"R{A.r} recorded, R{A.required_r} required"];C.failures.append(f"released, but the recomputed certificate is not releasable ({"; ".join(W)})")
-	if bool(B.get(Q))!=A.disqualified:C.failures.append('disqualified flag differs from recomputation')
+	if int(B[K])<A.required_r:C.failures.append(f"claimed requiredR {B[K]} < recomputed {A.required_r}")
+	if E!=F:Z=sorted(A for A in set(E)|set(F)if E.get(A)!=F.get(A));C.failures.append(f"gate results differ from recomputation: {Z}")
+	if bool(B.get(Q))and not A.releasable:C.failures.append('claimed releasable but the recomputed certificate is not')
+	if outcome=='release'and not A.releasable:a=[A for A in A.r_notes if A.startswith('pack floor')]or[f"R{A.r} recorded, R{A.required_r} required"];C.failures.append(f"released, but the recomputed certificate is not releasable ({"; ".join(a)})")
+	if bool(B.get(R))!=A.disqualified:C.failures.append('disqualified flag differs from recomputation')
 	return C
 def jqoc(cert:dict[str,Any],profile:dict[str,Any],outcome:str)->tuple[bool,str]:
 	I='mechanisms';E=outcome;C=profile;A=cert;F=gfpo(A[I])

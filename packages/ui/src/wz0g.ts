@@ -10,6 +10,33 @@ export interface Principal {
     keyName?: string | null;
     publicKey?: string | null;
     custody?: "client" | "gate-colocated";
+    canActAs?: boolean;
+}
+export interface AssistantCheck {
+    ok: boolean;
+    at: string;
+    latencyMs: number | null;
+    error: string | null;
+    models: string[];
+}
+export interface AssistantView {
+    deployment: string;
+    configured: boolean;
+    endpoint: string | null;
+    model: string | null;
+    setBy: string | null;
+    setAt: string | null;
+    lastCheck: AssistantCheck | null;
+    ready: boolean;
+}
+export interface AskAnswer {
+    mode: "model" | "words";
+    question?: string | null;
+    why?: string;
+    also?: string[];
+    model?: string;
+    latencyMs?: number;
+    error?: string;
 }
 export interface Deployment {
     id: string;
@@ -249,12 +276,22 @@ export interface CapReason {
     kind: "unratified_field" | "quasi_untransformed" | "direct_untransformed" | "freetext" | "row_level" | "sensitive_undeclared" | "undeclared_field" | "non_exportable";
     field: string | null;
 }
+export interface SkillColumn {
+    name: string;
+    class: string;
+    transform: string | null;
+    skillTags: string[];
+    packTags: string[];
+    tags: string[];
+    sources: string[];
+}
 export interface Skill {
     name: string;
     version: string;
     riskClass: string;
     maxGradeD: number;
     capReasons?: CapReason[];
+    columns?: SkillColumn[];
     answers: string[];
     description: string;
     description_ar: string;
