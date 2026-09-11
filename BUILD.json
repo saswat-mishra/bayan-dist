@@ -1,6 +1,6 @@
 {
- "version": "0.5.0",
- "sourceCommit": "cca0fb7",
- "builtAt": "2026-09-11T09:01:44Z",
+ "version": "0.5.1",
+ "sourceCommit": "037452a",
+ "builtAt": "2026-09-11T10:30:08Z",
  "renameMap": "scripts/dist-rename-map.json in the private repository"
 }

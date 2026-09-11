@@ -72,12 +72,24 @@ VENV_PY=".venv/bin/python"
 [ -x "$VENV_PY" ] || VENV_PY=".venv/Scripts/python.exe"   # git-bash on Windows
 
 if [ ! -f .venv/.deps-installed ]; then
-  info "installing python packages"
-  "$VENV_PY" -m pip install --quiet --upgrade pip
-  "$VENV_PY" -m pip install --quiet -e .
-  # some macOS setups mark venv files hidden, and CPython then skips the editable
-  # path file; this writes a plain one and clears the flag.
-  "$VENV_PY" scripts/dev_pth.py >/dev/null 2>&1 || true
+  if "$VENV_PY" -c "import bayan_core, bayan_gate, bayan_verify, fastapi, uvicorn" >/dev/null 2>&1; then
+    # already installed another way: `make install` builds .venv with uv, which ships no pip
+    info "python packages already installed"
+  else
+    info "installing python packages"
+    if "$VENV_PY" -m pip --version >/dev/null 2>&1; then
+      "$VENV_PY" -m pip install --quiet --upgrade pip
+      "$VENV_PY" -m pip install --quiet -e .
+    elif command -v uv >/dev/null 2>&1; then
+      uv pip install --quiet --python "$VENV_PY" -e .
+    else
+      "$VENV_PY" -m ensurepip --upgrade >/dev/null
+      "$VENV_PY" -m pip install --quiet -e .
+    fi
+    # some macOS setups mark venv files hidden, and CPython then skips the editable
+    # path file; this writes a plain one and clears the flag.
+    "$VENV_PY" scripts/dev_pth.py >/dev/null 2>&1 || true
+  fi
   touch .venv/.deps-installed
 fi
 "$VENV_PY" -c "import bayan_core, bayan_gate" 2>/dev/null || {

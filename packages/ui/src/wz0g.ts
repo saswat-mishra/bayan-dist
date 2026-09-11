@@ -290,6 +290,7 @@ export interface Skill {
     version: string;
     riskClass: string;
     maxGradeD: number;
+    requiredR?: number | null;
     capReasons?: CapReason[];
     columns?: SkillColumn[];
     answers: string[];

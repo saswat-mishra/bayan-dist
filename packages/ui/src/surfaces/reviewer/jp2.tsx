@@ -37,8 +37,9 @@ export function DecisionBar({ kind, title, lang, choice, onChoose, controlRef, t
         const el = controlRef.current;
         if (!el || typeof IntersectionObserver === "undefined")
             return;
-        const io = new IntersectionObserver(([e]) => setControlVisible(e.isIntersecting));
-        io.observe(el);
+        const target = el.querySelector<HTMLElement>('[data-testid="segmented"]') ?? el;
+        const io = new IntersectionObserver(([e]) => setControlVisible(e.isIntersecting && e.intersectionRatio >= 0.98), { threshold: [0, 0.98, 1] });
+        io.observe(target);
         return () => io.disconnect();
     }, [controlRef, safe]);
     useEffect(() => {

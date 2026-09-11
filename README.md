@@ -1,6 +1,6 @@
 # Bayan — بيان
 
-**A signed, recomputable Compliance Certificate for every diagnostic data release from an air-gapped AI deployment. Distribution build v0.5.0.**
+**A signed, recomputable Compliance Certificate for every diagnostic data release from an air-gapped AI deployment. Distribution build v0.5.1.**
 
 A vendor's AI product runs inside a client's air-gapped data centre. When it misbehaves the engineer cannot see a trace, cannot reproduce the failure, and cannot legally carry the evidence out. Bayan replaces the site visit and the phone photograph with a declaration: a signed request, a policy evaluation that grades the release, a blinded clearance by the people the policy names, a receipt, and an append-only ledger that survives the air gap. Every release carries a certificate that is signed, bound to the released bytes, mapped to the client's control frameworks — and **recomputed** by an offline verifier that treats the certificate as a claim, never as a fact.
 
@@ -168,7 +168,7 @@ data/mock         the demo data generators, heavy and light     data/sensor   an
 
 ## About this distribution build
 
-This is a packaged, runnable build of the private repository: identifiers are name-mangled and sources minified; comments, docstrings, design documents and the development test suite are removed. The JSON Schemas are the exception — they are the open specification and ship as written. The full suite (property tests, golden certificates, mutation testing at the grader and verifier layers, the role × route matrix, the 31-step smoke narrative, the Playwright journeys) lives in the private repository and produced this build at commit `cca0fb7` on 11 September 2026.
+This is a packaged, runnable build of the private repository: identifiers are name-mangled and sources minified; comments, docstrings, design documents and the development test suite are removed. The JSON Schemas are the exception — they are the open specification and ship as written. The full suite (property tests, golden certificates, mutation testing at the grader and verifier layers, the role × route matrix, the 31-step smoke narrative, the Playwright journeys) lives in the private repository and produced this build at commit `037452a` on 11 September 2026.
 
 ## Licence
 

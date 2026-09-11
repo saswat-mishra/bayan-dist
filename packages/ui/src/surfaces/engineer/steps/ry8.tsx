@@ -52,7 +52,7 @@ export function SkillStep({ skills, question, lang, user, dep, guard, onRun, onB
       {visible.length === 0 && <EmptyState text={t(lang, "noSkillYet")}/>}
       {visible.map((s) => (<div key={s.name} className={"block skill-block" + (skill?.name === s.name ? " selected" : "")} data-testid={`skill-block-${s.name}`} data-selected={skill?.name === s.name}>
           <label className="choice"><input type="radio" name="skill" data-testid={`skill-${s.name}`} aria-label={`${s.name}@${s.version}`} checked={skill?.name === s.name} onChange={() => { setSkill(s); setParams({ ...s.paramExamples }); }}/>
-            <span><strong><Iso>{s.name}</Iso></strong><Iso>@{s.version}</Iso> <Term code={s.riskClass}/> · <span data-testid={`maxd-${s.name}`}>{t(lang, "maxGrade")} <span className="nowrap"><Term code={`D${s.maxGradeD}`} showCode/></span></span>
+            <span><strong><Iso>{s.name}</Iso></strong><Iso>@{s.version}</Iso> {typeof s.requiredR === "number" && <><span data-testid={`approval-${s.name}`}><Term code={`R${s.requiredR}`}/></span> · </>}<span data-testid={`maxd-${s.name}`}>{t(lang, "maxGrade")} <span className="nowrap"><Term code={`D${s.maxGradeD}`} showCode/></span></span>
               {!s.certified && <> · <Term code="non-runner"/></>}{s.decertified && <span className="pill red">{t(lang, "decertifiedWord")}</span>}</span></label>
           <div className="muted"><Iso>{lang === "ar" ? s.description_ar : s.description}</Iso></div>
           {!s.decertified && (s.capReasons ?? []).map((c, i) => <div key={i} className="warn cap"><CapSentence c={c} lang={lang}/></div>)}
